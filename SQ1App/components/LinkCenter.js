@@ -1,11 +1,31 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 function LinkCenter(){
     return(
         <View style={styles.container}>
-            <Text style={styles.text}>
-                Link Center Page
-            </Text>
+            <View style={styles.titleSection}>
+                <Text style={styles.title}>Link Center</Text>
+            </View>
+            <TouchableOpacity style={styles.links}>
+                <Text style={styles.linkTitles}>
+                    Feedback Form
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.links}>
+                <Text style={styles.linkTitles}>
+                    Extra Resources
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.links}>
+                <Text style={styles.linkTitles}>
+                    SQ1 Website
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.links}>
+                <Text style={styles.linkTitles}>
+                    FAQs
+                </Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -17,7 +37,23 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-    text: {
-        fontSize: 40,
+    title: {
+        fontSize: 45,
+        textAlign: "center",
+        marginBottom: 40,
     },
+    links: {
+        borderWidth: 2,
+        borderColor: '#33363F',
+        margin: 15,
+        paddingVertical: 25,
+        paddingHorizontal: 70,
+        borderRadius: 30,
+        backgroundColor: '#D9D9D9',
+    },
+    linkTitles: {
+        fontSize: 30,
+        textAlign: "center",
+    },
+    
 });
