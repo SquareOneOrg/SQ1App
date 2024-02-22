@@ -1,5 +1,5 @@
 import { StyleSheet, View, TouchableOpacity, Animated, Vibration } from "react-native";
-import Svg, {Path, Rect, Mask, Circle} from "react-native-svg";
+import {Svg, Path, Rect, Mask, Circle} from "react-native-svg";
 import { useRef } from 'react';
 
 function BotNavBar({onNavChange}){
