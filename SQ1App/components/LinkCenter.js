@@ -1,6 +1,9 @@
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Modal } from "react-native";
+import { useState } from 'react';
+import WebsiteLink from '../components/WebsiteLink.js';
 
 function LinkCenter(){
+    const [isModalVisible, setIsModalVisible] = useState(false);
     return(
         <View style={styles.container}>
             <View style={styles.titleSection}>
@@ -16,11 +19,14 @@ function LinkCenter(){
                     Extra Resources
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.links}>
+            <TouchableOpacity style={styles.links} onPress={()=>setIsModalVisible(true)}>
                 <Text style={styles.linkTitles}>
                     SQ1 Website
                 </Text>
             </TouchableOpacity>
+            <Modal visible={isModalVisible} animationType="slide" presentationStyle="formSheet">
+                <WebsiteLink setIsModalVisible={setIsModalVisible}/>
+            </Modal>
             <TouchableOpacity style={styles.links}>
                 <Text style={styles.linkTitles}>
                     FAQs
