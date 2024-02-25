@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Svg, Path, Circle, Ellipse } from 'react-native-svg';
+import { WebView } from 'react-native-webview';
 
 function WebsiteLink({setIsModalVisible}){
     return(
@@ -35,6 +36,7 @@ function WebsiteLink({setIsModalVisible}){
                 </TouchableOpacity>
             </View>
             <View style={styles.webView}>
+                <WebView style={{flex: 1}} source={{uri: 'https://www.sq1.org'}}/>
             </View>
             <View style={styles.botNavBar}>
                 <View style={styles.navSvg}>
@@ -100,7 +102,6 @@ styles = StyleSheet.create({
     },
     webView:{
         flex: 10,
-        backgroundColor: "white",
     },
     botNavBar:{
         flex: 1,
