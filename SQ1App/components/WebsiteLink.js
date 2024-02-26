@@ -1,8 +1,23 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Svg, Path, Circle, Ellipse } from 'react-native-svg';
+import { useRef, useState, useEffect } from 'react';
 import { WebView } from 'react-native-webview';
 
-function WebsiteLink({setIsModalVisible}){
+function WebsiteLink({setIsWebModalVisible}){
+    const ref = useRef(null);
+    const [canGoBack, setCanGoBack] = useState(false);
+    const [canGoForward, setCanGoForward] = useState(false);
+    const [currentUrl, setCurrentUrl] = useState("https://www.sq1.org")
+    const [currentTitle, setCurrentTitle] = useState('')
+
+    const onNavigationStateChange = (navState) => {
+        setCurrentUrl(navState.url);
+        setCurrentTitle(navState.title);
+        setCanGoBack(navState.canGoBack);
+        setCanGoForward(navState.canGoForward);
+    };
+
+
     return(
         <View style={styles.container}>
             <View style={styles.restrictedArea}/>
@@ -21,10 +36,10 @@ function WebsiteLink({setIsModalVisible}){
                     </Svg>
                 </TouchableOpacity>
                 <View>
-                    <Text style={styles.webTitle}>SQ1</Text>
-                    <Text style={styles.webLink}>sq1.org</Text>
+                    <Text style={styles.webTitle}>{currentTitle}</Text>
+                    <Text style={styles.webLink}>{currentUrl}</Text>
                 </View>
-                <TouchableOpacity onPress={()=>setIsModalVisible(false)}>
+                <TouchableOpacity onPress={()=>setIsWebModalVisible(false)}>
                     <Svg style={styles.svg} width="30" height="30" viewBox="0 0 30 30" fill="none">
                         <Path
                             d="M22.5 7.5L7.5 22.5" stroke="#33363F" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
@@ -36,33 +51,37 @@ function WebsiteLink({setIsModalVisible}){
                 </TouchableOpacity>
             </View>
             <View style={styles.webView}>
-                <WebView style={{flex: 1}} source={{uri: 'https://www.sq1.org'}}/>
+                <WebView
+                    ref={ref}
+                    source={{uri: currentUrl}}
+                    onNavigationStateChange={onNavigationStateChange}
+                />
             </View>
             <View style={styles.botNavBar}>
                 <View style={styles.navSvg}>
-                    <TouchableOpacity>
-                        <Svg style={styles.svg} width="50" height="50" viewBox="0 0 50 50" fill="none">
+                    <TouchableOpacity onPress={()=>{ref.current?.goBack()}}>
+                        <Svg name="back" style={styles.svg} width="50" height="50" viewBox="0 0 50 50" fill="none">
                             <Path 
                                 d="M31.25 12.5L18.75 25L31.25 37.5" 
-                                stroke="black" 
+                                stroke={canGoBack ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.2)"}
                                 strokeWidth="4" 
                                 strokeLinecap="round"
                             />
                         </Svg>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Svg style={styles.svg} width="50" height="50" viewBox="0 0 50 50" fill="none">
+                    <TouchableOpacity onPress={()=>{ref.current?.goForward()}}>
+                        <Svg name="forward" style={styles.svg} width="50" height="50" viewBox="0 0 50 50" fill="none">
                             <Path 
                                 d="M18.75 12.5L31.25 25L18.75 37.5" 
-                                stroke="black" 
+                                stroke={canGoForward ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.2)"}
                                 strokeWidth="4" 
                                 strokeLinecap="round"
                             />
                         </Svg>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity>
-                    <Svg style={styles.svg} width="50" height="50" viewBox="0 -2 50 50" fill="none">
+                <TouchableOpacity onPress={()=>{ref.current?.reload()}}>
+                    <Svg name="reload" style={styles.svg} width="50" height="50" viewBox="0 -2 50 50" fill="none">
                         <Path
                             d="M27.6741 18.9372L36.1505 25.3129L42.5263 16.8365" 
                             stroke="black" 

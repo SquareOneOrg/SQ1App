@@ -1,32 +1,41 @@
 import { StyleSheet, View, Text, TouchableOpacity, Modal } from "react-native";
 import { useState } from 'react';
 import WebsiteLink from '../components/WebsiteLink.js';
+import FormLink from '../components/FormLink.js';
 
 function LinkCenter(){
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isWebModalVisible, setIsWebModalVisible] = useState(false);
+    const [isFormModalVisible, setIsFormModalVisible] = useState(false);
     return(
         <View style={styles.container}>
             <View style={styles.titleSection}>
                 <Text style={styles.title}>Link Center</Text>
             </View>
-            <TouchableOpacity style={styles.links}>
+            
+            <TouchableOpacity style={styles.links} onPress={()=>setIsFormModalVisible(true)}>
                 <Text style={styles.linkTitles}>
                     Feedback Form
                 </Text>
             </TouchableOpacity>
+            <Modal visible={isFormModalVisible}>
+                <FormLink setIsFormModalVisible={setIsFormModalVisible}/>
+            </Modal>
+
             <TouchableOpacity style={styles.links}>
                 <Text style={styles.linkTitles}>
                     Extra Resources
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.links} onPress={()=>setIsModalVisible(true)}>
+
+            <TouchableOpacity style={styles.links} onPress={()=>setIsWebModalVisible(true)}>
                 <Text style={styles.linkTitles}>
                     SQ1 Website
                 </Text>
             </TouchableOpacity>
-            <Modal visible={isModalVisible} animationType="slide" presentationStyle="formSheet">
-                <WebsiteLink setIsModalVisible={setIsModalVisible}/>
+            <Modal visible={isWebModalVisible} animationType="slide" presentationStyle="formSheet">
+                <WebsiteLink setIsWebModalVisible={setIsWebModalVisible}/>
             </Modal>
+
             <TouchableOpacity style={styles.links}>
                 <Text style={styles.linkTitles}>
                     FAQs
