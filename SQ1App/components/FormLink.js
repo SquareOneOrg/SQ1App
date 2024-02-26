@@ -1,9 +1,9 @@
-import { View, Button } from 'react-native'
+import { View, Button, StyleSheet } from 'react-native'
 import Loading from '../components/Loading.js'
 
 function FormLink({setIsFormModalVisible}){
     return(
-        <View style={{flex: 1, justifyContent:"center", alignItems: "center"}}>
+        <View>
             <Button title="close" onPress={()=>setIsFormModalVisible(false)}/>
             <Loading />
         </View>
@@ -11,3 +11,7 @@ function FormLink({setIsFormModalVisible}){
 };
 
 export default FormLink;
+
+styles = StyleSheet.create({
+
+});

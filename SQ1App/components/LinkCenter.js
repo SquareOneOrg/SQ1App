@@ -17,7 +17,7 @@ function LinkCenter(){
                     Feedback Form
                 </Text>
             </TouchableOpacity>
-            <Modal visible={isFormModalVisible}>
+            <Modal visible={isFormModalVisible} animationType="slide" presentationStyle="formSheet">
                 <FormLink setIsFormModalVisible={setIsFormModalVisible}/>
             </Modal>
 

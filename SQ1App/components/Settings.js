@@ -83,9 +83,8 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "flex-end",
         alignItems: "flex-end",
-        paddingBottom: 10,
+        paddingVertical: 20,
         backgroundColor: "#C0C0C0",
-        paddingTop: 60,
     },
     title: {
         textAlign: "center",

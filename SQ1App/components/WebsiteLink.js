@@ -17,9 +17,55 @@ function WebsiteLink({setIsWebModalVisible}){
         setCanGoForward(navState.canGoForward);
     };
 
+    styles = StyleSheet.create({
+        websiteLinkContainer:{
+            flex: 1,
+        },
+        restrictedArea:{
+            backgroundColor: "steelblue",
+            flex: 0,
+        },
+        topNavBar:{
+            flex: 1,
+            backgroundColor: "steelblue",
+            borderBottomWidth: 3,
+            borderColor: "33363F",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingHorizontal: 20,
+        },
+        webView:{
+            flex: 10,
+        },
+        botNavBar:{
+            flex: 1,
+            backgroundColor: "steelblue",
+            flexDirection: 'row',
+            justifyContent: "space-between",
+            paddingHorizontal: 30,
+            paddingVertical: 10,
+            borderTopWidth: 3,
+            borderColor: "33363F",
+        },
+        navSvg:{
+            flexDirection: 'row',
+        },
+        svg:{
+            borderWidth: 0,
+        },
+        webTitle:{
+            textAlign: "center",
+            fontSize: 30,
+        },
+        webLink:{
+            textAlign: "center",
+            fontSize: 15,
+        },
+    });
 
     return(
-        <View style={styles.container}>
+        <View style={styles.websiteLinkContainer}>
             <View style={styles.restrictedArea}/>
             <View style={styles.topNavBar}>
                 <TouchableOpacity>
@@ -100,53 +146,5 @@ function WebsiteLink({setIsWebModalVisible}){
         </View>
     );
 };
-
-styles = StyleSheet.create({
-    container:{
-        flex: 1,
-    },
-    restrictedArea:{
-        backgroundColor: "steelblue",
-        flex: 0,
-    },
-    topNavBar:{
-        flex: 1,
-        backgroundColor: "steelblue",
-        borderBottomWidth: 3,
-        borderColor: "33363F",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        paddingHorizontal: 20,
-    },
-    webView:{
-        flex: 10,
-    },
-    botNavBar:{
-        flex: 1,
-        backgroundColor: "steelblue",
-        flexDirection: 'row',
-        justifyContent: "space-between",
-        paddingHorizontal: 30,
-        paddingVertical: 10,
-        borderTopWidth: 3,
-        borderColor: "33363F",
-    },
-    navSvg:{
-        flexDirection: 'row',
-    },
-    svg:{
-        borderWidth: 0,
-    },
-    webTitle:{
-        textAlign: "center",
-        fontSize: 30,
-    },
-    webLink:{
-        textAlign: "center",
-        fontSize: 15,
-    },
-});
-
 
 export default WebsiteLink;
