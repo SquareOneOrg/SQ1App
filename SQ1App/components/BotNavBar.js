@@ -1,6 +1,8 @@
 import { StyleSheet, View, TouchableOpacity, Animated, Vibration } from "react-native";
 import {Svg, Path, Rect, Mask, Circle} from "react-native-svg";
 import { useRef } from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 
 function BotNavBar({onNavChange}){
     const position = useRef(new Animated.ValueXY({x:0, y:0})).current;

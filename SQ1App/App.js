@@ -8,6 +8,7 @@ import Library from './components/Library.js'
 import Activity from './components/Activity.js'
 import LinkCenter from './components/LinkCenter.js';
 import Account from './components/Account.js';
+import SleepLog from './components/SleepLog.js';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -17,10 +18,12 @@ export default function App() {
       <TopNavBar />
       {currentView === 'home' && <Homepage />}
       {currentView === 'library' && <Library />}
-      {currentView === 'activity' && <Activity />}
+      {currentView === 'activity' && <Activity onNavChange={setCurrentView} />}
       {currentView === 'linkCenter' && <LinkCenter />}
       {currentView === 'account' && <Account />}
+      {currentView === 'sleeplog' && <SleepLog />}
       <BotNavBar onNavChange={setCurrentView}/>
+      
       <StatusBar style="auto" />
     </View>
   );
