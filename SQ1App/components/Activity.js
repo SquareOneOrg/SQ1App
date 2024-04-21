@@ -7,6 +7,14 @@ function Activity({ onNavChange }) {
         onNavChange('sleeplog')
     };
 
+    function moveToExerciseLog() {
+        onNavChange('exerciselog')
+    }
+
+    function moveToNutritionLog() {
+        onNavChange('nutritionlog')
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Activity Hub</Text>
@@ -19,10 +27,10 @@ function Activity({ onNavChange }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.grid}>
-                <TouchableOpacity style={styles.gridItem}>
+                <TouchableOpacity onPress={moveToExerciseLog} style={styles.gridItem}>
                     <Image source={require('../assets/exercise_log.png')} style={styles.image} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.gridItem}>
+                <TouchableOpacity onPress={moveToNutritionLog} style={styles.gridItem}>
                     <Image source={require('../assets/nutrition_log.png')} style={styles.image} />
                 </TouchableOpacity>
             </View>

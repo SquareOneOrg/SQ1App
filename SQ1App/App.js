@@ -9,6 +9,8 @@ import Activity from './components/Activity.js'
 import LinkCenter from './components/LinkCenter.js';
 import Account from './components/Account.js';
 import SleepLog from './components/SleepLog.js';
+import ExerciseLog from './components/ExerciseLog.js';
+import NutritionLog from './components/NutritionLog.js';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -22,6 +24,8 @@ export default function App() {
       {currentView === 'linkCenter' && <LinkCenter />}
       {currentView === 'account' && <Account />}
       {currentView === 'sleeplog' && <SleepLog />}
+      {currentView === 'exerciselog' && <ExerciseLog />}
+      {currentView === 'nutritionlog' && <NutritionLog />}
       <BotNavBar onNavChange={setCurrentView}/>
       
       <StatusBar style="auto" />

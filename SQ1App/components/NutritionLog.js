@@ -1,36 +1,39 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 
-const SleepLogHeader = () => {
+const NutritionLogHeader = () => {
   return (
     <View style={styles.headerGrid}>
       <Image
-        source={require('../assets/sleep.png')}
+        source={require('../assets/nutrition.png')}
         style={styles.headerIcon}
       />
-      <Text style={styles.headerText}>Sleep Log</Text>
+      <Text style={styles.headerText}>Nutrition Log</Text>
     </View>
   );
 };
 
-function SleepLog() {
+function NutritionLog() {
   return (
     <View style={styles.container}>
-      <SleepLogHeader />
+      <NutritionLogHeader />
       <View style={styles.gridsContainer}></View>
       <View style={styles.contentWrapper}>
         <Image source={require('../assets/calendar.png')} style={styles.calendarImage} />
         <View style={styles.gridsContainer}>
           <View style={styles.grid}>
-            <Text style={styles.gridTitle}>Sleep Goal:</Text>
+            <Text style={styles.gridTitle}>Nutrition Goal:</Text>
           </View>
 
           <View style={styles.grid}>
-            <Text style={styles.gridTitle}>Hours of Sleep:</Text>
+            <Text style={styles.gridTitle}>Ounces of water:</Text>
           </View>
 
           <View style={styles.grid}>
-            <Text style={styles.gridTitle}>Time on a Device Before Bed:</Text>
+            <Text style={styles.gridTitle}>Servings of fruit:</Text>
+          </View>
+          <View style={styles.grid}>
+            <Text style={styles.gridTitle}>Servings of vegetables:</Text>
           </View>
         </View>
       </View>
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 10,
-    paddingTop: 100,
+    paddingTop: 70,
     paddingHorizontal: 0,
   },
   contentWrapper: {
@@ -82,8 +85,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   grid: {
-    padding: 23,
-    paddingHorizontal: 90,
+    padding: 18,
+    paddingHorizontal: 110,
     marginHorizontal: 0,
     marginTop: 10,
     backgroundColor: '#D08BFA',
@@ -97,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SleepLog;
+export default NutritionLog;
