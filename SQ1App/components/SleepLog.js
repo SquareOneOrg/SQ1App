@@ -1,11 +1,13 @@
-import React from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import Calendar from './Calendar';  // Adjust the path as needed
 
+// SleepLogHeader component defined directly in this file
 const SleepLogHeader = () => {
   return (
     <View style={styles.headerGrid}>
       <Image
-        source={require('../assets/sleep.png')}
+        source={require('../assets/sleep.png')}  // Make sure the path to your image is correct
         style={styles.headerIcon}
       />
       <Text style={styles.headerText}>Sleep Log</Text>
@@ -14,26 +16,24 @@ const SleepLogHeader = () => {
 };
 
 function SleepLog() {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [entries, setEntries] = useState([]);
+
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+    setEntries([...entries, { date: date.toLocaleDateString(), data: 'New Entry' }]);
+  };
+
   return (
     <View style={styles.container}>
       <SleepLogHeader />
-      <View style={styles.gridsContainer}></View>
-      <View style={styles.contentWrapper}>
-        <Image source={require('../assets/calendar.png')} style={styles.calendarImage} />
-        <View style={styles.gridsContainer}>
-          <View style={styles.grid}>
-            <Text style={styles.gridTitle}>Sleep Goal:</Text>
-          </View>
-
-          <View style={styles.grid}>
-            <Text style={styles.gridTitle}>Hours of Sleep:</Text>
-          </View>
-
-          <View style={styles.grid}>
-            <Text style={styles.gridTitle}>Time on a Device Before Bed:</Text>
-          </View>
+      <Calendar onDateSelect={handleDateSelect} />
+      {entries.map((entry, index) => (
+        <View key={index} style={styles.grid}>
+          <Text style={styles.gridTitle}>{entry.date}</Text>
+          <Text>{entry.data}</Text>
         </View>
-      </View>
+      ))}
     </View>
   );
 }
@@ -45,17 +45,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     paddingTop: 100,
-    paddingHorizontal: 0,
-  },
-  contentWrapper: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  calendarImage: {
-    width: '110%',
-    height: undefined,
-    aspectRatio: 1.5,
-    resizeMode: 'contain',
   },
   headerGrid: {
     flexDirection: 'row',
@@ -78,22 +67,17 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
   },
-  gridsContainer: {
-    marginTop: 10,
-  },
   grid: {
     padding: 23,
     paddingHorizontal: 90,
-    marginHorizontal: 0,
-    marginTop: 10,
     backgroundColor: '#D08BFA',
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#33363F',
+    margin: 10,
   },
   gridTitle: {
     fontSize: 18,
-    marginLeft: -70,
   },
 });
 

@@ -11,6 +11,7 @@ import Account from './components/Account.js';
 import SleepLog from './components/SleepLog.js';
 import ExerciseLog from './components/ExerciseLog.js';
 import NutritionLog from './components/NutritionLog.js';
+import Calendar from './components/Calendar.js'; // Importing Calendar
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -26,6 +27,7 @@ export default function App() {
       {currentView === 'sleeplog' && <SleepLog />}
       {currentView === 'exerciselog' && <ExerciseLog />}
       {currentView === 'nutritionlog' && <NutritionLog />}
+      {currentView === 'calendar' && <Calendar /> }
       <BotNavBar onNavChange={setCurrentView}/>
       
       <StatusBar style="auto" />
