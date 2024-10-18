@@ -52,6 +52,16 @@ function BotNavBar({onNavChange}){
         onNavChange('account')
     };
 
+    function moveToPersonalData() {
+        Animated.timing(position, {
+            toValue: { x: 409, y: 0 },
+            duration: 300,
+            useNativeDriver: true
+        }).start()
+        onNavChange('personalData')
+    };
+    
+
     const animatedStyle = {
         transform: [
             {translateX: position.x},
@@ -176,6 +186,18 @@ function BotNavBar({onNavChange}){
                     />
                 </Svg>
             </TouchableOpacity>
+
+            <TouchableOpacity onPress={moveToPersonalData}>
+                <Svg style={styles.icons} width="30" height="30" viewBox="0 0 30 30" fill="none">
+                    {/* Replace this path with your icon's path data */}
+                    <Path
+                        d="M15 0.9375C7.17688 0.9375 0.9375 7.17688 0.9375 15C0.9375 22.8231 7.17688 29.0625 15 29.0625C22.8231 29.0625 29.0625 22.8231 29.0625 15C29.0625 7.17688 22.8231 0.9375 15 0.9375ZM15 26.5625C8.99375 26.5625 3.4375 21.0063 3.4375 15C3.4375 8.99375 8.99375 3.4375 15 3.4375C21.0063 3.4375 26.5625 8.99375 26.5625 15C26.5625 21.0063 21.0063 26.5625 15 26.5625ZM15 7.8125C12.0063 7.8125 9.5625 10.2563 9.5625 13.25C9.5625 16.2438 12.0063 18.6875 15 18.6875C17.9937 18.6875 20.4375 16.2438 20.4375 13.25C20.4375 10.2563 17.9937 7.8125 15 7.8125Z" 
+                        fill="#0C0033"
+                    />
+                </Svg>
+            </TouchableOpacity>
+
+
         </View>
     );
 };

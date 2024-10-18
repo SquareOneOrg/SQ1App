@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Homepage from './components/Homepage.js'
+import PersonalData from './components/PersonalData.js'
 import TopNavBar from './components/TopNavBar.js'
 import BotNavBar from './components/BotNavBar.js'
 import Library from './components/Library.js'
@@ -28,6 +29,7 @@ export default function App() {
       {currentView === 'exerciselog' && <ExerciseLog />}
       {currentView === 'nutritionlog' && <NutritionLog />}
       {currentView === 'calendar' && <Calendar /> }
+      {currentView === 'personalData' && <PersonalData /> }
       <BotNavBar onNavChange={setCurrentView}/>
       
       <StatusBar style="auto" />
