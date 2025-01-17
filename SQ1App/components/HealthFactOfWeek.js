@@ -16,23 +16,22 @@ const HealthFactOfWeek = ({ textStyle }) => {
         }
         
         const today = new Date();
-        const isMonday = today.getDay() === 1; // Check for Monday
+        const isMonday = today.getDay() === 1; 
 
-        // If the fact hasn't been initialized yet, set a random fact
+
         if (!factInitialized) {
             const randomIndex = Math.floor(Math.random() * factsList.length);
             setRandomFact(factsList[randomIndex]);
-            setFactInitialized(true); // Mark fact as initialized
-            setLastUpdated(today); // Update the last updated date
-            AsyncStorage.setItem('currentFact', factsList[randomIndex]); // Store the fact
-            AsyncStorage.setItem('lastUpdated', today.toISOString()); // Store the last updated date
+            setFactInitialized(true); 
+            setLastUpdated(today); 
+            AsyncStorage.setItem('currentFact', factsList[randomIndex]);
+            AsyncStorage.setItem('lastUpdated', today.toISOString()); 
         } else if (isMonday && lastUpdated.getDay() !== 1) {
-            // If it's Monday and last updated day is not Monday, update the fact
             const randomIndex = Math.floor(Math.random() * factsList.length);
             setRandomFact(factsList[randomIndex]);
-            setLastUpdated(today); // Update the last updated date
-            AsyncStorage.setItem('currentFact', factsList[randomIndex]); // Store the new fact
-            AsyncStorage.setItem('lastUpdated', today.toISOString()); // Store the new last updated date
+            setLastUpdated(today); 
+            AsyncStorage.setItem('currentFact', factsList[randomIndex]); 
+            AsyncStorage.setItem('lastUpdated', today.toISOString()); 
         }
     };
 
@@ -41,12 +40,12 @@ const HealthFactOfWeek = ({ textStyle }) => {
             try {
                 const factsCollection = collection(db, 'healthFacts');
                 const factsSnapshot = await getDocs(factsCollection);
-                const factsList = factsSnapshot.docs.map(doc => doc.data().fact); // Assuming each document has a 'fact' field
+                const factsList = factsSnapshot.docs.map(doc => doc.data().fact); 
                 
-                console.log("Fetched facts:", factsList); // Log the fetched facts
+                console.log("Fetched facts:", factsList); 
                 
                 if (factsList.length > 0) {
-                    updateFact(factsList); // Pass the factsList to updateFact
+                    updateFact(factsList); 
                 } else {
                     console.error("No facts found in Firestore.");
                 }
@@ -71,15 +70,15 @@ const HealthFactOfWeek = ({ textStyle }) => {
                     setLastUpdated(lastUpdatedDate);
                     setFactInitialized(true);
                 } else {
-                    fetchFacts(); // Fetch new facts if the stored fact is from a previous week
+                    fetchFacts(); 
                 }
             } else {
-                fetchFacts(); // Fetch new facts if no stored fact exists
+                fetchFacts(); 
             }
         };
 
         loadStoredFact();
-    }, []); // Empty dependency array to run only on mount
+    }, []); 
 
     return (
         <View>
