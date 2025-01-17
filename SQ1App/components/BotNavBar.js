@@ -5,11 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 
 
 function BotNavBar({onNavChange}){
-    const position = useRef(new Animated.ValueXY({x:0, y:0})).current;
+    const position = useRef(new Animated.ValueXY({x:-12, y:0})).current;
 
     function moveToHome(){
         Animated.timing(position, {
-            toValue:{x:0, y:0}, 
+            toValue:{x:-12, y:0}, 
             duration: 300,
             useNativeDriver: true
         }).start()
@@ -18,7 +18,7 @@ function BotNavBar({onNavChange}){
 
     function moveToLibrary(){
         Animated.timing(position, {
-            toValue:{x:82, y:0}, 
+            toValue:{x:57, y:0}, 
             duration: 300,
             useNativeDriver: true
         }).start()
@@ -27,7 +27,7 @@ function BotNavBar({onNavChange}){
 
     function moveToActivity(){
         Animated.timing(position, {
-            toValue:{x:164, y:0}, 
+            toValue:{x:127, y:0}, 
             duration: 300,
             useNativeDriver: true
         }).start()
@@ -36,7 +36,7 @@ function BotNavBar({onNavChange}){
 
     function moveToLink(){
         Animated.timing(position, {
-            toValue:{x:246, y:0}, 
+            toValue:{x:196, y:0}, 
             duration: 300,
             useNativeDriver: true
         }).start()
@@ -45,7 +45,7 @@ function BotNavBar({onNavChange}){
 
     function moveToAccount(){
         Animated.timing(position, {
-            toValue:{x:327, y:0}, 
+            toValue:{x:264, y:0}, 
             duration: 300,
             useNativeDriver: true
         }).start()

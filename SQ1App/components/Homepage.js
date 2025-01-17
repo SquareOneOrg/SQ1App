@@ -1,17 +1,18 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import logo from '../assets/logo.png'
+import HealthFactOfWeek from './HealthFactOfWeek'
 
 function Homepage(){
     return(
         <View style={styles.container}>
             <View style={styles.welcome}>
                 <Text style={styles.text}>Welcome to the</Text>
-                <Image source={require('../assets/logo.png')} style={styles.logo}></Image>
+                <Image source={logo} style={styles.logo}></Image>
                 <Text style={styles.text}>App!</Text>
             </View>
             <View style={styles.factSection}>
                 <Text style={styles.factTitle}>Health Fact of the Week</Text>
-                <Text style={styles.fact}>Eating a variety of colorful fruits and vegetables provides essential vitamins and minerals that help you grow and stay healthy!</Text>
+                <HealthFactOfWeek textStyle={styles.fact} />
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.instructionButton}>
@@ -26,6 +27,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        width: '100%',
     },
     welcome: {
         alignItems: 'center',
