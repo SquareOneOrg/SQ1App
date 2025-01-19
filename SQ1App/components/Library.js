@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
 import logo from '../assets/logo.png'
 
@@ -10,6 +11,7 @@ const images = {
 };
 
 const Library = () => {
+  const navigation = useNavigation();
   const items = [
     {
       title: 'Stepping\nStones',
@@ -36,15 +38,14 @@ const Library = () => {
   ];
   const [selectedImage, setSelectedImage] = useState(null);
 
+
   const handlePress = (item) => {
     console.log(`Pressed on ${item.title}`);
     if (item.title === 'Stepping\nStones') {
       const nextPart = item.part + 1;
-      const imageKey = `${item.jpg_title_path}${nextPart}`;
-      if (images[imageKey]) {
-        setSelectedImage(images[imageKey]);
-        // Update the part in a stateful manner if needed
-      }
+      const fixedPath = item.jpg_title_path.replace('../books', './books');
+      const imageKey = `${fixedPath}${nextPart}`;
+      navigation.navigate('LibraryBook', { image: imageKey });
     }
   };
 
@@ -113,8 +114,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   fullImage: {
-    width: 300, // Set width as per your layout needs
-    height: 700, // Set height as per your layout needs
+    width: 300,
+    height: 700,
     marginTop: 20,
     resizeMode: 'contain',
   },
