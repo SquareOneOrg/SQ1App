@@ -18,7 +18,6 @@ const HealthFactOfWeek = ({ textStyle }) => {
         const today = new Date();
         const isMonday = today.getDay() === 1; 
 
-
         if (!factInitialized) {
             const randomIndex = Math.floor(Math.random() * factsList.length);
             setRandomFact(factsList[randomIndex]);

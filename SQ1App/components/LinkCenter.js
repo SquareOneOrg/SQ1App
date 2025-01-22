@@ -3,7 +3,11 @@ import { useState } from 'react';
 import WebsiteLink from '../components/WebsiteLink.js';
 import FormLink from '../components/FormLink.js';
 
-function LinkCenter(){
+function LinkCenter({ onNavChange }){
+    function moveToExtraResources(){
+        onNavChange('extraresources')
+    };
+
     const [isWebModalVisible, setIsWebModalVisible] = useState(false);
     const [isFormModalVisible, setIsFormModalVisible] = useState(false);
     return(
@@ -21,7 +25,7 @@ function LinkCenter(){
                 <FormLink setIsFormModalVisible={setIsFormModalVisible}/>
             </Modal>
 
-            <TouchableOpacity style={styles.links}>
+            <TouchableOpacity onPress={moveToExtraResources} style={styles.links}>
                 <Text style={styles.linkTitles}>
                     Extra Resources
                 </Text>

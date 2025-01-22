@@ -13,6 +13,7 @@ import SleepLog from './components/SleepLog.js';
 import ExerciseLog from './components/ExerciseLog.js';
 import NutritionLog from './components/NutritionLog.js';
 import Calendar from './components/Calendar.js'; // Importing Calendar
+import ExtraResources from './components/ExtraResources.js';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -23,7 +24,8 @@ export default function App() {
       {currentView === 'home' && <Homepage />}
       {currentView === 'library' && <Library />}
       {currentView === 'activity' && <Activity onNavChange={setCurrentView} />}
-      {currentView === 'linkCenter' && <LinkCenter />}
+      {currentView === 'linkCenter' && <LinkCenter onNavChange={setCurrentView} />}
+      {currentView === 'extraresources' && <ExtraResources onNavChange={setCurrentView} />}
       {currentView === 'account' && <Account />}
       {currentView === 'sleeplog' && <SleepLog />}
       {currentView === 'exerciselog' && <ExerciseLog />}
