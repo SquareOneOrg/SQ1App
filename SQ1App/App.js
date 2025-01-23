@@ -1,6 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import Homepage from './components/Homepage.js'
 import PersonalData from './components/PersonalData.js'
 import TopNavBar from './components/TopNavBar.js'
@@ -17,6 +20,14 @@ import ExtraResources from './components/ExtraResources.js';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
+import Calendar from './components/Calendar.js';
+import LibraryBook from './components/LibraryBook.js'
+
+
+const Stack = createNativeStackNavigator();
+
+
+function MainContent({ currentView, setCurrentView }) {
   
   return (
     <View style={styles.container}>
@@ -36,6 +47,23 @@ export default function App() {
       
       <StatusBar style="auto" />
     </View>
+  );
+}
+
+export default function App() {
+  const [currentView, setCurrentView] = useState('home');
+  
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen 
+          name="Main" 
+          options={{ headerShown: false }}>
+          {(props) => <MainContent currentView={currentView} setCurrentView={setCurrentView} />}
+        </Stack.Screen>
+        <Stack.Screen name="LibraryBook" component={LibraryBook} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
