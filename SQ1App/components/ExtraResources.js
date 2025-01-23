@@ -97,21 +97,5 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: "center",
     },
-    headerGrid: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        padding: 10,
-        paddingHorizontal: 105,
-        backgroundColor: '#D08BFA',
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: '#33363F',
-        marginHorizontal: 20,
-        marginTop: -50,
-      },
-    headerText: {
-        fontSize: 20,
-    },
     
 });
