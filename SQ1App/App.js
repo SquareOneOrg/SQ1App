@@ -17,6 +17,7 @@ import ExerciseLog from './components/ExerciseLog.js';
 import NutritionLog from './components/NutritionLog.js';
 import Calendar from './components/Calendar.js';
 import LibraryBook from './components/LibraryBook.js'
+import Questionnaire from './components/Questionnaire.js'
 import ExtraResources from './components/ExtraResources.js';
 
 
@@ -58,6 +59,7 @@ export default function App() {
           {(props) => <MainContent currentView={currentView} setCurrentView={setCurrentView} />}
         </Stack.Screen>
         <Stack.Screen name="LibraryBook" component={LibraryBook} />
+        <Stack.Screen name="Questionnaire" component={Questionnaire} />
       </Stack.Navigator>
     </NavigationContainer>
   );
