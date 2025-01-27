@@ -2,10 +2,8 @@ import React from 'react';
 import { steppingStonesQuiz } from './QuestionData.js';
 import { View, Text, StyleSheet, Button } from 'react-native';
 function Questionnaire({route, navigation}) {
-    console.log('quiz', steppingStonesQuiz)
     const {questionIndex, title, part, length} = route.params
     // const { question, options, correctAnswer} = steppingStonesQuiz[questionIndex];
-    console.log('length', length)
     // console.log({options})
     const questionLength = steppingStonesQuiz.length
     const goPrevious = () => {

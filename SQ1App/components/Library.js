@@ -41,7 +41,6 @@ const Library = () => {
 
 
   const handlePress = (item) => {
-    console.log(`Pressed on ${item.title}`);
     navigation.navigate( 'Questionnaire', {questionIndex: 0, title: item.jpg_title_path, part: item.part, length: item.length})
     // navigation.navigate('LibraryBook', { title: item.jpg_title_path, part: item.part, length: item.length});
   };

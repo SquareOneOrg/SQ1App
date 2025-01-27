@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import { View, Image, Text, StyleSheet, Button } from 'react-native';
 function LibraryBook({ route, navigation }) {
-    console.log('entered')
-    console.log({route})
     const { title, part, length } = route.params;
     const image = `${title}${part}`;
     console.log('Received image:', image);
