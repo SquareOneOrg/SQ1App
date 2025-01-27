@@ -3,7 +3,6 @@ import { View, Image, Text, StyleSheet, Button } from 'react-native';
 function LibraryBook({ route, navigation }) {
     const { title, part, length } = route.params;
     const image = `${title}${part}`;
-    console.log('Received image:', image);
     const goPrevious = () => {
         if (part - 1 > 0){
             return navigation.navigate( 'LibraryBook', {title: title, part: part - 1, length: length})
@@ -12,6 +11,9 @@ function LibraryBook({ route, navigation }) {
     const goNext = () => {
         if (part + 1 <= length) {
             return navigation.navigate( 'LibraryBook', {title: title, part: part + 1, length: length})
+        }
+        else if (part + 1 == length + 1) {
+            return navigation.navigate( 'ResourceTransition', {title: title, part: part + 1, length: length})
         }
     }
 
