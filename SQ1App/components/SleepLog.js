@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
+    fontFamily: 'Sniglet',
   },
   grid: {
     padding: 23,
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
   },
   gridTitle: {
     fontSize: 18,
+    fontFamily: 'Sniglet',
   },
 });
 

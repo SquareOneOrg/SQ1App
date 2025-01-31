@@ -18,7 +18,7 @@ function BotNavBar({onNavChange}){
 
     function moveToLibrary(){
         Animated.timing(position, {
-            toValue:{x:57, y:0}, 
+            toValue:{x:56, y:0}, 
             duration: 300,
             useNativeDriver: true
         }).start()
@@ -27,7 +27,7 @@ function BotNavBar({onNavChange}){
 
     function moveToActivity(){
         Animated.timing(position, {
-            toValue:{x:127, y:0}, 
+            toValue:{x:125, y:0}, 
             duration: 300,
             useNativeDriver: true
         }).start()
@@ -36,7 +36,7 @@ function BotNavBar({onNavChange}){
 
     function moveToLink(){
         Animated.timing(position, {
-            toValue:{x:196, y:0}, 
+            toValue:{x:194, y:0}, 
             duration: 300,
             useNativeDriver: true
         }).start()
@@ -45,7 +45,7 @@ function BotNavBar({onNavChange}){
 
     function moveToAccount(){
         Animated.timing(position, {
-            toValue:{x:264, y:0}, 
+            toValue:{x:262, y:0}, 
             duration: 300,
             useNativeDriver: true
         }).start()
@@ -54,7 +54,7 @@ function BotNavBar({onNavChange}){
 
     function moveToPersonalData() {
         Animated.timing(position, {
-            toValue: { x: 409, y: 0 },
+            toValue: { x: 315, y: -15 },
             duration: 300,
             useNativeDriver: true
         }).start()

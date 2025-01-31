@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 35,
         width: "100%",
+        fontFamily: 'Sniglet',
     },
     closeIcon:{
         paddingHorizontal: 15,
@@ -99,6 +100,7 @@ const styles = StyleSheet.create({
     },
     subtitles: {
         fontSize: 20,
+        fontFamily: 'Sniglet',
     },
     subtitlesContainer:{
         borderTopWidth: 2,
@@ -114,6 +116,7 @@ const styles = StyleSheet.create({
     },
     buttonTitles: {
         fontSize: 15,
+        fontFamily: 'Sniglet',
     },
     logoutContainer: {
         backgroundColor: "#707070",

@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         fontSize: 45,
         textAlign: "center",
         marginBottom: 40,
+        fontFamily: 'Sniglet',
     },
     links: {
         borderWidth: 2,
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
     linkTitles: {
         fontSize: 30,
         textAlign: "center",
+        fontFamily: 'Sniglet',
     },
     image: {
         marginRight: 20,

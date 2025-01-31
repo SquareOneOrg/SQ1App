@@ -10,7 +10,7 @@ function Account(){
     return(
         <View style={styles.container}>
             <View style={styles.welcome}>
-                <Image source={require('../assets/logo.png')} style={styles.logo}></Image>
+                <Image source={logo} style={styles.logo}></Image>
                 <Text style={styles.text}>Create Account</Text>
             </View>
             <TextInput
@@ -58,8 +58,9 @@ function Account(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        //justifyContent: 'center',
         backgroundColor: '#708BDC',
+        width: 390,
     },
     welcome: {
         alignSelf: 'center',
@@ -70,7 +71,8 @@ const styles = StyleSheet.create({
         width: 300,
         borderRadius: 25,
         height: 230,
-        marginBottom: 15,
+        marginBottom: 5,
+        marginTop: 10,
     },
     factSection: {
         alignItems: 'center',
@@ -86,7 +88,8 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 35,
         margin: 10,
-        color: '#323746'
+        color: '#323746',
+        fontFamily: 'Sniglet',
     },
     logo: {
         marginTop: 20,
@@ -96,6 +99,8 @@ const styles = StyleSheet.create({
     buttonContainer:{
         alignItems: 'center',
         margin: 20,
+        marginTop: 5,
+        marginBottom: 5,
     },
     avatarButton:{
       alignSelf: 'center',
@@ -122,18 +127,20 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         textAlignVertical: 'center',
         color: '#323746',
+        fontFamily: 'Sniglet',
     },
     accountButtonText:{
         fontSize: 22,
         textAlign: 'center',
         textAlignVertical: 'center',
         color: '#484856',
+        fontFamily: 'Sniglet',
     },
     input: {
       alignSelf: 'center',
       height: 53,
       width: 340,
-      margin: 12,
+      margin: 5,
       borderWidth:0,
       borderRadius: 27,
       padding: 10,

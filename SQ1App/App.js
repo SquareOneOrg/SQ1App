@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useCallback } from 'react';
 
 import Homepage from './components/Homepage.js'
 import PersonalData from './components/PersonalData.js'
@@ -20,12 +23,9 @@ import LibraryBook from './components/LibraryBook.js'
 import Questionnaire from './components/Questionnaire.js'
 import ExtraResources from './components/ExtraResources.js';
 
-
 const Stack = createNativeStackNavigator();
 
-
 function MainContent({ currentView, setCurrentView }) {
-  
   return (
     <View style={styles.container}>
       <TopNavBar />
@@ -49,14 +49,31 @@ function MainContent({ currentView, setCurrentView }) {
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
-  
+  const [fontsLoaded] = useFonts({
+    'Sniglet': require('./assets/fonts/Sniglet-Regular.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen 
-          name="Main" 
+        <Stack.Screen
+          name="Main"
           options={{ headerShown: false }}>
-          {(props) => <MainContent currentView={currentView} setCurrentView={setCurrentView} />}
+          {(props) => (
+            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+              <MainContent currentView={currentView} setCurrentView={setCurrentView} />
+            </View>
+          )}
         </Stack.Screen>
         <Stack.Screen name="LibraryBook" component={LibraryBook} />
         <Stack.Screen name="Questionnaire" component={Questionnaire} />
@@ -72,5 +89,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
 });

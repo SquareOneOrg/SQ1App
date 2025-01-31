@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
         color: '#000435',
         alignSelf: 'center',
         alignItems: 'center',
+        fontFamily: 'Sniglet',
     },
     logo: {
         marginTop: 10,
@@ -151,6 +152,7 @@ const styles = StyleSheet.create({
           fontSize: 18,
           textAlign: 'center',
           color: '#000435',
+          fontFamily: 'Sniglet',
       },
 });
 

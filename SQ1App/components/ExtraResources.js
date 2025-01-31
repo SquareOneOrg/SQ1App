@@ -81,8 +81,9 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 40,
         textAlign: "center",
-        marginBottom: 40,
-        marginTop: 40,
+        marginBottom: 20,
+        marginTop: 30,
+        fontFamily: 'Sniglet',
     },
     links: {
         borderWidth: 2,
@@ -96,6 +97,7 @@ const styles = StyleSheet.create({
     linkTitles: {
         fontSize: 20,
         textAlign: "center",
+        fontFamily: 'Sniglet',
     },
     
 });

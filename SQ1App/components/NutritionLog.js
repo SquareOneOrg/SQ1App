@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
+    fontFamily: 'Sniglet',
   },
   gridsContainer: {
     marginTop: 10,
@@ -97,6 +98,7 @@ const styles = StyleSheet.create({
   gridTitle: {
     fontSize: 18,
     marginLeft: -70,
+    fontFamily: 'Sniglet',
   },
 });
 

@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
         marginTop: -20,
         fontSize: 45,
         marginBottom: 20, // Add space below the header
+        fontFamily: 'Sniglet',
     },
     grid: {
         flexDirection: 'row',

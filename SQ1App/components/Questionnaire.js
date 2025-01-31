@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
         fontSize: 45,
         marginBottom: 20,
         backgroundColor: 'darkblue',
+        fontFamily: 'Sniglet',
     },
     navigation: {
         flexDirection: 'row',
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
     navButton: {
         fontSize: 16,
         color: '#000',
+        fontFamily: 'Sniglet',
     },
     answerSpace: {
         marginVertical: 10,
@@ -83,6 +85,7 @@ const styles = StyleSheet.create({
     questionContainer: {
         fontSize: 20,
         fontWeight: 'bold',
+        fontFamily: 'Sniglet',
     },
 });
 

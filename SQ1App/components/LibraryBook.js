@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
         fontSize: 45,
         marginBottom: 20,
         backgroundColor: 'darkblue',
+        fontFamily: 'Sniglet',
     },
     image: {
         marginTop: 20,
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
     navButton: {
         fontSize: 16,
         color: '#000',
+        fontFamily: 'Sniglet',
     }
 });
 

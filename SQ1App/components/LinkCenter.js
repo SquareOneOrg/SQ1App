@@ -54,25 +54,28 @@ export default LinkCenter
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        //justifyContent: 'center',
     },
     title: {
-        fontSize: 45,
+        fontSize: 40,
         textAlign: "center",
-        marginBottom: 40,
+        marginTop: 30,
+        marginBottom: 20,
+        fontFamily: 'Sniglet',
     },
     links: {
         borderWidth: 2,
         borderColor: '#33363F',
         margin: 15,
         paddingVertical: 25,
-        paddingHorizontal: 70,
+        paddingHorizontal: 110,
         borderRadius: 30,
         backgroundColor: '#D9D9D9',
     },
     linkTitles: {
-        fontSize: 30,
+        fontSize: 20,
         textAlign: "center",
+        fontFamily: 'Sniglet',
     },
     
 });

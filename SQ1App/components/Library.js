@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 45,
     marginBottom: 20,
+    fontFamily: 'Sniglet',
   },
   card: {
     flexDirection: 'row',
@@ -127,6 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
     fontWeight: 'bold',
     textAlign: 'center',
+    fontFamily: 'Sniglet',
   },
   progress: {
     backgroundColor: '#616161',
@@ -138,6 +140,7 @@ const styles = StyleSheet.create({
   progressText: {
     fontSize: 14,
     textAlign: 'center',
+    fontFamily: 'Sniglet',
   },
 });
 

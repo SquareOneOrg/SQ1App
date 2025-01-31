@@ -57,10 +57,12 @@ function WebsiteLink({setIsFormModalVisible}){
         webTitle:{
             textAlign: "center",
             fontSize: 30,
+            fontFamily: 'Sniglet',
         },
         webLink:{
             textAlign: "center",
             fontSize: 15,
+            fontFamily: 'Sniglet',
         },
     });
 

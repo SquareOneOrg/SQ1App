@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         paddingTop: 15,
         paddingHorizontal: 10,
         marginVertical: 20,
+        marginHorizontal: 10,
         backgroundColor: '#D08BFA',
         borderRadius: 10,
         borderColor: '#33363F',
@@ -46,16 +47,19 @@ const styles = StyleSheet.create({
     factTitle: {
         fontSize: 25,
         textDecorationLine: 'underline',
+        fontFamily: 'Sniglet',
     },
     fact: {
         fontSize: 18,
         textAlign: 'center',
         maxWidth: '90%',
         paddingVertical: 10,
+        fontFamily: 'Sniglet',
     },
     text: {
         fontSize: 45,
         margin: 10,
+        fontFamily: 'Sniglet',
     },
     logo: {
         width: 250,
@@ -77,6 +81,7 @@ const styles = StyleSheet.create({
     instructionButtonText:{
         fontSize: 22,
         textAlign: 'center',
+        fontFamily: 'Sniglet',
     },
 });
 

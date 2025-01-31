@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         paddingTop: 5,
         borderWidth: 0,
+        fontFamily: 'Sniglet',
     },
 });
 
