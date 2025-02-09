@@ -9,7 +9,7 @@ function BotNavBar({onNavChange}){
 
     function moveToHome(){
         Animated.timing(position, {
-            toValue:{x:-12, y:0}, 
+            toValue:{x:-12.5, y:0}, 
             duration: 300,
             useNativeDriver: true
         }).start()

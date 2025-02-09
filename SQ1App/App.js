@@ -22,6 +22,10 @@ import Calendar from './components/Calendar.js';
 import LibraryBook from './components/LibraryBook.js'
 import Questionnaire from './components/Questionnaire.js'
 import ExtraResources from './components/ExtraResources.js';
+import AccountLogin from './components/AccountLogin.js';
+import AccountAvatar from './components/AccountAvatar.js';
+import AccountParent from './components/AccountParent.js';
+import AccountParentEmail from './components/AccountParentEmail.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,7 +38,11 @@ function MainContent({ currentView, setCurrentView }) {
       {currentView === 'activity' && <Activity onNavChange={setCurrentView} />}
       {currentView === 'linkCenter' && <LinkCenter onNavChange = {setCurrentView} />}
       {currentView === 'extraresources' && <ExtraResources onNavChange = {setCurrentView} />}
-      {currentView === 'account' && <Account />}
+      {currentView === 'account' && <Account onNavChange = {setCurrentView} />}
+      {currentView === 'accountlogin' && <AccountLogin onNavChange = {setCurrentView} />}
+      {currentView === 'accountavatar' && <AccountAvatar onNavChange = {setCurrentView} />}
+      {currentView === 'accountparent' && <AccountParent onNavChange = {setCurrentView} />}
+      {currentView === 'accountparentemail' && <AccountParentEmail onNavChange = {setCurrentView} />}
       {currentView === 'sleeplog' && <SleepLog />}
       {currentView === 'exerciselog' && <ExerciseLog />}
       {currentView === 'nutritionlog' && <NutritionLog />}

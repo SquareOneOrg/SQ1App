@@ -2,37 +2,37 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
 import logo from '../assets/logo.png'
 
-function Account({ onNavChange }){
-    function moveToAccountLogin(){
-        onNavChange('accountlogin')
-    };
-    function moveToAccountAvatar(){
-        onNavChange('accountavatar')
-    };
+function AccountLogin(){
+    const [username, onChangeUsername] = React.useState('');
+    const [pswd, onChangePswd] = React.useState('');
 
     return(
         <View style={styles.container}>
             <View style={styles.welcome}>
                 <Image source={logo} style={styles.logo}></Image>
-                <Text style={styles.text}>Account Page</Text>
+                <Text style={styles.text}>Account Login</Text>
             </View>
             <View>
-                <Text style={styles.smalltext}>Let's get started!</Text>
+                <Text style={styles.smalltext}>Enter your username and</Text>
+                <Text style={styles.smalltext}>password to login!</Text>
             </View>
+            <TextInput
+              style = {styles.usernameInput}
+              onChangeText={onChangeUsername}
+              value={username}
+              placeholder="Username"
+            />
+            <TextInput
+              style = {styles.input}
+              onChangeText={onChangePswd}
+              value={pswd}
+              placeholder="Password"
+            />
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.accountButton} onPress={moveToAccountAvatar}>
-                    <Text style={styles.accountButtonText}>CREATE ACCOUNT</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <Text style={styles.smalltext}>or</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.accountButton} onPress={moveToAccountLogin}>
+                <TouchableOpacity style={styles.accountButton}>
                     <Text style={styles.accountButtonText}>LOGIN</Text>
                 </TouchableOpacity>
             </View>
-
         </View>
     );
 };
@@ -112,8 +112,7 @@ const styles = StyleSheet.create({
       borderWidth: 3,
       borderColor: '#323746',
       padding: 20,
-      marginTop: 10,
-      marginBottom: 10,
+      marginTop: 15,
     },
     avatarButtonText:{
         fontSize: 22,
@@ -141,37 +140,19 @@ const styles = StyleSheet.create({
       backgroundColor: '#D9D9D9',
       color: '#A9A9A9',
     },
+    usernameInput: {
+        alignSelf: 'center',
+        height: 53,
+        width: 340,
+        margin: 5,
+        borderWidth:0,
+        borderRadius: 27,
+        padding: 10,
+        fontSize: 20,
+        backgroundColor: '#D9D9D9',
+        color: '#A9A9A9',
+        marginTop: 30,
+      },
 });
 
-export default Account
-
-{/*
-            <TextInput
-              style = {styles.input}
-              onChangeText={onChangeName}
-              value={name}
-              placeholder="Full Name"
-            />
-            <TextInput
-              style = {styles.input}
-              onChangeText={onChangeAge}
-              value={age}
-              placeholder="Age"
-              keyboardType="numeric"
-            />
-            <TextInput
-              style = {styles.input}
-              onChangeText={onChangeEmail}
-              value={email}
-              placeholder="Email"
-              keyboardType="email-address"
-            />
-            <TextInput
-              style = {styles.input}
-              onChangeText={onChangePswd}
-              value={pswd}
-              secureTextEntry = {true}
-              placeholder="Password"
-              keyboardType="visible-password"
-            />
-    */}
+export default AccountLogin

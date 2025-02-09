@@ -28,10 +28,12 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [[
+    "plugins": [
+      [
       "expo-font",
       {"fonts": ["../assets/fonts/Sniglet-Regular.ttf"]}
-    ]],
+    ]
+  ],
     "assets": ["./assets/fonts/"]
   }
 }
