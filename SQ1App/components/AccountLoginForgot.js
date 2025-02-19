@@ -2,37 +2,31 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
 import logo from '../assets/logo.png'
 
-function Account({ onNavChange }){
-    function moveToAccountLogin(){
-        onNavChange('accountlogin')
+function AccountLoginForgot({ onNavChange }){
+    function moveToAccountForgotUsername(){
+        onNavChange('accountforgotusername')
     };
-    function moveToAccountAvatar(){
-        onNavChange('accountavatar')
+    function moveToAccountForgotPassword(){
+        onNavChange('accountforgotpassword')
     };
 
     return(
         <View style={styles.container}>
             <View style={styles.welcome}>
                 <Image source={logo} style={styles.logo}></Image>
-                <Text style={styles.text}>Account Page</Text>
-            </View>
-            <View>
-                <Text style={styles.smalltext}>Let's get started!</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.accountButton} onPress={moveToAccountAvatar}>
-                    <Text style={styles.accountButtonText}>CREATE ACCOUNT</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <Text style={styles.smalltext}>or</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.accountButton} onPress={moveToAccountLogin}>
-                    <Text style={styles.accountButtonText}>LOGIN</Text>
-                </TouchableOpacity>
+                <Text style={styles.text}>Account Login</Text>
             </View>
 
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.accountButton} onPress = {moveToAccountForgotUsername}>
+                    <Text style={styles.accountButtonText}>FORGOT USERNAME</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.accountButton} onPress = {moveToAccountForgotPassword}>
+                    <Text style={styles.accountButtonText}>FORGOT PASSWORD</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -82,6 +76,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
     },
+    smalltextlink: {
+        fontSize: 10,
+        color: '#323746',
+        fontFamily: 'Sniglet',
+        alignSelf: 'center',
+        alignItems: 'center',
+        alignContent: 'center',
+        textDecorationLine: 'underline',
+      },
     logo: {
         marginTop: 20,
         width: 140,
@@ -112,8 +115,7 @@ const styles = StyleSheet.create({
       borderWidth: 3,
       borderColor: '#323746',
       padding: 20,
-      marginTop: 10,
-      marginBottom: 10,
+      marginTop: 15,
     },
     avatarButtonText:{
         fontSize: 22,
@@ -141,6 +143,19 @@ const styles = StyleSheet.create({
       backgroundColor: '#D9D9D9',
       color: '#A9A9A9',
     },
+    usernameInput: {
+        alignSelf: 'center',
+        height: 53,
+        width: 340,
+        margin: 5,
+        borderWidth:0,
+        borderRadius: 27,
+        padding: 10,
+        fontSize: 20,
+        backgroundColor: '#D9D9D9',
+        color: '#A9A9A9',
+        marginTop: 30,
+      },
 });
 
-export default Account;
+export default AccountLoginForgot

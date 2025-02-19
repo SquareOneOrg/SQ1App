@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
-import puzzle from '../assets/puzzlepiece.png'
 
-function AccountParent({ onNavChange }){
-    function moveToAccountParentEmail(){
-        onNavChange('accountparentemail')
+function AccountThanks({ onNavChange }){
+    function moveToAccountWelcome(){
+        onNavChange('accountwelcome')
     };
     return(
         <View style={styles.container}>
-            <Text style={styles.text}>Create Account</Text>
+            <Text style={styles.text}>Account</Text>
+            <View style={{ height: 30 }} />
             <View>
-                <Text style={styles.smalltext}>Grab a parent to help you</Text>
-                <Text style={styles.smalltext}>finish setting up your account!</Text>
-                <Image source={puzzle} style={styles.image}></Image>
+                <Text style={styles.smalltext}>Thanks for making a profile</Text>
+                <Text style={styles.smalltext}>with Square One!</Text>
+                <View style={{ height: 20 }} />
+                <Text style={styles.smalltext}>Make sure you write down your</Text>
+                <Text style={styles.smalltext}>login information and store it</Text>
+                <Text style={styles.smalltext}>in a safe place! If you forget</Text>
+                <Text style={styles.smalltext}>your username or password,</Text>
+                <Text style={styles.smalltext}>you'll need a parent's help to</Text>
+                <Text style={styles.smalltext}>login and change your account</Text>
+                <Text style={styles.smalltext}>information.</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.accountButton} onPress={moveToAccountParentEmail}>
-                <Text style={styles.accountButtonText}>I AM THE PARENT</Text>
+                <TouchableOpacity style={styles.accountButton} onPress={moveToAccountWelcome}>
+                <Text style={styles.accountButtonText}>CONTINUE TO ACCOUNT</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -90,4 +97,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default AccountParent
+export default AccountThanks

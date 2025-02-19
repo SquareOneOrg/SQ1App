@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Linking } from 'react-native';
 
-function AccountParentEmail(){
+function AccountParentEmail({ onNavChange }){
+  function moveToAccountVerification(){
+    onNavChange('accountverification')
+  };
+
     const [email, onChangeEmail] = React.useState('');
 
     return(
@@ -28,12 +32,12 @@ function AccountParentEmail(){
                 style = {styles.input}
                 onChangeText={onChangeEmail}
                 value={email}
-                placeholder="Email"
+                placeholder="Parentemail@domain.com"
                 keyboardType="email-address"
             />
 
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.accountButton}>
+                <TouchableOpacity style={styles.accountButton} onPress = {moveToAccountVerification}>
                     <Text style={styles.accountButtonText}>SUBMIT</Text>
                 </TouchableOpacity>
             </View>
@@ -50,7 +54,7 @@ const styles = StyleSheet.create({
       width: 390,
     },
     text: {
-      fontSize: 40,
+      fontSize: 35,
       margin: 10,
       color: '#323746',
       fontFamily: 'Sniglet',

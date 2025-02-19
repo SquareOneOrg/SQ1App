@@ -2,21 +2,25 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
 import puzzle from '../assets/puzzlepiece.png'
 
-function AccountParent({ onNavChange }){
-    function moveToAccountParentEmail(){
-        onNavChange('accountparentemail')
+function AccountWelcome({ onNavChange }){
+    function moveToAccountAvatarChange(){
+        onNavChange('accountavatarchange')
     };
     return(
         <View style={styles.container}>
-            <Text style={styles.text}>Create Account</Text>
+            <Text style={styles.text}>Account</Text>
             <View>
-                <Text style={styles.smalltext}>Grab a parent to help you</Text>
-                <Text style={styles.smalltext}>finish setting up your account!</Text>
+                <Text style={styles.smalltext}>Welcome to your</Text>
+                <Text style={styles.smalltext}>Square One profile!</Text>
+                <View style={{ height: 20 }} />
                 <Image source={puzzle} style={styles.image}></Image>
+                <View style={{ height: 20 }} />
+                <Text style={styles.smalltext}>USERNAME</Text>
+                <View style={{ height: 20 }} />
             </View>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.accountButton} onPress={moveToAccountParentEmail}>
-                <Text style={styles.accountButtonText}>I AM THE PARENT</Text>
+                <TouchableOpacity style={styles.accountButton} onPress={moveToAccountAvatarChange}>
+                <Text style={styles.accountButtonText}>CHANGE AVATAR</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -90,4 +94,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default AccountParent
+export default AccountWelcome;

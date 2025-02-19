@@ -26,6 +26,14 @@ import AccountLogin from './components/AccountLogin.js';
 import AccountAvatar from './components/AccountAvatar.js';
 import AccountParent from './components/AccountParent.js';
 import AccountParentEmail from './components/AccountParentEmail.js';
+import AccountVerification from './components/AccountVerification.js';
+import AccountLoginForgot from './components/AccountLoginForgot.js';
+import AccountForgotUsername from './components/AccountForgotUsername.js';
+import AccountForgotPassword from './components/AccountForgotPassword.js';
+import AccountCreate from './components/AccountCreate.js';
+import AccountThanks from './components/AccountThanks.js';
+import AccountWelcome from './components/AccountWelcome.js';
+import AccountAvatarChange from './components/AccountAvatarChange.js'
 
 const Stack = createNativeStackNavigator();
 
@@ -40,9 +48,17 @@ function MainContent({ currentView, setCurrentView }) {
       {currentView === 'extraresources' && <ExtraResources onNavChange = {setCurrentView} />}
       {currentView === 'account' && <Account onNavChange = {setCurrentView} />}
       {currentView === 'accountlogin' && <AccountLogin onNavChange = {setCurrentView} />}
+      {currentView === 'accountloginforgot' && <AccountLoginForgot onNavChange = {setCurrentView} />}
+      {currentView === 'accountforgotusername' && <AccountForgotUsername onNavChange = {setCurrentView} />}
+      {currentView === 'accountforgotpassword' && <AccountForgotPassword onNavChange = {setCurrentView} />}
       {currentView === 'accountavatar' && <AccountAvatar onNavChange = {setCurrentView} />}
       {currentView === 'accountparent' && <AccountParent onNavChange = {setCurrentView} />}
       {currentView === 'accountparentemail' && <AccountParentEmail onNavChange = {setCurrentView} />}
+      {currentView === 'accountverification' && <AccountVerification onNavChange = {setCurrentView} />}
+      {currentView === 'accountcreate' && <AccountCreate onNavChange = {setCurrentView} />}
+      {currentView === 'accountthanks' && <AccountThanks onNavChange = {setCurrentView} />}
+      {currentView === 'accountwelcome' && <AccountWelcome onNavChange = {setCurrentView} />}
+      {currentView === 'accountavatarchange' && <AccountAvatarChange onNavChange = {setCurrentView} />}
       {currentView === 'sleeplog' && <SleepLog />}
       {currentView === 'exerciselog' && <ExerciseLog />}
       {currentView === 'nutritionlog' && <NutritionLog />}

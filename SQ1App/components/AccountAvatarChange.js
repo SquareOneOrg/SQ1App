@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-function AccountAvatar({ onNavChange }) {
-    function moveToAccountParent(){
-        onNavChange('accountparent')
-    };
+function AccountAvatarChange() {
+
     const [username, onChangeUsername] = React.useState('');
     const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
     
@@ -40,10 +38,11 @@ function AccountAvatar({ onNavChange }) {
 
     return (
         <View style={styles.container}>
-        <Text style={styles.text}>Create Account</Text>
+        <Text style={styles.text}>Change Avatar</Text>
         <View>
-            <Text style={styles.smalltext}>Choose an avatar and</Text>
-            <Text style={styles.smalltext}>username for your profile!</Text>
+            <View style={{ height: 20 }} />
+            <Text style={styles.smalltext}>Choose your avatar!</Text>
+            <View style={{ height: 20 }} />
         </View>
         
         <View style={styles.avatarSelector}>
@@ -66,16 +65,10 @@ function AccountAvatar({ onNavChange }) {
             <AntDesign name="right" size={24} color="#323746" />
             </TouchableOpacity>
         </View>
-
-        <TextInput
-            style={styles.usernameInput}
-            onChangeText={onChangeUsername}
-            value={username}
-            placeholder="Username"
-        />
+        <View style={{ height: 20 }} />
         
         <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.accountButton} onPress={moveToAccountParent}>
+            <TouchableOpacity style={styles.accountButton}>
             <Text style={styles.accountButtonText}>CONTINUE</Text>
             </TouchableOpacity>
         </View>
@@ -161,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AccountAvatar;
+export default AccountAvatarChange;

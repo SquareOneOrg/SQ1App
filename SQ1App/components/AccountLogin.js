@@ -2,7 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
 import logo from '../assets/logo.png'
 
-function AccountLogin(){
+function AccountLogin({ onNavChange }){
+    function moveToAccountLoginForgot(){
+        onNavChange('accountloginforgot')
+    };
+
     const [username, onChangeUsername] = React.useState('');
     const [pswd, onChangePswd] = React.useState('');
 
@@ -32,6 +36,11 @@ function AccountLogin(){
                 <TouchableOpacity style={styles.accountButton}>
                     <Text style={styles.accountButtonText}>LOGIN</Text>
                 </TouchableOpacity>
+            </View>
+            <View>
+                <Text style={styles.smalltextlink} onPress={moveToAccountLoginForgot}>
+                    Forgot username or password?
+                </Text>
             </View>
         </View>
     );
@@ -68,7 +77,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
     },
     text: {
-        fontSize: 30,
+        fontSize: 35,
         margin: 10,
         color: '#323746',
         fontFamily: 'Sniglet',
@@ -82,6 +91,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
     },
+    smalltextlink: {
+        fontSize: 20,
+        color: '#323746',
+        fontFamily: 'Sniglet',
+        alignSelf: 'center',
+        alignItems: 'center',
+        alignContent: 'center',
+        textDecorationLine: 'underline',
+      },
     logo: {
         marginTop: 20,
         width: 140,
@@ -155,4 +173,4 @@ const styles = StyleSheet.create({
       },
 });
 
-export default AccountLogin
+export default AccountLogin;
