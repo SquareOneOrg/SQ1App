@@ -2,7 +2,12 @@ import React, {useState} from 'react';
 import { View, Image, Text, StyleSheet, Button } from 'react-native';
 function LibraryBook({ route, navigation }) {
     const { title, part, length } = route.params;
+    console.log('title')
+    console.log(title)
+    console.log('end')
     const image = `${title}${part}`;
+    const imageUri = `${image}.jpg`;
+    console.log('Image URI:', imageUri);
     const goPrevious = () => {
         if (part - 1 > 0){
             return navigation.navigate( 'LibraryBook', {title: title, part: part - 1, length: length})

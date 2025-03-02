@@ -1,6 +1,6 @@
 import React from 'react';
 import { steppingStonesQuiz } from './QuestionData.js';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 function Questionnaire({route, navigation}) {
     const {questionIndex, title, part, length} = route.params
     // const { question, options, correctAnswer} = steppingStonesQuiz[questionIndex];
@@ -26,21 +26,34 @@ function Questionnaire({route, navigation}) {
     return (
         //need to add user data storage later
         <View style={styles.container}>
-        <Text style={styles.questionContainer}>{steppingStonesQuiz[questionIndex].question}</Text>
-        <View style={styles.answersContainer}>
-            {steppingStonesQuiz[questionIndex].options.map((option, index) => (
-                 <View key={index} style={styles.answerSpace}> 
-                    <Button 
-                        title={option}
-                        onPress={() => goNext(index)}
-                        color="#2c3e50"
-                    />
-                 </View>
-            ))}
-        </View>
-        <View style={styles.buttonContainer}>
-            <Button onPress={() => goPrevious(questionIndex)} style={styles.navButton} title="Previous"/>
-            <Button onPress={() => goNext(questionIndex)} style={styles.navButton} title="Next"/>
+            <View style={styles.questionContainer}>
+                <Text style={styles.questionText}>{steppingStonesQuiz[questionIndex].question}</Text>
+            </View>
+            <View style={styles.answersContainer}>
+                {steppingStonesQuiz[questionIndex].options.map((option, index) => (
+                    <View key={index} style={styles.answerSpace}> 
+                        <TouchableOpacity 
+                            onPress={() => goNext(index)} 
+                            style={styles.answerButton}
+                        >
+                            <Text style={styles.navButtonText}>{option}</Text>
+                        </TouchableOpacity>
+                    </View>
+                ))}
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity 
+                    onPress={() => goPrevious(questionIndex)} 
+                    style={styles.navButton}
+                >
+                    <Text style={styles.navButtonText}>Previous</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    onPress={() => goNext(questionIndex)} 
+                    style={styles.navButton}
+                >
+                    <Text style={styles.navButtonText}>Next</Text>
+                </TouchableOpacity>
         </View>
     </View>
     );
@@ -67,13 +80,28 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        gap: 340,
+        gap: 200,
         justifyContent: 'space-between',
     },
+    answerButton: {
+        padding: 4,
+        borderColor: '#000000',
+        borderStyle: 'solid',
+        borderRadius: 10,
+        borderWidth: 2,
+        
+    },
     navButton: {
-        fontSize: 16,
-        color: '#000',
+        borderWidth: 2,
+        borderColor: '#000000',
+        borderStyle: 'solid',
+        borderRadius: 10,
+        backgroundColor: '#E0E0E0',
+    },
+    navButtonText: {
+        fontSize: 20,
         fontFamily: 'Sniglet',
+        padding: 4,
     },
     answerSpace: {
         marginVertical: 10,
@@ -83,6 +111,14 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     questionContainer: {
+        padding: 10,
+        borderWidth: 2,
+        borderColor: '#000000',
+        borderStyle: 'solid',
+        borderRadius: 10,
+        backgroundColor: '#E0E0E0',
+    },
+    questionText: {
         fontSize: 20,
         fontWeight: 'bold',
         fontFamily: 'Sniglet',
