@@ -1,102 +1,193 @@
-import React from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
+import Calendar from './Calendar'; // The same Calendar component you used before
+import { db } from '../firebase-config';
+import {
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+} from 'firebase/firestore';
 
-const ExerciseLogHeader = () => {
-  return (
-    <View style={styles.headerGrid}>
-      <Image
-        source={require('../assets/exercise.png')}
-        style={styles.headerIcon}
-      />
-      <Text style={styles.headerText}>Exercise Log</Text>
-    </View>
-  );
-};
+export default function ExerciseLog() {
+  // Logs keyed by date => logs[dateString] = { date, exerciseGoal, minutesExercise, typesOfExercise }
+  const [logs, setLogs] = useState({});
+  const [selectedDate, setSelectedDate] = useState(null);
 
-function ExerciseLog() {
+  // Load existing documents from Firestore ("exerciseLogs" collection)
+  useEffect(() => {
+    const colRef = collection(db, 'exerciseLogs');
+    getDocs(colRef)
+      .then((snapshot) => {
+        const loaded = {};
+        snapshot.docs.forEach((docSnap) => {
+          const data = docSnap.data();
+          loaded[docSnap.id] = {
+            date: data.date || docSnap.id,
+            exerciseGoal: data.exerciseGoal || '',
+            minutesExercise: data.minutesExercise
+              ? String(data.minutesExercise)
+              : '',
+            typesOfExercise: data.typesOfExercise || '',
+          };
+        });
+        setLogs(loaded);
+      })
+      .catch((error) => {
+        console.error('Error fetching exercise logs:', error);
+      });
+  }, []);
+
+  // When user taps a day on the calendar
+  const handleDateSelect = (dateObj) => {
+    const dateKey = dateObj.toISOString().split('T')[0];
+    setSelectedDate(dateKey);
+
+    // If no entry for this date, create a blank one in local state
+    if (!logs[dateKey]) {
+      setLogs((prev) => ({
+        ...prev,
+        [dateKey]: {
+          date: dateKey,
+          exerciseGoal: '',
+          minutesExercise: '',
+          typesOfExercise: '',
+        },
+      }));
+    }
+  };
+
+  // Called whenever a text field changes
+  const handleChange = (field, value) => {
+    if (!selectedDate) return;
+    setLogs((prev) => ({
+      ...prev,
+      [selectedDate]: {
+        ...prev[selectedDate],
+        [field]: value,
+      },
+    }));
+    saveToFirestore(selectedDate);
+  };
+
+  // Save (or update) the doc in Firestore
+  const saveToFirestore = async (dateKey) => {
+    const entry = logs[dateKey];
+    if (!entry) return;
+
+    const docRef = doc(db, 'exerciseLogs', dateKey);
+    try {
+      await setDoc(docRef, {
+        date: entry.date,
+        exerciseGoal: entry.exerciseGoal,
+        minutesExercise: parseFloat(entry.minutesExercise) || 0,
+        typesOfExercise: entry.typesOfExercise,
+      });
+      console.log(`Saved exercise log for ${dateKey}`);
+    } catch (error) {
+      console.error('Error saving exercise log:', error);
+    }
+  };
+
+  const currentEntry = selectedDate ? logs[selectedDate] : null;
+
   return (
     <View style={styles.container}>
-      <ExerciseLogHeader />
-      <View style={styles.gridsContainer}></View>
-      <View style={styles.contentWrapper}>
-        <Image source={require('../assets/calendar.png')} style={styles.calendarImage} />
-        <View style={styles.gridsContainer}>
-          <View style={styles.grid}>
-            <Text style={styles.gridTitle}>Exercise Goal:</Text>
-          </View>
-
-          <View style={styles.grid}>
-            <Text style={styles.gridTitle}>Minutes Exercising:</Text>
-          </View>
-
-          <View style={styles.grid}>
-            <Text style={styles.gridTitle}>Types of Exercise:</Text>
-          </View>
-        </View>
+      {/* Purple Header - match your design */}
+      <View style={styles.headerBar}>
+        <Text style={styles.headerText}>⚡ Exercise Log</Text>
       </View>
+
+      {/* Calendar */}
+      <Calendar onDateSelect={handleDateSelect} />
+
+      {/* Fields */}
+      {selectedDate && currentEntry && (
+        <ScrollView style={styles.formContainer}>
+          <Text style={styles.dateText}>Date: {selectedDate}</Text>
+
+          <Text style={styles.label}>Exercise Goal:</Text>
+          <TextInput
+            style={styles.inputBox}
+            value={currentEntry.exerciseGoal}
+            onChangeText={(val) => handleChange('exerciseGoal', val)}
+            placeholder="e.g. 30 minutes daily"
+          />
+
+          <Text style={styles.label}>Minutes Exercising:</Text>
+          <TextInput
+            style={styles.inputBox}
+            value={currentEntry.minutesExercise}
+            onChangeText={(val) => handleChange('minutesExercise', val)}
+            placeholder="e.g. 45"
+            keyboardType="numeric"
+          />
+
+          <Text style={styles.label}>Types of Exercise:</Text>
+          <TextInput
+            style={styles.inputBox}
+            value={currentEntry.typesOfExercise}
+            onChangeText={(val) => handleChange('typesOfExercise', val)}
+            placeholder="e.g. Running, Yoga"
+          />
+        </ScrollView>
+      )}
     </View>
   );
 }
 
+// ---------- Styles ----------
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    backgroundColor: '#A3C9F7',
     alignItems: 'center',
-    padding: 10,
-    paddingTop: 100,
-    paddingHorizontal: 0,
+    paddingTop: 70,
   },
-  contentWrapper: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  calendarImage: {
-    width: '105%',
-    height: undefined,
-    aspectRatio: 1.5,
-    resizeMode: 'contain',
-  },
-  headerGrid: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    padding: 10,
-    paddingHorizontal: 90,
+  headerBar: {
     backgroundColor: '#D08BFA',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#33363F',
-    marginHorizontal: 20,
-    marginTop: -50,
-  },
-  headerIcon: {
-    width: 30,
-    height: 30,
-    marginRight: 8,
+    marginBottom: 10,
+    flexDirection: 'row',
   },
   headerText: {
     fontSize: 20,
     fontFamily: 'Sniglet',
+    color: '#000',
   },
-  gridsContainer: {
-    marginTop: 10,
-  },
-  grid: {
-    padding: 23,
-    paddingHorizontal: 120,
-    marginHorizontal: 0,
-    marginTop: 10,
+  formContainer: {
+    width: '90%',
     backgroundColor: '#D08BFA',
     borderRadius: 10,
+    padding: 15,
     borderWidth: 1,
     borderColor: '#33363F',
+    marginTop: 10,
   },
-  gridTitle: {
-    fontSize: 18,
-    marginLeft: -70,
+  dateText: {
+    fontSize: 16,
+    marginBottom: 10,
     fontFamily: 'Sniglet',
   },
+  label: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 4,
+    fontFamily: 'Sniglet',
+    color: '#000',
+  },
+  inputBox: {
+    backgroundColor: '#F0F5FF',
+    borderWidth: 1,
+    borderColor: '#33363F',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 12,
+    fontFamily: 'Sniglet',
+    color: '#000',
+  },
 });
-
-export default ExerciseLog;

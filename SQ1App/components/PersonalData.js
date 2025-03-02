@@ -1,50 +1,53 @@
+// PersonalData.js
 import { StyleSheet, View, Text, TouchableOpacity, Modal, Image } from "react-native";
 import { useState } from 'react';
 import WebsiteLink from '../components/WebsiteLink.js';
 import FormLink from '../components/FormLink.js';
+// Import your new SleepSummary component
+import SleepSummary from '../components/SleepSummary.js';
 
 function PersonalData(){
     const [isWebModalVisible, setIsWebModalVisible] = useState(false);
     const [isFormModalVisible, setIsFormModalVisible] = useState(false);
+    const [isSleepModalVisible, setIsSleepModalVisible] = useState(false);
+
     return(
         <View style={styles.container}>
             <View style={styles.titleSection}>
                 <Text style={styles.title}>Personal Data</Text>
             </View>
             
+            {/* Nutrition (like existing) */}
             <TouchableOpacity style={styles.links} onPress={()=>setIsFormModalVisible(true)}>
-            <Image source={require('../assets/nutrition.png')} style={styles.image} />
-                <Text style={styles.linkTitles}>
-                    Nutrition
-                </Text>
+                <Image source={require('../assets/nutrition.png')} style={styles.image} />
+                <Text style={styles.linkTitles}>Nutrition</Text>
             </TouchableOpacity>
             <Modal visible={isFormModalVisible} animationType="slide" presentationStyle="formSheet">
                 <FormLink setIsFormModalVisible={setIsFormModalVisible}/>
             </Modal>
 
-
-            <TouchableOpacity style={styles.links} onPress={() => { /* Your press handler here, if any */ }}>
-            <Image source={require('../assets/exercise.png')} style={styles.exercise} />
-                <Text style={styles.linkTitles}>
-                     Exercise
-                </Text>
+            {/* Exercise (currently no modal) */}
+            <TouchableOpacity style={styles.links} onPress={() => {/* Navigate or show modal? */}}>
+                <Image source={require('../assets/exercise.png')} style={styles.exercise} />
+                <Text style={styles.linkTitles}>Exercise</Text>
             </TouchableOpacity>
 
-
-            <TouchableOpacity style={styles.links} onPress={()=>setIsWebModalVisible(true)}>
-            <Image source={require('../assets/sleep.png')} style={styles.image} />
-                <Text style={styles.linkTitles}>
-                    Sleep
-                </Text>
+            {/* Sleep (replace WebsiteLink with SleepSummary modal) */}
+            <TouchableOpacity style={styles.links} onPress={()=>setIsSleepModalVisible(true)}>
+                <Image source={require('../assets/sleep.png')} style={styles.image} />
+                <Text style={styles.linkTitles}>Sleep</Text>
             </TouchableOpacity>
-            <Modal visible={isWebModalVisible} animationType="slide" presentationStyle="formSheet">
-                <WebsiteLink setIsWebModalVisible={setIsWebModalVisible}/>
+            <Modal visible={isSleepModalVisible} animationType="slide" presentationStyle="formSheet">
+                <SleepSummary onClose={() => setIsSleepModalVisible(false)} />
             </Modal>
         </View>
     );
 };
 
 export default PersonalData
+
+
+
 
 const styles = StyleSheet.create({
     container: {
