@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db, auth } from '../firebase-config.js'; // Make sure this path is correct
+import { useNavigation } from '@react-navigation/native';
 
-function AccountAvatarChange() {
-
+function AccountAvatarChange({ onNavChange }) {
+    function moveToAccountWelcome(){
+      onNavChange('accountwelcome')
+    };
     const [username, onChangeUsername] = React.useState('');
     const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigation = useNavigation();
     
     const avatars = [
         { id: 1, source: require('../assets/avatar 1.png') },
@@ -36,44 +43,76 @@ function AccountAvatarChange() {
         setCurrentAvatarIndex((prev) => (prev === avatars.length - 1 ? 0 : prev + 1));
     };
 
+    const saveAvatarToFirebase = async () => {
+        if (!auth.currentUser) {
+            Alert.alert("Error", "You must be logged in to update your avatar");
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const userId = auth.currentUser.uid;
+            const userRef = doc(db, "users", userId);
+            
+            // Update the avatar field in the user document
+            await updateDoc(userRef, {
+                avatarIndex: currentAvatarIndex
+            });
+            
+            Alert.alert("Success", "Avatar updated successfully!");
+            moveToAccountWelcome();
+        } catch (error) {
+            console.error("Error updating avatar:", error);
+            Alert.alert("Error", "Failed to update avatar. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <View style={styles.container}>
-        <Text style={styles.text}>Change Avatar</Text>
-        <View>
-            <View style={{ height: 20 }} />
-            <Text style={styles.smalltext}>Choose your avatar!</Text>
-            <View style={{ height: 20 }} />
-        </View>
-        
-        <View style={styles.avatarSelector}>
-            <TouchableOpacity 
-            style={styles.arrowButton} 
-            onPress={handlePrevious}
-            >
-            <AntDesign name="left" size={24} color="#323746" />
-            </TouchableOpacity>
+            <Text style={styles.text}>Change Avatar</Text>
+            <View>
+                <View style={{ height: 20 }} />
+                <Text style={styles.smalltext}>Choose your avatar!</Text>
+                <View style={{ height: 20 }} />
+            </View>
+            
+            <View style={styles.avatarSelector}>
+                <TouchableOpacity 
+                    style={styles.arrowButton} 
+                    onPress={handlePrevious}
+                >
+                    <AntDesign name="left" size={24} color="#323746" />
+                </TouchableOpacity>
 
-            <Image 
-            source={avatars[currentAvatarIndex].source}
-            style={styles.image}
-            />
+                <Image 
+                    source={avatars[currentAvatarIndex].source}
+                    style={styles.image}
+                />
 
-            <TouchableOpacity 
-            style={styles.arrowButton} 
-            onPress={handleNext}
-            >
-            <AntDesign name="right" size={24} color="#323746" />
-            </TouchableOpacity>
+                <TouchableOpacity 
+                    style={styles.arrowButton} 
+                    onPress={handleNext}
+                >
+                    <AntDesign name="right" size={24} color="#323746" />
+                </TouchableOpacity>
+            </View>
+            <View style={{ height: 20 }} />
+            
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity 
+                    style={[styles.accountButton, isLoading && styles.disabledButton]}
+                    onPress={saveAvatarToFirebase}
+                    disabled={isLoading}
+                >
+                    <Text style={styles.accountButtonText}>
+                        {isLoading ? "SAVING..." : "CONTINUE"}
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
-        <View style={{ height: 20 }} />
-        
-        <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.accountButton}>
-            <Text style={styles.accountButtonText}>CONTINUE</Text>
-            </TouchableOpacity>
-        </View>
-        </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
@@ -151,6 +190,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#D9D9D9',
     color: '#A9A9A9',
     marginTop: 30,
+  },
+  disabledButton: {
+    opacity: 0.7,
   },
 });
 

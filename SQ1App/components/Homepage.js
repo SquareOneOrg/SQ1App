@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Sniglet',
     },
     text: {
-        fontSize: 45,
+        fontSize: 40,
         margin: 10,
         fontFamily: 'Sniglet',
     },
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         borderRadius: 40,
         borderWidth: 3,
         borderColor: '#33363F',
-        padding: 20,
+        padding: 8,
     },
     instructionButtonText:{
         fontSize: 22,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { db } from '../firebase-config';
 import { collection, getDocs } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,6 +15,8 @@ Notifications.setNotificationHandler({
 
 const HealthFactOfWeek = ({ textStyle }) => {
   const [randomFact, setRandomFact] = useState('Loading fact...');
+  const [factSource, setFactSource] = useState('');
+  const [showSource, setShowSource] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [factInitialized, setFactInitialized] = useState(false);
 
@@ -43,8 +45,12 @@ const HealthFactOfWeek = ({ textStyle }) => {
     }
   }
 
-  const updateFact = async (factsList) => {
-    if (!factsList || factsList.length === 0) {
+  const toggleSource = () => {
+    setShowSource(!showSource);
+  };
+
+  const updateFact = async (factsData) => {
+    if (!factsData || factsData.length === 0) {
       console.error("Facts list is undefined or empty.");
       return;
     }
@@ -53,22 +59,26 @@ const HealthFactOfWeek = ({ textStyle }) => {
     const isMonday = today.getDay() === 1;
     
     if (!factInitialized) {
-      const randomIndex = Math.floor(Math.random() * factsList.length);
-      const newFact = factsList[randomIndex];
-      setRandomFact(newFact);
+      const randomIndex = Math.floor(Math.random() * factsData.length);
+      const newFactData = factsData[randomIndex];
+      setRandomFact(newFactData.fact);
+      setFactSource(newFactData.source || "Source not available");
       setFactInitialized(true);
       setLastUpdated(today);
-      await AsyncStorage.setItem('currentFact', newFact);
+      await AsyncStorage.setItem('currentFact', newFactData.fact);
+      await AsyncStorage.setItem('currentSource', newFactData.source || "Source not available");
       await AsyncStorage.setItem('lastUpdated', today.toISOString());
-      await sendNotification(newFact);
+      await sendNotification(newFactData.fact);
     } else if (isMonday && lastUpdated.getDay() !== 1) {
-      const randomIndex = Math.floor(Math.random() * factsList.length);
-      const newFact = factsList[randomIndex];
-      setRandomFact(newFact);
+      const randomIndex = Math.floor(Math.random() * factsData.length);
+      const newFactData = factsData[randomIndex];
+      setRandomFact(newFactData.fact);
+      setFactSource(newFactData.source || "Source not available");
       setLastUpdated(today);
-      await AsyncStorage.setItem('currentFact', newFact);
+      await AsyncStorage.setItem('currentFact', newFactData.fact);
+      await AsyncStorage.setItem('currentSource', newFactData.source || "Source not available");
       await AsyncStorage.setItem('lastUpdated', today.toISOString());
-      await sendNotification(newFact);
+      await sendNotification(newFactData.fact);
     }
   };
 
@@ -81,10 +91,13 @@ const HealthFactOfWeek = ({ textStyle }) => {
       try {
         const factsCollection = collection(db, 'healthFacts');
         const factsSnapshot = await getDocs(factsCollection);
-        const factsList = factsSnapshot.docs.map(doc => doc.data().fact);
-        console.log("Fetched facts:", factsList);
-        if (factsList.length > 0) {
-          updateFact(factsList);
+        const factsData = factsSnapshot.docs.map(doc => ({
+          fact: doc.data().fact,
+          source: doc.data().source || "Source not available"
+        }));
+        console.log("Fetched facts:", factsData);
+        if (factsData.length > 0) {
+          updateFact(factsData);
         } else {
           console.error("No facts found in Firestore.");
         }
@@ -95,6 +108,7 @@ const HealthFactOfWeek = ({ textStyle }) => {
 
     const loadStoredFact = async () => {
       const storedFact = await AsyncStorage.getItem('currentFact');
+      const storedSource = await AsyncStorage.getItem('currentSource');
       const storedDate = await AsyncStorage.getItem('lastUpdated');
       
       if (storedFact && storedDate) {
@@ -106,6 +120,7 @@ const HealthFactOfWeek = ({ textStyle }) => {
         
         if (isSameWeek) {
           setRandomFact(storedFact);
+          setFactSource(storedSource || "Source not available");
           setLastUpdated(lastUpdatedDate);
           setFactInitialized(true);
         } else {
@@ -120,10 +135,44 @@ const HealthFactOfWeek = ({ textStyle }) => {
   }, []);
 
   return (
-    <View>
-      <Text style={textStyle}>{randomFact}</Text>
+    <View style={styles.container}>
+      <Text style={textStyle}>{showSource ? factSource : randomFact}</Text>
+      <TouchableOpacity 
+        style={styles.sourceButton} 
+        onPress={toggleSource}
+      >
+        <Text style={styles.sourceButtonText}>
+          {showSource ? "Show Fact" : "Source"}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+    width: '100%',
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  sourceButton: {
+    position: 'absolute',
+    bottom: -5,
+    right: 0,
+    backgroundColor: '#9966CC',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: '#33363F',
+    marginTop: 10,
+  },
+  sourceButtonText: {
+    color: 'white',
+    fontFamily: 'Sniglet',
+    fontSize: 14,
+  }
+});
 
 export default HealthFactOfWeek;

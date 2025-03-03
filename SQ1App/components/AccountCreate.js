@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Modal, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Modal, ScrollView, Alert } from 'react-native';
+import { useUser } from '../context/UserContext'; // Import the context we created earlier
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase-config.js'; // Assuming you have a firebase config file
 
 function AccountCreate({ onNavChange }) {
-    function moveToAccountThanks(){
-        onNavChange('accountthanks')
-    };
-    const [name, onChangeName] = useState('');
-    const [pswd, onChangePswd] = useState('');
+    // Get the username and avatar from context
+    const { username, selectedAvatar } = useUser();
+    
+    // Local state for this form
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showAgeModal, setShowAgeModal] = useState(false);
     const [showGradeModal, setShowGradeModal] = useState(false);
     const [selectedAge, setSelectedAge] = useState(null);
     const [selectedGrade, setSelectedGrade] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const ages = Array.from({ length: 16 }, (_, i) => i + 3);
     
@@ -41,6 +48,53 @@ function AccountCreate({ onNavChange }) {
         setShowGradeModal(false);
     };
 
+    // Create account in Firebase
+    const createAccount = async () => {
+        // Validate all required fields
+        if (!username || !name || !email || !password || !selectedAge || !selectedGrade) {
+            Alert.alert("Missing Information", "Please fill in all fields");
+            return;
+        }
+
+        setIsLoading(true);
+        
+        try {
+            // 1. Create authentication user
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            
+            // 2. Store user profile in Firestore
+            await setDoc(doc(db, "users", user.uid), {
+                username: username,
+                avatarId: selectedAvatar,
+                fullName: name,
+                age: selectedAge,
+                grade: selectedGrade,
+                createdAt: new Date().toISOString(),
+                email: email,
+                password: password
+            });
+            
+            // 3. Navigate to thank you page
+            onNavChange('accountthanks');
+        } catch (error) {
+            let errorMessage = "Failed to create account";
+            
+            if (error.code === 'auth/email-already-in-use') {
+                errorMessage = "This email is already in use";
+            } else if (error.code === 'auth/invalid-email') {
+                errorMessage = "Invalid email address";
+            } else if (error.code === 'auth/weak-password') {
+                errorMessage = "Password is too weak";
+            }
+            
+            Alert.alert("Error", errorMessage);
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Create Account</Text>
@@ -49,17 +103,31 @@ function AccountCreate({ onNavChange }) {
                 <Text style={styles.smalltext}>Fill in the following information</Text>
                 <Text style={styles.smalltext}>to finish creating your account.</Text>
             </View>
+            
+            {/* Show selected username */}
+            <View style={styles.summaryContainer}>
+                <Text style={styles.summaryText}>Username: {username || "Not set"}</Text>
+            </View>
+            
             <View style={{ height: 15 }} />
             <TextInput
                 style={styles.usernameInput}
-                onChangeText={onChangeName}
+                onChangeText={setName}
                 value={name}
                 placeholder="Full Name"
             />
             <TextInput
                 style={styles.input}
-                onChangeText={onChangePswd}
-                value={pswd}
+                onChangeText={setEmail}
+                value={email}
+                placeholder="Email Address"
+                keyboardType="email-address"
+                autoCapitalize="none"
+            />
+            <TextInput
+                style={styles.input}
+                onChangeText={setPassword}
+                value={password}
                 placeholder="Password"
                 secureTextEntry={true}
             />
@@ -82,6 +150,7 @@ function AccountCreate({ onNavChange }) {
                 </Text>
             </TouchableOpacity>
 
+            {/* Age Modal */}
             <Modal visible={showAgeModal} animationType="slide" transparent={true}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
@@ -107,6 +176,7 @@ function AccountCreate({ onNavChange }) {
                 </View>
             </Modal>
 
+            {/* Grade Modal */}
             <Modal visible={showGradeModal} animationType="slide" transparent={true}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
@@ -132,10 +202,15 @@ function AccountCreate({ onNavChange }) {
                 </View>
             </Modal>
             
-
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.accountButton} onPress = {moveToAccountThanks}>
-                    <Text style={styles.accountButtonText}>CREATE ACCOUNT</Text>
+                <TouchableOpacity 
+                    style={[styles.accountButton, isLoading && styles.disabledButton]} 
+                    onPress={createAccount}
+                    disabled={isLoading}
+                >
+                    <Text style={styles.accountButtonText}>
+                        {isLoading ? "CREATING..." : "CREATE ACCOUNT"}
+                    </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -146,10 +221,22 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',  // Add this
+        alignItems: 'center',
         backgroundColor: '#708BDC',
-        width: '100%',  // Change from 390 to 100%
-        padding: 20,    // Add this
+        width: '100%',
+        padding: 20,
+    },
+    summaryContainer: {
+        backgroundColor: 'rgba(255,255,255,0.2)',
+        padding: 10,
+        borderRadius: 10,
+        marginTop: 10,
+        width: 340,
+    },
+    summaryText: {
+        fontFamily: 'Sniglet',
+        fontSize: 18,
+        color: '#323746',
     },
     welcome: {
         alignSelf: 'center',
@@ -182,7 +269,6 @@ const styles = StyleSheet.create({
     },
     smalltext: {
         fontSize: 25,
-        //margin: 10,
         color: '#323746',
         fontFamily: 'Sniglet',
         alignSelf: 'center',
@@ -197,11 +283,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         textDecorationLine: 'underline',
-      },
-    logo: {
-        marginTop: 20,
-        width: 140,
-        height: 104,
     },
     buttonContainer:{
         alignItems: 'center',
@@ -209,33 +290,18 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 5,
     },
-    avatarButton:{
-      alignSelf: 'center',
-      height: 55,
-      width: 340,
-      borderWidth:3,
-      borderRadius: 27,
-      padding: 10,
-      backgroundColor: '#D9D9D9',
-      color: '#A9A9A9',
-      borderColor: '#323746',
-    },
     accountButton:{
-      backgroundColor: '#99B7DE',
-      alignItems: 'center',
-      width: 340,
-      borderRadius: 40,
-      borderWidth: 3,
-      borderColor: '#323746',
-      padding: 20,
-      marginTop: 15,
+        backgroundColor: '#99B7DE',
+        alignItems: 'center',
+        width: 340,
+        borderRadius: 40,
+        borderWidth: 3,
+        borderColor: '#323746',
+        padding: 20,
+        marginTop: 15,
     },
-    avatarButtonText:{
-        fontSize: 22,
-        textAlign: 'center',
-        textAlignVertical: 'center',
-        color: '#323746',
-        fontFamily: 'Sniglet',
+    disabledButton: {
+        opacity: 0.7,
     },
     accountButtonText:{
         fontSize: 22,
@@ -245,23 +311,23 @@ const styles = StyleSheet.create({
         fontFamily: 'Sniglet',
     },
     input: {
-      alignSelf: 'center',
-      height: 53,
-      width: 340,
-      margin: 5,
-      borderWidth:0,
-      borderRadius: 27,
-      padding: 10,
-      fontSize: 20,
-      backgroundColor: '#D9D9D9',
-      color: '#A9A9A9',
+        alignSelf: 'center',
+        height: 53,
+        width: 340,
+        margin: 5,
+        borderWidth: 0,
+        borderRadius: 27,
+        padding: 10,
+        fontSize: 20,
+        backgroundColor: '#D9D9D9',
+        color: '#A9A9A9',
     },
     usernameInput: {
         alignSelf: 'center',
         height: 53,
         width: 340,
         margin: 5,
-        borderWidth:0,
+        borderWidth: 0,
         borderRadius: 27,
         padding: 10,
         fontSize: 20,

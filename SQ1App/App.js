@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
+import { UserProvider } from './context/UserContext';
 
 import Homepage from './components/Homepage.js'
 import PersonalData from './components/PersonalData.js'
@@ -39,6 +40,7 @@ const Stack = createNativeStackNavigator();
 
 function MainContent({ currentView, setCurrentView }) {
   return (
+    <UserProvider>
     <View style={styles.container}>
       <TopNavBar />
       {currentView === 'home' && <Homepage />}
@@ -68,6 +70,7 @@ function MainContent({ currentView, setCurrentView }) {
       
       <StatusBar style="auto" />
     </View>
+    </UserProvider>
   );
 }
 

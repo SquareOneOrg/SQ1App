@@ -1,19 +1,57 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
-import logo from '../assets/logo.png'
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { auth, db } from '../firebase-config.js'; // Ensure you import your Firebase setup
+import logo from '../assets/logo.png';
+import { useUser } from '../context/UserContext'; // Import the useUser hook
 
-function AccountLogin({ onNavChange }){
-    function moveToAccountLoginForgot(){
-        onNavChange('accountloginforgot')
-    };
+function AccountLogin({ onNavChange }) {
+    const [username, setUsername] = useState('');
+    const [pswd, setPswd] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const { login } = useUser(); // Get login function from context
 
-    const [username, onChangeUsername] = React.useState('');
-    const [pswd, onChangePswd] = React.useState('');
+    async function handleLogin() {
+        if (!username || !pswd) {
+            Alert.alert("Error", "Please enter both username and password");
+            return;
+        }
+        
+        setIsLoading(true);
+        try {
+            const usersRef = collection(db, "users");
+            const q = query(usersRef, where("username", "==", username));
+            const querySnapshot = await getDocs(q);
 
-    return(
+            if (querySnapshot.empty) {
+                Alert.alert("Error", "Username not found");
+            } else {
+                let userData = null;
+                querySnapshot.forEach((doc) => {
+                    userData = doc.data();
+                });
+
+                if (userData && userData.password === pswd) {
+                    // Use the login function from context
+                    await login(userData);
+                    
+                    onNavChange('accountwelcome');
+                } else {
+                    Alert.alert("Error", "Incorrect password");
+                }
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            Alert.alert("Error", "Something went wrong. Please try again later.");
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return (
         <View style={styles.container}>
             <View style={styles.welcome}>
-                <Image source={logo} style={styles.logo}></Image>
+                <Image source={logo} style={styles.logo} />
                 <Text style={styles.text}>Account Login</Text>
             </View>
             <View>
@@ -21,24 +59,26 @@ function AccountLogin({ onNavChange }){
                 <Text style={styles.smalltext}>password to login!</Text>
             </View>
             <TextInput
-              style = {styles.usernameInput}
-              onChangeText={onChangeUsername}
-              value={username}
-              placeholder="Username"
+                style={styles.usernameInput}
+                onChangeText={setUsername}
+                value={username}
+                placeholder="Username"
+                autoCapitalize="none"
             />
             <TextInput
-              style = {styles.input}
-              onChangeText={onChangePswd}
-              value={pswd}
-              placeholder="Password"
+                style={styles.input}
+                onChangeText={setPswd}
+                value={pswd}
+                placeholder="Password"
+                secureTextEntry
             />
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.accountButton}>
-                    <Text style={styles.accountButtonText}>LOGIN</Text>
+                <TouchableOpacity style={styles.accountButton} onPress={handleLogin} disabled={isLoading}>
+                    <Text style={styles.accountButtonText}>{isLoading ? "Logging in..." : "LOGIN"}</Text>
                 </TouchableOpacity>
             </View>
             <View>
-                <Text style={styles.smalltextlink} onPress={moveToAccountLoginForgot}>
+                <Text style={styles.smalltextlink} onPress={() => onNavChange('accountloginforgot')}>
                     Forgot username or password?
                 </Text>
             </View>

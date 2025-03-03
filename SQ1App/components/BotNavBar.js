@@ -2,10 +2,12 @@ import { StyleSheet, View, TouchableOpacity, Animated, Vibration } from "react-n
 import {Svg, Path, Rect, Mask, Circle} from "react-native-svg";
 import { useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useUser } from '../context/UserContext';
 
 
 function BotNavBar({onNavChange}){
     const position = useRef(new Animated.ValueXY({x:-12, y:0})).current;
+    const { username } = useUser();
 
     function moveToHome(){
         Animated.timing(position, {
@@ -49,7 +51,12 @@ function BotNavBar({onNavChange}){
             duration: 300,
             useNativeDriver: true
         }).start()
-        onNavChange('account')
+        
+        if (username) {
+            onNavChange('accountwelcome')
+        } else {
+            onNavChange('account')
+        }
     };
 
     function moveToPersonalData() {
