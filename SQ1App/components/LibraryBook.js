@@ -1,37 +1,45 @@
 import React, {useState} from 'react';
-import { View, Image, Text, StyleSheet, Button } from 'react-native';
+import imageMap from './ImageMap';
+import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 function LibraryBook({ route, navigation }) {
-    const { title, part, length } = route.params;
-    console.log('title')
-    console.log(title)
-    console.log('end')
-    const image = `${title}${part}`;
-    const imageUri = `${image}.jpg`;
-    console.log('Image URI:', imageUri);
+    const { map_key, part, length } = route.params;
+    const image = `${map_key}${part}`;
     const goPrevious = () => {
         if (part - 1 > 0){
-            return navigation.navigate( 'LibraryBook', {title: title, part: part - 1, length: length})
+            return navigation.navigate( 'LibraryBook', {map_key: map_key, part: part - 1, length: length})
         }
     }
     const goNext = () => {
         if (part + 1 <= length) {
-            return navigation.navigate( 'LibraryBook', {title: title, part: part + 1, length: length})
+            return navigation.navigate( 'LibraryBook', {map_key: map_key, part: part + 1, length: length})
         }
-        else if (part + 1 == length + 1) {
-            return navigation.navigate( 'ResourceTransition', {title: title, part: part + 1, length: length})
+        else if (part == length) {
+            return navigation.navigate( 'ResourceTransition', {map_key: map_key, length: length})
         }
     }
 
     return (
         <View style={styles.container}>
-            <Image 
-                source={{ uri: `${image}.jpg` }}
-                style={styles.image}
-                resizeMode="contain"
-            />
+            <View style={styles.imageWrapper}>
+                <Image 
+                    source={imageMap[image]}
+                    style={styles.image}
+                    resizeMode="contain"
+                />
+            </View>
             <View style={styles.buttonContainer}>
-                <Button onPress={() => goPrevious(title, part, length)} style={styles.navButton} title="Previous"/>
-                <Button onPress={() => goNext(title, part, length)} style={styles.navButton} title="Next"/>
+                <TouchableOpacity 
+                    onPress={() => goPrevious(map_key, part, length)} 
+                    style={styles.navButton}
+                >
+                    <Text style={styles.navButtonText}>Previous</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    onPress={() => goNext(map_key, part, length)} 
+                    style={styles.navButton}
+                >
+                    <Text style={styles.navButtonText}>Next</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -39,20 +47,21 @@ function LibraryBook({ route, navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: 'lightblue',
       },
-    header: {
+    imageWrapper: {
+        alignItems: 'center',
+        justifyContent: 'center',
         marginTop: 20,
-        fontSize: 45,
-        marginBottom: 20,
-        backgroundColor: 'darkblue',
-        fontFamily: 'Sniglet',
     },
     image: {
-        marginTop: 20,
         width: '100%',
-        height: '80%',
+        height: '82%',
+        aspectRatio: 82 / 100,   
+        borderWidth: 4,
+        borderColor: '#000',
     },
     navigation: {
         flexDirection: 'row',
@@ -61,15 +70,23 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     buttonContainer: {
+        marginTop: 20,
         flexDirection: 'row',
-        gap: 340,
+        gap: 200,
         justifyContent: 'space-between',
     },
     navButton: {
-        fontSize: 16,
-        color: '#000',
+        borderWidth: 2,
+        borderColor: '#000000',
+        borderStyle: 'solid',
+        borderRadius: 10,
+        backgroundColor: '#E0E0E0',
+    },
+    navButtonText: {
+        fontSize: 20,
         fontFamily: 'Sniglet',
-    }
+        padding: 4,
+    },
 });
 
 

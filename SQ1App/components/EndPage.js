@@ -1,39 +1,28 @@
 import React, {useState} from 'react';
-import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
-function ResourceTransition({ route, navigation }) {
-    const { map_key, length } = route.params;
-    const goPrevious = () => {
-        return navigation.navigate( 'LibraryBook', {map_key: map_key, part: length - 1, length: length})
-    }
-    const goNext = () => {
-       return navigation.navigate( 'Questionnaire', {questionIndex: 0,
-        part: length,
-        length: length, map_key: map_key})
+import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+function EndPage({navigation}) {
+    const goToMenu = () => {
+        return navigation.navigate('Library')
     }
     return(
         <View style={styles.container}>
-            <View style={styles.textContainer}>
+             <View style={styles.textContainer}>
                 <Text style={styles.text}>
-                    Great job on reading the book! Now let's take a comprehension quiz
+                    Great job on finishing the end of the book!
                 </Text>
             </View>
-            <View style={styles.buttonContainer}>
+             <View style={styles.buttonContainer}>
                 <TouchableOpacity 
-                    onPress={() => goPrevious(map_key, length)} 
+                    onPress={() => goToMenu()} 
                     style={styles.navButton}
                 >
-                    <Text style={styles.navButtonText}>Previous</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                    onPress={() => goNext(map_key, length)}
-                    style={styles.navButton}
-                >
-                    <Text style={styles.navButtonText}>Next</Text>
+                    <Text style={styles.navButtonText}>Navigate to Main Menu</Text>
                 </TouchableOpacity>
             </View>
         </View>
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -79,5 +68,5 @@ const styles = StyleSheet.create({
         borderWidth: 4,
         borderColor: '#000',
     }
-});
-export default ResourceTransition
+})
+export default EndPage

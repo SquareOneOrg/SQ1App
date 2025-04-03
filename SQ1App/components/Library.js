@@ -4,17 +4,17 @@ import { useNavigation } from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
 
 const images = {
-  'Final Stepping Stones Cover': require('../books/stepping-stones/Final Stepping Stones Digital-part-1.jpg'),
-  'Covid Curriculum Cover': require('../books/covid-resources/Covid Curriculum, For Kindle-1.jpg'),
+  'Final Stepping Stones Cover': require('../assets/books/stepping-stones/Final Stepping Stones Digital-part-1.jpg'),
+  'Covid Curriculum Cover': require('../assets/books/covid-resources/Covid Curriculum, For Kindle-1.jpg'),
 };
 
-const Library = () => {
+function Library () {
   const navigation = useNavigation();
   const items = [
     {
       title: 'Stepping\nStones',
-      jpg_title_path: './books/stepping-stones/Final Stepping Stones Digital-part-',
       progress: 0,
+      map_key: 'step-',
       completed: false,
       part: 1,
       length: 44,
@@ -22,9 +22,9 @@ const Library = () => {
     },
     {
       title: 'Beating\nCOVID-19',
-      jpg_title_path: './books/covid-resources/Covid Curriculum, For Kindle-',
       progress: 0,
       completed: false,
+      map_key: 'covid-',
       length: 16,
       part: 1,
       image: images['Covid Curriculum Cover'],
@@ -34,7 +34,7 @@ const Library = () => {
 
 
   const handlePress = (item) => {
-    navigation.navigate( 'Questionnaire', {questionIndex: 0, title: item.jpg_title_path, part: item.part, length: item.length})
+    navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
     // navigation.navigate('LibraryBook', { title: item.jpg_title_path, part: item.part, length: item.length});
   };
 

@@ -1,26 +1,31 @@
 import React from 'react';
 import { steppingStonesQuiz } from './QuestionData.js';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 function Questionnaire({route, navigation}) {
-    const {questionIndex, title, part, length} = route.params
+    const {questionIndex, part, length, map_key} = route.params
     // const { question, options, correctAnswer} = steppingStonesQuiz[questionIndex];
     // console.log({options})
     const questionLength = steppingStonesQuiz.length
     const goPrevious = () => {
         if (questionIndex  - 1 > 0){
-            return navigation.navigate( 'Questionnaire', {questionIndex: questionIndex - 1, title: title,
+            return navigation.navigate( 'Questionnaire', {questionIndex: questionIndex - 1,
                 part: part,
-                length: length})
+                length: length, map_key: map_key})
         }
     }
     const goNext = () => {
         if (questionIndex + 1 < questionLength) {
-            return navigation.navigate( 'Questionnaire', {questionIndex: questionIndex + 1, title: title,
+            return navigation.navigate( 'Questionnaire', {questionIndex: questionIndex + 1,
                 part: part,
-                length: length})
+                length: length, map_key: map_key})
         }
         else {
-            return navigation.navigate( 'LibraryBook', {title: title, part: part, length: length})
+            if (part < length) {
+                return navigation.navigate( 'LibraryBook', {map_key: map_key, part: part, length: length})
+            }
+            else {
+                return navigation.navigate('EndPage')
+            }
         }
     }
     return (

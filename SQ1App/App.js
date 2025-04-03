@@ -11,7 +11,6 @@ import Homepage from './components/Homepage.js'
 import PersonalData from './components/PersonalData.js'
 import TopNavBar from './components/TopNavBar.js'
 import BotNavBar from './components/BotNavBar.js'
-import Library from './components/Library.js'
 import Activity from './components/Activity.js'
 import LinkCenter from './components/LinkCenter.js';
 import Account from './components/Account.js';
@@ -19,9 +18,12 @@ import SleepLog from './components/SleepLog.js';
 import ExerciseLog from './components/ExerciseLog.js';
 import NutritionLog from './components/NutritionLog.js';
 import Calendar from './components/Calendar.js';
-import LibraryBook from './components/LibraryBook.js'
-import Questionnaire from './components/Questionnaire.js'
+import LibraryBook from './components/LibraryBook.js';
+import Library from './components/Library.js';
+import ResourceTransition from './components/ResourceTransition'
+import Questionnaire from './components/Questionnaire.js';
 import ExtraResources from './components/ExtraResources.js';
+import EndPage from './components/EndPage.js';
 import AccountLogin from './components/AccountLogin.js';
 import AccountAvatar from './components/AccountAvatar.js';
 import AccountParent from './components/AccountParent.js';
@@ -99,8 +101,11 @@ export default function App() {
             </View>
           )}
         </Stack.Screen>
+        <Stack.Screen name="Library" component={Library} />
         <Stack.Screen name="LibraryBook" component={LibraryBook} />
         <Stack.Screen name="Questionnaire" component={Questionnaire} />
+        <Stack.Screen name="ResourceTransition" component={ResourceTransition} />
+        <Stack.Screen name="EndPage" component={EndPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
