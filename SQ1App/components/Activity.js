@@ -1,18 +1,23 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, TouchableOpacity, Image, Text } from 'react-native';
+import { AppContext } from '../AppContext';
 
-function Activity({ onNavChange }) {
+function Activity() {
+    const { setCurrentView } = useContext(AppContext);
     function moveToSleepLog(){
-        onNavChange('sleeplog')
+        setCurrentView('sleeplog')
+        // onNavChange('sleeplog')
     };
 
     function moveToExerciseLog() {
-        onNavChange('exerciselog')
+        setCurrentView('exerciselog')
+        // onNavChange('exerciselog')
     }
 
     function moveToNutritionLog() {
-        onNavChange('nutritionlog')
+        setCurrentView('nutritionlog')
+        // onNavChange('nutritionlog')
     }
 
     return (

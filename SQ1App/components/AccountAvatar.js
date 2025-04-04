@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { AppContext } from '../AppContext';
 
-function AccountAvatar({ onNavChange }) {
+function AccountAvatar() {
+  const { setCurrentView } = useContext(AppContext);
     function moveToAccountParent(){
-        onNavChange('accountparent')
+      setCurrentView('accountparent')
+        // onNavChange('accountparent')
     };
     const [username, onChangeUsername] = React.useState('');
     const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);

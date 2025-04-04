@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
 import logo from '../assets/logo.png'
+import { AppContext } from '../AppContext';
 
-function AccountLogin({ onNavChange }){
+function AccountLogin(){
+    const { setCurrentView } = useContext(AppContext);
     function moveToAccountLoginForgot(){
-        onNavChange('accountloginforgot')
+        setCurrentView('accountloginforgot')
+        // onNavChange('accountloginforgot')
     };
 
     const [username, onChangeUsername] = React.useState('');

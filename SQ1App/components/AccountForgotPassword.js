@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.png';
+import { AppContext } from '../AppContext';
 
 function AccountForgotPassword(){
-
+    const { setCurrentView } = useContext(AppContext);
     const [email, onChangeEmail] = React.useState('');
 
     return(

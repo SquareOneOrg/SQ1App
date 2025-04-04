@@ -1,14 +1,31 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
-function ResourceTransition({ route, navigation }) {
-    const { map_key, length } = route.params;
+import { AppContext } from '../AppContext';
+
+function ResourceTransition() {
+    const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
+    const { length, map_key } = viewParams;
     const goPrevious = () => {
-        return navigation.navigate( 'LibraryBook', {map_key: map_key, part: length - 1, length: length})
+        setViewParams({
+            part: length - 1,
+            length: length,
+            map_key: map_key,
+          });
+        setCurrentView('librarybook');
+        // return navigation.navigate( 'LibraryBook', {map_key: map_key, part: length - 1, length: length})
     }
     const goNext = () => {
-       return navigation.navigate( 'Questionnaire', {questionIndex: 0,
-        part: length,
-        length: length, map_key: map_key})
+        setViewParams({
+            questionIndex: 0,
+            part: length,
+            length: length,
+            map_key: map_key,
+          });
+        setCurrentView('questionnaire');
+
+    //    return navigation.navigate( 'Questionnaire', {questionIndex: 0,
+    //     part: length,
+    //     length: length, map_key: map_key})
     }
     return(
         <View style={styles.container}>

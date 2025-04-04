@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
+import { AppContext } from '../AppContext';
 
 const images = {
   'Final Stepping Stones Cover': require('../assets/books/stepping-stones/Final Stepping Stones Digital-part-1.jpg'),
@@ -9,7 +10,7 @@ const images = {
 };
 
 function Library () {
-  const navigation = useNavigation();
+  const { setCurrentView, setViewParams } = useContext(AppContext);
   const items = [
     {
       title: 'Stepping\nStones',
@@ -34,8 +35,27 @@ function Library () {
 
 
   const handlePress = (item) => {
-    navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
-    // navigation.navigate('LibraryBook', { title: item.jpg_title_path, part: item.part, length: item.length});
+    if (item.title == 'Stepping\nStones') {
+      console.log('passed')
+      setViewParams({
+        questionIndex: 0,
+        part: item.part,
+        length: item.length,
+        map_key: item.map_key,
+      });
+      console.log('params set')
+      setCurrentView('questionnaire');
+      // navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
+    }
+    else {
+      setViewParams({
+        part: item.part,
+        length: item.length,
+        map_key: item.map_key,
+      });
+      setCurrentView('LibraryBook');
+    }
+    // navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
   };
 
   return (

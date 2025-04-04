@@ -1,9 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
+import { AppContext } from '../AppContext';
 
-function AccountVerification({ onNavChange }){
+function AccountVerification(){
+    const { setCurrentView } = useContext(AppContext);
     function moveToAccountCreate(){
-        onNavChange('accountcreate')
+        setCurrentView('accountcreate')
+        // onNavChange('accountcreate')
     };
 
     const VerificationCodeInput = ({ onCodeComplete }) => {

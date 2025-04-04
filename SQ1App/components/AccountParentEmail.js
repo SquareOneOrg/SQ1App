@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Linking } from 'react-native';
+import { AppContext } from '../AppContext';
 
-function AccountParentEmail({ onNavChange }){
+function AccountParentEmail(){
+  const { setCurrentView } = useContext(AppContext);
   function moveToAccountVerification(){
-    onNavChange('accountverification')
+    setCurrentView('accountverification')
+    // onNavChange('accountverification')
   };
 
     const [email, onChangeEmail] = React.useState('');

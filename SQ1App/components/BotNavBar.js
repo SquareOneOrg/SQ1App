@@ -1,10 +1,12 @@
 import { StyleSheet, View, TouchableOpacity, Animated, Vibration } from "react-native";
 import {Svg, Path, Rect, Mask, Circle} from "react-native-svg";
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { AppContext } from '../AppContext';
 
 
-function BotNavBar({onNavChange}){
+function BotNavBar(){
+    const { setCurrentView } = useContext(AppContext);
     const position = useRef(new Animated.ValueXY({x:-12, y:0})).current;
 
     function moveToHome(){
@@ -13,7 +15,7 @@ function BotNavBar({onNavChange}){
             duration: 300,
             useNativeDriver: true
         }).start()
-        onNavChange('home')
+        setCurrentView('home')
     };
 
     function moveToLibrary(){
@@ -22,7 +24,7 @@ function BotNavBar({onNavChange}){
             duration: 300,
             useNativeDriver: true
         }).start()
-        onNavChange('library')
+        setCurrentView('library')
     };
 
     function moveToActivity(){
@@ -31,7 +33,7 @@ function BotNavBar({onNavChange}){
             duration: 300,
             useNativeDriver: true
         }).start()
-        onNavChange('activity')
+        setCurrentView('activity')
     };
 
     function moveToLink(){
@@ -40,7 +42,7 @@ function BotNavBar({onNavChange}){
             duration: 300,
             useNativeDriver: true
         }).start()
-        onNavChange('linkCenter')
+        setCurrentView('linkCenter')
     };
 
     function moveToAccount(){
@@ -49,7 +51,7 @@ function BotNavBar({onNavChange}){
             duration: 300,
             useNativeDriver: true
         }).start()
-        onNavChange('account')
+        setCurrentView('account')
     };
 
     function moveToPersonalData() {
@@ -58,7 +60,7 @@ function BotNavBar({onNavChange}){
             duration: 300,
             useNativeDriver: true
         }).start()
-        onNavChange('personalData')
+        setCurrentView('personalData')
     };
     
 

@@ -1,30 +1,45 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { steppingStonesQuiz } from './QuestionData.js';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { AppContext } from '../AppContext';
+
+
 function Questionnaire({route, navigation}) {
-    const {questionIndex, part, length, map_key} = route.params
-    // const { question, options, correctAnswer} = steppingStonesQuiz[questionIndex];
-    // console.log({options})
+    const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
+    const { questionIndex, part, length, map_key } = viewParams;
     const questionLength = steppingStonesQuiz.length
     const goPrevious = () => {
         if (questionIndex  - 1 > 0){
-            return navigation.navigate( 'Questionnaire', {questionIndex: questionIndex - 1,
+            setViewParams({
+                questionIndex: questionIndex - 1,
                 part: part,
-                length: length, map_key: map_key})
+                length: length,
+                map_key: map_key,
+              });
+            setCurrentView('Questionnaire');
         }
     }
     const goNext = () => {
         if (questionIndex + 1 < questionLength) {
-            return navigation.navigate( 'Questionnaire', {questionIndex: questionIndex + 1,
+            setViewParams({
+                questionIndex: questionIndex + 1,
                 part: part,
-                length: length, map_key: map_key})
+                length: length,
+                map_key: map_key,
+              });
+            setCurrentView('questionnaire');
         }
         else {
             if (part < length) {
-                return navigation.navigate( 'LibraryBook', {map_key: map_key, part: part, length: length})
+                setViewParams({
+                    part: part,
+                    length: length,
+                    map_key: map_key,
+                  });
+                setCurrentView('librarybook');
             }
             else {
-                return navigation.navigate('EndPage')
+                setCurrentView('endpage');
             }
         }
     }
@@ -57,7 +72,7 @@ function Questionnaire({route, navigation}) {
                     onPress={() => goNext(questionIndex)} 
                     style={styles.navButton}
                 >
-                    <Text style={styles.navButtonText}>Next</Text>
+                    <Text style={styles.navButtonText}>Skip</Text>
                 </TouchableOpacity>
         </View>
     </View>

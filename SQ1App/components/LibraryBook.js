@@ -1,20 +1,40 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import imageMap from './ImageMap';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
-function LibraryBook({ route, navigation }) {
-    const { map_key, part, length } = route.params;
+import { AppContext } from '../AppContext';
+
+function LibraryBook() {
+    const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
+    const { part, length, map_key } = viewParams;
     const image = `${map_key}${part}`;
     const goPrevious = () => {
         if (part - 1 > 0){
-            return navigation.navigate( 'LibraryBook', {map_key: map_key, part: part - 1, length: length})
+            setViewParams({
+                part: part - 1,
+                length: length,
+                map_key: map_key,
+              });
+            setCurrentView('librarybook');
+            // return navigation.navigate( 'LibraryBook', {map_key: map_key, part: part - 1, length: length})
         }
     }
     const goNext = () => {
         if (part + 1 <= length) {
-            return navigation.navigate( 'LibraryBook', {map_key: map_key, part: part + 1, length: length})
+            setViewParams({
+                part: part + 1,
+                length: length,
+                map_key: map_key,
+              });
+            setCurrentView('librarybook');
+            // return navigation.navigate( 'LibraryBook', {map_key: map_key, part: part + 1, length: length})
         }
         else if (part == length) {
-            return navigation.navigate( 'ResourceTransition', {map_key: map_key, length: length})
+            setViewParams({
+                length: length,
+                map_key: map_key,
+              });
+            setCurrentView('resourcetransition');
+            // return navigation.navigate( 'ResourceTransition', {map_key: map_key, length: length})
         }
     }
 

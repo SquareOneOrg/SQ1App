@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-function EndPage({navigation}) {
+import { AppContext } from '../AppContext';
+
+function EndPage() {
+    const { setCurrentView } = useContext(AppContext);
     const goToMenu = () => {
-        return navigation.navigate('Library')
+        setCurrentView('library')
     }
     return(
         <View style={styles.container}>

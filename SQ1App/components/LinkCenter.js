@@ -1,11 +1,15 @@
 import { StyleSheet, View, Text, TouchableOpacity, Modal } from "react-native";
-import { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import WebsiteLink from '../components/WebsiteLink.js';
 import FormLink from '../components/FormLink.js';
+import { AppContext } from '../AppContext';
 
-function LinkCenter({ onNavChange }){
+
+function LinkCenter(){
+    const { setCurrentView } = useContext(AppContext);
     function moveToExtraResources(){
-        onNavChange('extraresources')
+        setCurrentView('extraresources')
+        // onNavChange('extraresources')
     };
 
     const [isWebModalVisible, setIsWebModalVisible] = useState(false);

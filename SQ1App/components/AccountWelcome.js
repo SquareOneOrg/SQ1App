@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
-import puzzle from '../assets/puzzlepiece.png'
+import puzzle from '../assets/puzzlepiece.png';
+import { AppContext } from '../AppContext';
 
-function AccountWelcome({ onNavChange }){
+function AccountWelcome(){
+  const { setCurrentView } = useContext(AppContext);
     function moveToAccountAvatarChange(){
-        onNavChange('accountavatarchange')
+      setCurrentView('accountavatarchange')
+        // onNavChange('accountavatarchange')
     };
     return(
         <View style={styles.container}>

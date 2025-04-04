@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Modal, ScrollView} from 'react-native';
+import { AppContext } from '../AppContext';
 
-function AccountCreate({ onNavChange }) {
+function AccountCreate() {
+    const { setCurrentView } = useContext(AppContext);
     function moveToAccountThanks(){
-        onNavChange('accountthanks')
+        setCurrentView('accountthanks')
+        // onNavChange('accountthanks')
     };
     const [name, onChangeName] = useState('');
     const [pswd, onChangePswd] = useState('');

@@ -1,13 +1,17 @@
-import React from 'react';
+import React , {useContext} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.png';
+import { AppContext } from '../AppContext';
 
-function Account({ onNavChange }){
+function Account(){
+    const { setCurrentView } = useContext(AppContext);
     function moveToAccountLogin(){
-        onNavChange('accountlogin')
+        setCurrentView('accountlogin')
+        // onNavChange('accountlogin')
     };
     function moveToAccountAvatar(){
-        onNavChange('accountavatar')
+        setCurrentView('accountavatar')
+        // onNavChange('accountavatar')
     };
 
     return(
