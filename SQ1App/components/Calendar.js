@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
+import { AppContext } from '../AppContext';
 
 const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const monthsOfYear = [
@@ -13,6 +14,7 @@ const monthsOfYear = [
 ];
 
 function Calendar({ onDateSelect }) {
+  const {setCurrentView} = useContext(AppContext);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 

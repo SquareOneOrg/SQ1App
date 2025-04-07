@@ -45,33 +45,33 @@ function MainContent() {
   return (
     <View style={styles.container}>
       {/* <TopNavBar /> */}
+      {currentView === 'account' && <Account />}
+      {currentView === 'accountavatar' && <AccountAvatar />}
+      {currentView === 'accountavatarchange' && <AccountAvatarChange />}
+      {currentView === 'accountcreate' && <AccountCreate />}
+      {currentView === 'accountforgotpassword' && <AccountForgotPassword />}
+      {currentView === 'accountforgotusername' && <AccountForgotUsername />}
+      {currentView === 'accountlogin' && <AccountLogin />}
+      {currentView === 'accountloginforgot' && <AccountLoginForgot />}
+      {currentView === 'accountparent' && <AccountParent />}
+      {currentView === 'accountparentemail' && <AccountParentEmail />}
+      {currentView === 'accountthanks' && <AccountThanks />}
+      {currentView === 'accountverification' && <AccountVerification />}
+      {currentView === 'accountwelcome' && <AccountWelcome />}
+      {currentView === 'activity' && <Activity />}
+      {currentView === 'calendar' && <Calendar />}
+      {currentView === 'endpage' && <EndPage />}
+      {currentView === 'exerciselog' && <ExerciseLog />}
+      {currentView === 'extraresources' && <ExtraResources />}
       {currentView === 'home' && <Homepage />}
       {currentView === 'library' && <Library />}
       {currentView === 'librarybook' && <LibraryBook />}
+      {currentView === 'linkCenter' && <LinkCenter />}
+      {currentView === 'nutritionlog' && <NutritionLog />}
+      {currentView === 'personalData' && <PersonalData />}
       {currentView === 'questionnaire' && <Questionnaire />}
       {currentView === 'resourcetransition' && <ResourceTransition />}
-      {currentView === 'endpage' && <EndPage />}
-      {currentView === 'activity' && <Activity />}
-      {currentView === 'linkCenter' && <LinkCenter />}
-      {currentView === 'extraresources' && <ExtraResources />}
-      {currentView === 'account' && <Account />}
-      {currentView === 'accountlogin' && <AccountLogin />}
-      {currentView === 'accountloginforgot' && <AccountLoginForgot />}
-      {currentView === 'accountforgotusername' && <AccountForgotUsername />}
-      {currentView === 'accountforgotpassword' && <AccountForgotPassword />}
-      {currentView === 'accountavatar' && <AccountAvatar />}
-      {currentView === 'accountparent' && <AccountParent />}
-      {currentView === 'accountparentemail' && <AccountParentEmail />}
-      {currentView === 'accountverification' && <AccountVerification />}
-      {currentView === 'accountcreate' && <AccountCreate />}
-      {currentView === 'accountthanks' && <AccountThanks />}
-      {currentView === 'accountwelcome' && <AccountWelcome />}
-      {currentView === 'accountavatarchange' && <AccountAvatarChange />}
       {currentView === 'sleeplog' && <SleepLog />}
-      {currentView === 'exerciselog' && <ExerciseLog />}
-      {currentView === 'nutritionlog' && <NutritionLog />}
-      {currentView === 'calendar' && <Calendar /> }
-      {currentView === 'personalData' && <PersonalData /> }
       {/* <BotNavBar onNavChange={setCurrentView}/> */}
       
       <StatusBar style="auto" />

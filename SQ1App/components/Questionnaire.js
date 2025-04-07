@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AppContext } from '../AppContext';
 
 
-function Questionnaire({route, navigation}) {
+function Questionnaire() {
     const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
     const { questionIndex, part, length, map_key } = viewParams;
     const questionLength = steppingStonesQuiz.length

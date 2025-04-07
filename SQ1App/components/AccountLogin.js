@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '../firebase-config.js'; // Ensure you import your Firebase setup
 import logo from '../assets/logo.png';
 import { useUser } from '../context/UserContext'; // Import the useUser hook
+import { AppContext } from '../AppContext.js';
 
-function AccountLogin({ onNavChange }) {
+function AccountLogin() {
+    const {setCurrentView} = useContext(AppContext);
     const [username, setUsername] = useState('');
     const [pswd, setPswd] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +37,7 @@ function AccountLogin({ onNavChange }) {
                     // Use the login function from context
                     await login(userData);
                     
-                    onNavChange('accountwelcome');
+                    setCurrentView('accountwelcome');
                 } else {
                     Alert.alert("Error", "Incorrect password");
                 }
@@ -78,7 +80,7 @@ function AccountLogin({ onNavChange }) {
                 </TouchableOpacity>
             </View>
             <View>
-                <Text style={styles.smalltextlink} onPress={() => onNavChange('accountloginforgot')}>
+                <Text style={styles.smalltextlink} onPress={() => setCurrentView('accountloginforgot')}>
                     Forgot username or password?
                 </Text>
             </View>

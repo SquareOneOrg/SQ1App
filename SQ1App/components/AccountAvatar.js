@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useUser } from '../context/UserContext'; 
 import { db } from '../firebase-config.js';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { AppContext } from '../AppContext';
 
-function AccountAvatar({ onNavChange }) {
+function AccountAvatar() {
+    const {setCurrentView} = useContext(AppContext);
     const { username, setUsername, selectedAvatar, setSelectedAvatar } = useUser();
     const [isUsernameValid, setIsUsernameValid] = useState(true);
     const [validationMessage, setValidationMessage] = useState('');
@@ -172,7 +174,7 @@ function AccountAvatar({ onNavChange }) {
   };
 
     function moveToAccountParent(){
-        onNavChange('accountparent');
+       setCurrentView('accountparent');
     };
 
     // Safely get the current avatar
