@@ -1,37 +1,32 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
+import { AppContext } from '../AppContext';
 
 const images = {
-  'Final Stepping Stones Cover': require('../books/stepping-stones/Final Stepping Stones Digital-part-1.jpg'),
-  'Covid Curriculum Cover': require('../books/covid-resources/Covid Curriculum, For Kindle-1.jpg'),
+  'Final Stepping Stones Cover': require('../assets/books/stepping-stones/Final Stepping Stones Digital-part-1.jpg'),
+  'Covid Curriculum Cover': require('../assets/books/covid-resources/Covid Curriculum, For Kindle-1.jpg'),
 };
 
-const Library = () => {
-  const navigation = useNavigation();
+function Library() {
+  // const navigation = useNavigation();
+  const { setCurrentView, setViewParams } = useContext(AppContext);
   const items = [
     {
       title: 'Stepping\nStones',
-      jpg_title_path: './books/stepping-stones/Final Stepping Stones Digital-part-',
-      progress: 0.1,
+      progress: 0,
+      map_key: 'step-',
       completed: false,
       part: 1,
       length: 44,
       image: images['Final Stepping Stones Cover'],
     },
     {
-      title: 'Mind\nMatters',
-      progress: 0.3,
-      completed: false,
-      part: 1,
-      image: require('../assets/book2.jpg'),
-    },
-    {
       title: 'Beating\nCOVID-19',
-      jpg_title_path: './books/covid-resources/Covid Curriculum, For Kindle-',
-      progress: 1,
-      completed: true,
+      progress: 0,
+      completed: false,
+      map_key: 'covid-',
       length: 16,
       part: 1,
       image: images['Covid Curriculum Cover'],
@@ -41,8 +36,27 @@ const Library = () => {
 
 
   const handlePress = (item) => {
-    navigation.navigate( 'Questionnaire', {questionIndex: 0, title: item.jpg_title_path, part: item.part, length: item.length})
-    // navigation.navigate('LibraryBook', { title: item.jpg_title_path, part: item.part, length: item.length});
+    if (item.title == 'Stepping\nStones') {
+      console.log('passed')
+      setViewParams({
+        questionIndex: 0,
+        part: item.part,
+        length: item.length,
+        map_key: item.map_key,
+      });
+      console.log('params set')
+      setCurrentView('questionnaire');
+      // navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
+    }
+    else {
+      setViewParams({
+        part: item.part,
+        length: item.length,
+        map_key: item.map_key,
+      });
+      setCurrentView('LibraryBook');
+    }
+    // navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
   };
 
   return (

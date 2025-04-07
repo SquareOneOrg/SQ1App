@@ -1,18 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { useCallback } from 'react';
-import { UserProvider } from './context/UserContext';
+import React, { useCallback, useState, useContext} from 'react';
 
 import Homepage from './components/Homepage.js'
 import PersonalData from './components/PersonalData.js'
 import TopNavBar from './components/TopNavBar.js'
 import BotNavBar from './components/BotNavBar.js'
-import Library from './components/Library.js'
 import Activity from './components/Activity.js'
 import LinkCenter from './components/LinkCenter.js';
 import Account from './components/Account.js';
@@ -20,9 +17,12 @@ import SleepLog from './components/SleepLog.js';
 import ExerciseLog from './components/ExerciseLog.js';
 import NutritionLog from './components/NutritionLog.js';
 import Calendar from './components/Calendar.js';
-import LibraryBook from './components/LibraryBook.js'
-import Questionnaire from './components/Questionnaire.js'
+import LibraryBook from './components/LibraryBook.js';
+import Library from './components/Library.js';
+import ResourceTransition from './components/ResourceTransition'
+import Questionnaire from './components/Questionnaire.js';
 import ExtraResources from './components/ExtraResources.js';
+import EndPage from './components/EndPage.js';
 import AccountLogin from './components/AccountLogin.js';
 import AccountAvatar from './components/AccountAvatar.js';
 import AccountParent from './components/AccountParent.js';
@@ -35,44 +35,70 @@ import AccountCreate from './components/AccountCreate.js';
 import AccountThanks from './components/AccountThanks.js';
 import AccountWelcome from './components/AccountWelcome.js';
 import AccountAvatarChange from './components/AccountAvatarChange.js'
+import { AppProvider, AppContext } from './AppContext';
+
 
 const Stack = createNativeStackNavigator();
 
-function MainContent({ currentView, setCurrentView }) {
+function MainContent() {
+  const { currentView } = useContext(AppContext);
   return (
-    <UserProvider>
     <View style={styles.container}>
-      <TopNavBar />
+      {/* <TopNavBar /> */}
       {currentView === 'home' && <Homepage />}
       {currentView === 'library' && <Library />}
-      {currentView === 'activity' && <Activity onNavChange={setCurrentView} />}
-      {currentView === 'linkCenter' && <LinkCenter onNavChange = {setCurrentView} />}
-      {currentView === 'extraresources' && <ExtraResources onNavChange = {setCurrentView} />}
-      {currentView === 'account' && <Account onNavChange = {setCurrentView} />}
-      {currentView === 'accountlogin' && <AccountLogin onNavChange = {setCurrentView} />}
-      {currentView === 'accountloginforgot' && <AccountLoginForgot onNavChange = {setCurrentView} />}
-      {currentView === 'accountforgotusername' && <AccountForgotUsername onNavChange = {setCurrentView} />}
-      {currentView === 'accountforgotpassword' && <AccountForgotPassword onNavChange = {setCurrentView} />}
-      {currentView === 'accountavatar' && <AccountAvatar onNavChange = {setCurrentView} />}
-      {currentView === 'accountparent' && <AccountParent onNavChange = {setCurrentView} />}
-      {currentView === 'accountparentemail' && <AccountParentEmail onNavChange = {setCurrentView} />}
-      {currentView === 'accountverification' && <AccountVerification onNavChange = {setCurrentView} />}
-      {currentView === 'accountcreate' && <AccountCreate onNavChange = {setCurrentView} />}
-      {currentView === 'accountthanks' && <AccountThanks onNavChange = {setCurrentView} />}
-      {currentView === 'accountwelcome' && <AccountWelcome onNavChange = {setCurrentView} />}
-      {currentView === 'accountavatarchange' && <AccountAvatarChange onNavChange = {setCurrentView} />}
+      {currentView === 'librarybook' && <LibraryBook />}
+      {currentView === 'questionnaire' && <Questionnaire />}
+      {currentView === 'resourcetransition' && <ResourceTransition />}
+      {currentView === 'endpage' && <EndPage />}
+      {currentView === 'activity' && <Activity />}
+      {currentView === 'linkCenter' && <LinkCenter />}
+      {currentView === 'extraresources' && <ExtraResources />}
+      {currentView === 'account' && <Account />}
+      {currentView === 'accountlogin' && <AccountLogin />}
+      {currentView === 'accountloginforgot' && <AccountLoginForgot />}
+      {currentView === 'accountforgotusername' && <AccountForgotUsername />}
+      {currentView === 'accountforgotpassword' && <AccountForgotPassword />}
+      {currentView === 'accountavatar' && <AccountAvatar />}
+      {currentView === 'accountparent' && <AccountParent />}
+      {currentView === 'accountparentemail' && <AccountParentEmail />}
+      {currentView === 'accountverification' && <AccountVerification />}
+      {currentView === 'accountcreate' && <AccountCreate />}
+      {currentView === 'accountthanks' && <AccountThanks />}
+      {currentView === 'accountwelcome' && <AccountWelcome />}
+      {currentView === 'accountavatarchange' && <AccountAvatarChange />}
       {currentView === 'sleeplog' && <SleepLog />}
       {currentView === 'exerciselog' && <ExerciseLog />}
       {currentView === 'nutritionlog' && <NutritionLog />}
       {currentView === 'calendar' && <Calendar /> }
       {currentView === 'personalData' && <PersonalData /> }
-      <BotNavBar onNavChange={setCurrentView}/>
+      {/* <BotNavBar onNavChange={setCurrentView}/> */}
       
       <StatusBar style="auto" />
     </View>
-    </UserProvider>
   );
 }
+
+function MainScreen() {
+  const [fontsLoaded] = useFonts({
+    Sniglet: require('./assets/fonts/Sniglet-Regular.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) return null;
+
+  return (
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <MainContent />
+    </View>
+  );
+}
+
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -91,21 +117,22 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Main"
-          options={{ headerShown: false }}>
-          {(props) => (
-            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-              <MainContent currentView={currentView} setCurrentView={setCurrentView} />
-            </View>
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="LibraryBook" component={LibraryBook} />
-        <Stack.Screen name="Questionnaire" component={Questionnaire} />
+    <AppProvider>
+      <NavigationContainer>
+      <View style={{ flex: 1 }}>
+      <TopNavBar /> 
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="Main"
+        component={MainScreen}
+        options={{ headerShown: false }}
+      />
       </Stack.Navigator>
+      <BotNavBar/>
+      </View>
+      <StatusBar style="auto" />
     </NavigationContainer>
+    </AppProvider>
   );
 }
 
