@@ -8,7 +8,9 @@ import { AppContext } from '../AppContext';
 
 function AccountAvatar() {
     const {setCurrentView} = useContext(AppContext);
+    console.log('account avatar')
     const { username, setUsername, selectedAvatar, setSelectedAvatar } = useUser();
+    console.log(useUser())
     const [isUsernameValid, setIsUsernameValid] = useState(true);
     const [validationMessage, setValidationMessage] = useState('');
     const [isReady, setIsReady] = useState(false);

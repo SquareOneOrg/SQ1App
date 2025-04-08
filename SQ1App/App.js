@@ -36,6 +36,7 @@ import AccountThanks from './components/AccountThanks.js';
 import AccountWelcome from './components/AccountWelcome.js';
 import AccountAvatarChange from './components/AccountAvatarChange.js'
 import { AppProvider, AppContext } from './AppContext';
+import { UserProvider } from './context/UserContext.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -118,6 +119,7 @@ export default function App() {
 
   return (
     <AppProvider>
+      <UserProvider>
       <NavigationContainer>
       <View style={{ flex: 1 }}>
       <TopNavBar /> 
@@ -132,6 +134,7 @@ export default function App() {
       </View>
       <StatusBar style="auto" />
     </NavigationContainer>
+    </UserProvider>
     </AppProvider>
   );
 }
