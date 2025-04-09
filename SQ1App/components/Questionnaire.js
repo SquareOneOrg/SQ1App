@@ -5,7 +5,7 @@ import { AppContext } from '../AppContext';
 import { doc, setDoc } from 'firebase/firestore';
 import { useUser } from '../context/UserContext';
 import { db } from '../firebase-config.js';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 
 function Questionnaire() {
