@@ -1,12 +1,46 @@
-import React, {useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import imageMap from './ImageMap';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AppContext } from '../AppContext';
+import { doc, setDoc } from 'firebase/firestore';
+import { useUser } from '../context/UserContext';
+import { db } from '../firebase-config.js';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 function LibraryBook() {
+    const {username} = useUser();
     const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
     const { part, length, map_key } = viewParams;
     const image = `${map_key}${part}`;
+    console.log(image)
+    const [firstBook, setFirstBook] = useState(false);
+    const result = (part / length).toFixed(2);
+    console.log("part", part);
+    console.log("length", length);
+    console.log("result", result);
+    const updateProgress = async(progress) => {
+        console.log("progress", progress);
+        try {
+            console.log('result', result)
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('username', '==', username));
+            const querySnapshot = await getDocs(q);
+            const userDoc = querySnapshot.docs[0];
+            const fieldToUpdate = firstBook ? { steppingStonesProgress: progress } : { covidProgress: progress };
+            await setDoc(doc(db, "users", userDoc.id), fieldToUpdate, { merge: true });
+            console.log('progress correctly updated')
+        }
+        catch {
+            console.error("Firestore update error:", error);
+            Alert.alert("Error", "Something went wrong. Please try again later.");
+        }
+    }
+    updateProgress(result);
+    useEffect(() => {
+        setFirstBook(map_key === 'step-');
+        updateProgress(result);
+      }, []);
+
     const goPrevious = () => {
         if (part - 1 > 0){
             setViewParams({
@@ -31,7 +65,7 @@ function LibraryBook() {
                 length: length,
                 map_key: map_key,
               });
-            setCurrentView('resourcetransition');
+            setCurrentView('endpage');
         }
     }
 

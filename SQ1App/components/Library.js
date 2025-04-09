@@ -1,8 +1,11 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
 import { AppContext } from '../AppContext';
+import { useUser } from '../context/UserContext';
+import { db } from '../firebase-config.js';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const images = {
   'Final Stepping Stones Cover': require('../assets/books/stepping-stones/Final Stepping Stones Digital-part-1.jpg'),
@@ -10,12 +13,34 @@ const images = {
 };
 
 function Library() {
-  // const navigation = useNavigation();
+  const {username} = useUser();
   const { setCurrentView, setViewParams } = useContext(AppContext);
+  const [bookProgress, setBookProgress] = useState([0, 0]);
+  const updateProgress = async() => {
+    try {
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef, where('username', '==', username));
+        const querySnapshot = await getDocs(q);
+        const userDoc = querySnapshot.docs[0];
+        const userData = userDoc.data();
+        setBookProgress([
+          Number(userData.steppingStonesProgress),
+          Number(userData.covidProgress),
+        ]);
+    } catch(error) {
+        console.error("Firestore update error:", error);
+        Alert.alert("Error", "Something went wrong. Please try again later.");
+    }
+  }
+  useEffect(() => {
+    updateProgress();
+    console.log(bookProgress);
+  }, []);
+
   const items = [
     {
+      ind: 0,
       title: 'Stepping\nStones',
-      progress: 0,
       map_key: 'step-',
       completed: false,
       part: 1,
@@ -23,8 +48,8 @@ function Library() {
       image: images['Final Stepping Stones Cover'],
     },
     {
+      ind: 1,
       title: 'Beating\nCOVID-19',
-      progress: 0,
       completed: false,
       map_key: 'covid-',
       length: 16,
@@ -33,7 +58,7 @@ function Library() {
     },
   ];
   const [selectedImage, setSelectedImage] = useState(null);
-
+  console.log("bookProgress", bookProgress)
 
   const handlePress = (item) => {
     if (item.title == 'Stepping\nStones') {
@@ -51,12 +76,13 @@ function Library() {
       // navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
     }
     else {
+      console.log('passed')
       setViewParams({
         part: item.part,
         length: item.length,
         map_key: item.map_key,
       });
-      setCurrentView('LibraryBook');
+      setCurrentView('librarybook');
     }
     // navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
   };
@@ -72,9 +98,10 @@ function Library() {
         >
           <View style={{flex: 1, justifyContent: 'center'}}>
             <Text style={styles.title}>{item.title}</Text>
-            <Progress.Bar progress={item.progress} width={null} color='#C65FCF' height={20} borderRadius={10} style={styles.progress} />
+            {console.log('', bookProgress[item.ind])}
+            <Progress.Bar progress={bookProgress[item.ind]} width={null} color='#C65FCF' height={20} borderRadius={10} style={styles.progress} />
             <Text style={styles.progressText}>
-              {item.completed ? 'Claimed Reward' : `${Math.round(item.progress * 100)}% complete`}
+              {bookProgress[item.ind] == 1 ? 'Claimed Reward' : `${Math.round(bookProgress[item.ind] * 100)}% complete`}
             </Text>
           </View>
           <Image source={item.image} style={styles.image} />
