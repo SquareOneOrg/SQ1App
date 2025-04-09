@@ -4,6 +4,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AppContext } from '../AppContext';
 import { doc, setDoc } from 'firebase/firestore';
 import { useUser } from '../context/UserContext';
+import { db } from '../firebase-config.js';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 
 
 function Questionnaire() {
@@ -14,22 +16,17 @@ function Questionnaire() {
     const questionLength = steppingStonesQuiz.length
 
     const recordTest = async(recordPre, score) => {
-        console.log('score', score)
-        const usersRef = collection(db, 'users');
-        const q = query(usersRef, where('username', '==', username));
-        const querySnapshot = await getDocs(q);
-        const userDoc = querySnapshot.docs[0];
-        const userRef = doc(db, 'users', userDoc.id);
-        // change this into a trycatch
-        if (recordPre) {
-            await updateDoc(userRef, {
-                [preTest]: score,
-            });
+        try {
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('username', '==', username));
+            const querySnapshot = await getDocs(q);
+            const userDoc = querySnapshot.docs[0];
+            const fieldToUpdate = recordPre ? { preTest: score } : { postTest: score };
+            await setDoc(doc(db, "users", userDoc.id), fieldToUpdate, { merge: true });
         }
-        else {
-            await updateDoc(userRef, {
-                [postTest]: score,
-            });
+        catch {
+            console.error("Firestore update error:", error);
+            Alert.alert("Error", "Something went wrong. Please try again later.");
         }
     }
     const fillAnswer = (questionIndex, index) => {
