@@ -9,7 +9,6 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 
 
 function Questionnaire() {
-    // set preTest or postTest in viewParams
     const { username } = useUser();
     const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
     const { questionIndex, part, length, map_key, testScore, takePreTest } = viewParams;
@@ -52,6 +51,9 @@ function Questionnaire() {
                 setCurrentView('librarybook');
             }
             else {
+                setViewParams({
+                    steppingStone: map_key =='step-',
+                });
                 setCurrentView('endpage');
             }
         }
@@ -64,7 +66,7 @@ function Questionnaire() {
                 length: length,
                 map_key: map_key,
               });
-            setCurrentView('Questionnaire');
+            setCurrentView('questionnaire');
         }
     }
     const goNext = () => {

@@ -37,7 +37,7 @@ import AccountWelcome from './components/AccountWelcome.js';
 import AccountAvatarChange from './components/AccountAvatarChange.js'
 import { AppProvider, AppContext } from './AppContext';
 import { UserProvider } from './context/UserContext.js';
-
+import QuestionPopup from './components/QuestionPopup.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -73,6 +73,7 @@ function MainContent() {
       {currentView === 'questionnaire' && <Questionnaire />}
       {currentView === 'resourcetransition' && <ResourceTransition />}
       {currentView === 'sleeplog' && <SleepLog />}
+      {currentView === 'questionpopup' && <QuestionPopup />}
       {/* <BotNavBar onNavChange={setCurrentView}/> */}
       
       <StatusBar style="auto" />
