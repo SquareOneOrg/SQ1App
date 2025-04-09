@@ -5,10 +5,10 @@ import { useUser } from '../context/UserContext';
 import { db } from '../firebase-config.js';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 
-
 function EndPage() {
     const { username } = useUser();
-    const { setCurrentView } = useContext(AppContext);
+    const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
+    const { steppingStone } = viewParams;
     const [viewTests, setViewTests] = useState(false);
     const [preTest, setPreTest] = useState(0);
     const [postTest, setPostTest] = useState(0);
@@ -56,12 +56,14 @@ function EndPage() {
                 >
                     <Text style={styles.navButtonText}>Navigate to Main Menu</Text>
                 </TouchableOpacity>
-                <TouchableOpacity 
+                    {steppingStone &&
+                    <TouchableOpacity 
                     onPress={() => viewScores()} 
                     style={styles.navButton}
                 >
                     <Text style={styles.navButtonText}>View your Pre Quiz and Post Quiz Scores</Text>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                    }
             </View>
         </View>
     )

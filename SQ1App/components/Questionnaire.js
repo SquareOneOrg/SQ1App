@@ -87,6 +87,9 @@ function Questionnaire() {
                 setCurrentView('librarybook');
             }
             else {
+                setViewParams({
+                    steppingStone: true,
+                  });
                 setCurrentView('endpage');
             }
         }
