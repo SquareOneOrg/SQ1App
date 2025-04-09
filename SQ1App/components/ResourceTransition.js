@@ -12,7 +12,6 @@ function ResourceTransition() {
             map_key: map_key,
           });
         setCurrentView('librarybook');
-        // return navigation.navigate( 'LibraryBook', {map_key: map_key, part: length - 1, length: length})
     }
     const goNext = () => {
         setViewParams({
@@ -20,12 +19,10 @@ function ResourceTransition() {
             part: length,
             length: length,
             map_key: map_key,
+            testScore: 0,
+            takePreTest: false,
           });
         setCurrentView('questionnaire');
-
-    //    return navigation.navigate( 'Questionnaire', {questionIndex: 0,
-    //     part: length,
-    //     length: length, map_key: map_key})
     }
     return(
         <View style={styles.container}>

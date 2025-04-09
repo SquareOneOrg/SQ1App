@@ -2,12 +2,60 @@ import React, {useContext} from 'react';
 import { steppingStonesQuiz } from './QuestionData.js';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AppContext } from '../AppContext';
+import { doc, setDoc } from 'firebase/firestore';
+import { useUser } from '../context/UserContext';
+import { db } from '../firebase-config.js';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 
 function Questionnaire() {
+    // set preTest or postTest in viewParams
+    const { username } = useUser();
     const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
-    const { questionIndex, part, length, map_key } = viewParams;
+    const { questionIndex, part, length, map_key, testScore, takePreTest } = viewParams;
     const questionLength = steppingStonesQuiz.length
+
+    const recordTest = async(recordPre, score) => {
+        try {
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('username', '==', username));
+            const querySnapshot = await getDocs(q);
+            const userDoc = querySnapshot.docs[0];
+            const fieldToUpdate = recordPre ? { preTest: score } : { postTest: score };
+            await setDoc(doc(db, "users", userDoc.id), fieldToUpdate, { merge: true });
+        }
+        catch {
+            console.error("Firestore update error:", error);
+            Alert.alert("Error", "Something went wrong. Please try again later.");
+        }
+    }
+    const fillAnswer = (questionIndex, index) => {
+        if (questionIndex + 1 < questionLength) {
+            setViewParams({
+                questionIndex: questionIndex + 1,
+                part: part,
+                length: length,
+                map_key: map_key,
+                testScore: index == steppingStonesQuiz[questionIndex].correctAnswer ? testScore + 1 : testScore,
+                takePreTest: takePreTest,
+                });
+            setCurrentView('questionnaire');
+        }
+        else {
+            recordTest(takePreTest, testScore);
+            if (takePreTest) {
+                setViewParams({
+                    part: part,
+                    length: length,
+                    map_key: map_key,
+                });
+                setCurrentView('librarybook');
+            }
+            else {
+                setCurrentView('endpage');
+            }
+        }
+    }
     const goPrevious = () => {
         if (questionIndex  - 1 > 0){
             setViewParams({
@@ -53,7 +101,7 @@ function Questionnaire() {
                 {steppingStonesQuiz[questionIndex].options.map((option, index) => (
                     <View key={index} style={styles.answerSpace}> 
                         <TouchableOpacity 
-                            onPress={() => goNext(index)} 
+                            onPress={() => fillAnswer(questionIndex, index)} 
                             style={styles.answerButton}
                         >
                             <Text style={styles.navButtonText}>{option}</Text>

@@ -43,6 +43,8 @@ function Library() {
         part: item.part,
         length: item.length,
         map_key: item.map_key,
+        testScore: 0,
+        takePreTest: true,
       });
       console.log('params set')
       setCurrentView('questionnaire');
