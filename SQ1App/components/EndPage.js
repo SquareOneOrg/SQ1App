@@ -42,10 +42,10 @@ function EndPage() {
                 {viewTests && 
                 <View style={styles.textContainer}>
                 <Text style={styles.testText}>
-                    Pre Comprehension Quiz: {preTest}
+                    Pre Comprehension Quiz: {preTest} / 24
                 </Text>
                 <Text style={styles.testText}>
-                    Post Comprehension Quiz: {postTest}
+                    Post Comprehension Quiz: {postTest} / 24
                 </Text>
                 </View>}
 
