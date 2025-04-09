@@ -1,12 +1,10 @@
 export const pageNumbers = new Set([
-    1, 6, 8, 9, 12, 13, 20, 22,
-    26, 27, 28, 29, 30, 31, 32, 33, 34
+    2, 6, 8, 12, 20, 22,
+    26, 27, 28, 29, 30,
   ]);
 
-export const popupQuestions =
-
-    {
-        1: [{
+export const popupQuestions = {
+        2: [{
         question: "What is hygiene?",
         options: [
             "The way you style your hair to look cool for school.",

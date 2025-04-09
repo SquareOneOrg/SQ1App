@@ -51,6 +51,9 @@ function Questionnaire() {
                 setCurrentView('librarybook');
             }
             else {
+                setViewParams({
+                    steppingStone: map_key =='step-',
+                });
                 setCurrentView('endpage');
             }
         }

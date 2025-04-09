@@ -1,15 +1,20 @@
 import React, {useState, useContext} from 'react';
 import { popupQuestions} from './PopupQuestions';
+import { AppContext } from '../AppContext';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 function QuestionPopup() {
     const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
     const { part, length, map_key, part_ind } = viewParams;
-    const [questionAns, setQuestionAns] = useState(popupQuestions[part][part_ind].incorrect);
+    const [questionAns, setQuestionAns] = useState("");
     const [filledOut, setFilledOut] = useState(false);
     const fillAnswer = (ans_index) => {
+        console.log(ans_index, part, part_ind)
         if (ans_index == popupQuestions[part][part_ind].ans) {
             setQuestionAns(popupQuestions[part][part_ind].correct);
+        }
+        else {
+            setQuestionAns(popupQuestions[part][part_ind].incorrect);
         }
         setFilledOut(true);
     }
@@ -18,6 +23,8 @@ function QuestionPopup() {
             setViewParams({
                 part: part,
                 part_ind: part_ind - 1,
+                length: length,
+                map_key: map_key,
               });
             setCurrentView('questionpopup');
         }
@@ -30,15 +37,21 @@ function QuestionPopup() {
             setCurrentView('librarybook');
         }
     }
+    console.log("question answer", questionAns)
     const goNext = () => {
+        console.log("length", popupQuestions[part].length)
         if (part_ind + 1 < popupQuestions[part].length) {
+            console.log("part and length", part, part_ind, length)
             setViewParams({
                 part: part,
                 part_ind: part_ind + 1,
+                length: length,
+                map_key: map_key,
               });
             setCurrentView('questionpopup');
         }
         else {
+            console.log("part and length", part + 1, length)
             if (part + 1 < length) {
                 setViewParams({
                     part: part + 1,
@@ -59,7 +72,7 @@ function QuestionPopup() {
     return(
     <View style={styles.container}>
         {filledOut &&
-        <View style={styles.questionContainer}>
+        <View style={styles.ansContainer}>
             <Text style={styles.questionText}>{questionAns}</Text>
         </View>
         }
@@ -80,16 +93,16 @@ function QuestionPopup() {
         </View>
         <View style={styles.buttonContainer}>
                 <TouchableOpacity 
-                    onPress={() => goPrevious(questionIndex)} 
+                    onPress={() => goPrevious()} 
                     style={styles.navButton}
                 >
                     <Text style={styles.navButtonText}>Previous</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
-                    onPress={() => goNext(questionIndex)} 
+                    onPress={() => goNext()} 
                     style={styles.navButton}
                 >
-                    <Text style={styles.navButtonText}>Skip</Text>
+                    <Text style={styles.navButtonText}>Next</Text>
                 </TouchableOpacity>
         </View>
     </View>
@@ -144,13 +157,21 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     answersContainer: {
-        width: '60%',
+        width: '80%',
         marginBottom: 20,
     },
     questionContainer: {
         padding: 10,
         borderWidth: 2,
         borderColor: '#000000',
+        borderStyle: 'solid',
+        borderRadius: 10,
+        backgroundColor: '#E0E0E0',
+    },
+    ansContainer: {
+        padding: 5,
+        borderWidth: 4,
+        borderColor: '#8B0000',
         borderStyle: 'solid',
         borderRadius: 10,
         backgroundColor: '#E0E0E0',

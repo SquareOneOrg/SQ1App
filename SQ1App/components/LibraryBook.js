@@ -6,7 +6,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { useUser } from '../context/UserContext';
 import { db } from '../firebase-config.js';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import {pageNumbers, popupQuestions} from './PopupQuestions';
+import {pageNumbers} from './PopupQuestions';
 
 
 function LibraryBook() {
@@ -18,34 +18,42 @@ function LibraryBook() {
     const [firstBook, setFirstBook] = useState(false);
     const result = (part / length).toFixed(2);
     // setFirstBook(map_key === 'step-');
-
-    useEffect(() => {
+      useEffect(() => {
         setFirstBook(map_key === 'step-');
-        if (firstBook && pageNumbers.has(part)) {
+      }, [map_key]); // runs when map_key changes
+      
+      useEffect(() => {
+        updateProgress(result);
+        findPopUp();
+      }, [result, map_key]);
+
+    const findPopUp = () => {
+        if (map_key === 'step-' && pageNumbers.has(part)) {
             setPopupQuestion(true);
         }
-        // updateProgress(result);
-      }, []);
+    }
+
+    console.log('popUpQuestion', popupQuestion)
 
     const updateProgress = async(progress) => {
-        console.log("progress", progress);
+        // console.log("progress", progress);
         try {
-            console.log('result', result)
+            // console.log('result', result)
             const usersRef = collection(db, 'users');
             const q = query(usersRef, where('username', '==', username));
             const querySnapshot = await getDocs(q);
             const userDoc = querySnapshot.docs[0];
             const fieldToUpdate = firstBook ? { steppingStonesProgress: progress } : { covidProgress: progress };
             await setDoc(doc(db, "users", userDoc.id), fieldToUpdate, { merge: true });
-            console.log('progress correctly updated')
+            // console.log('progress correctly updated')
         }
         catch {
             console.error("Firestore update error:", error);
             Alert.alert("Error", "Something went wrong. Please try again later.");
         }
     }
-    updateProgress(result);
-    console.log('part', pageNumbers.has(part))
+    // updateProgress(result);
+    // findPopUp();
     console.log('popup', popupQuestion)
 
     const goPrevious = () => {
@@ -82,7 +90,7 @@ function LibraryBook() {
                     length: length,
                     map_key: map_key,
                   });
-                setCurrentView('endpage');
+                setCurrentView('resourcetransition');
             }
         }
     }
