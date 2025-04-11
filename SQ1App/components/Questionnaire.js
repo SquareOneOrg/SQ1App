@@ -6,10 +6,12 @@ import { doc, setDoc } from 'firebase/firestore';
 import { useUser } from '../context/UserContext';
 import { db } from '../firebase-config.js';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { useGems } from './GemContext.js';
 
 
 function Questionnaire() {
     const { username } = useUser();
+    const { incrVal } = useGems();
     const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
     const { questionIndex, part, length, map_key, testScore, takePreTest } = viewParams;
     const questionLength = steppingStonesQuiz.length
@@ -30,6 +32,7 @@ function Questionnaire() {
     }
     const fillAnswer = (questionIndex, index) => {
         if (questionIndex + 1 < questionLength) {
+            // incrVal(1, 'fire', true);
             setViewParams({
                 questionIndex: questionIndex + 1,
                 part: part,
