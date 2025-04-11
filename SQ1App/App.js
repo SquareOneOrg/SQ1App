@@ -38,6 +38,7 @@ import AccountAvatarChange from './components/AccountAvatarChange.js'
 import { AppProvider, AppContext } from './AppContext';
 import { UserProvider } from './context/UserContext.js';
 import QuestionPopup from './components/QuestionPopup.js';
+import { GemProvider } from './components/GemContext.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -121,6 +122,7 @@ export default function App() {
   return (
     <AppProvider>
       <UserProvider>
+      <GemProvider>
       <NavigationContainer>
       <View style={{ flex: 1 }}>
       <TopNavBar /> 
@@ -135,6 +137,7 @@ export default function App() {
       </View>
       <StatusBar style="auto" />
     </NavigationContainer>
+    </GemProvider>
     </UserProvider>
     </AppProvider>
   );
