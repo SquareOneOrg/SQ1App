@@ -35,6 +35,11 @@ import AccountCreate from './components/AccountCreate.js';
 import AccountThanks from './components/AccountThanks.js';
 import AccountWelcome from './components/AccountWelcome.js';
 import AccountAvatarChange from './components/AccountAvatarChange.js'
+import Settings from './components/Settings.js';
+import ChangeUsername from './components/ChangeUsername.js';
+import { ChangePassword } from './components/ChangePassword.js';
+import PasswordConfirm from './components/PasswordConfim.js';
+import UsernameConfirm from './components/UsernameConfim.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,7 +47,7 @@ function MainContent({ currentView, setCurrentView }) {
   return (
     <UserProvider>
     <View style={styles.container}>
-      <TopNavBar />
+      <TopNavBar  onNavChange={setCurrentView}  />
       {currentView === 'home' && <Homepage />}
       {currentView === 'library' && <Library />}
       {currentView === 'activity' && <Activity onNavChange={setCurrentView} />}
@@ -61,7 +66,12 @@ function MainContent({ currentView, setCurrentView }) {
       {currentView === 'accountthanks' && <AccountThanks onNavChange = {setCurrentView} />}
       {currentView === 'accountwelcome' && <AccountWelcome onNavChange = {setCurrentView} />}
       {currentView === 'accountavatarchange' && <AccountAvatarChange onNavChange = {setCurrentView} />}
+      {currentView === 'settings' && (<Modal visible={true} onRequestClose={() => setCurrentView('home')} animationType="slide" presentationStyle="formSheet"> <Settings onNavChange={setCurrentView} /> </Modal>)}
+      {currentView == 'passwordconfirm' && <PasswordConfirm onNavChange = {setCurrentView} />}
+      {currentView == 'usernameconfirm' && <UsernameConfirm onNavChange = {setCurrentView} />}
       {currentView === 'sleeplog' && <SleepLog />}
+      {currentView === 'changeUsername' && <ChangeUsername onNavChange={setCurrentView}/>}
+      {currentView === 'changePassword' && <ChangePassword onNavChange={setCurrentView}/>}
       {currentView === 'exerciselog' && <ExerciseLog />}
       {currentView === 'nutritionlog' && <NutritionLog />}
       {currentView === 'calendar' && <Calendar /> }
@@ -75,11 +85,12 @@ function MainContent({ currentView, setCurrentView }) {
 }
 
 export default function App() {
+  
   const [currentView, setCurrentView] = useState('home');
   const [fontsLoaded] = useFonts({
     'Sniglet': require('./assets/fonts/Sniglet-Regular.ttf'),
   });
-
+  console.log('Current View:', currentView);
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
