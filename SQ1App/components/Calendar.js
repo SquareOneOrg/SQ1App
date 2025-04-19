@@ -1,176 +1,156 @@
 import React, { useState, useContext } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { AppContext } from '../AppContext';
 
-const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+const daysOfWeek = ['S','M','T','W','T','F','S'];
 const monthsOfYear = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'January','February','March','April','May','June',
+  'July','August','September','October','November','December'
 ];
 
-function Calendar({ onDateSelect }) {
-  const {setCurrentView} = useContext(AppContext);
+export default function Calendar({ onDateSelect }) {
+  const { setCurrentView } = useContext(AppContext);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
 
-  // For highlighting today's date if in same month/year
   const today = new Date();
-  const isCurrentMonth =
-    today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+  const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
   const todayDate = today.getDate();
 
   const previousMonth = () => {
     if (currentMonth === 0) {
       setCurrentMonth(11);
-      setCurrentYear((y) => y - 1);
+      setCurrentYear(y => y - 1);
     } else {
-      setCurrentMonth((m) => m - 1);
+      setCurrentMonth(m => m - 1);
     }
   };
 
   const nextMonth = () => {
     if (currentMonth === 11) {
       setCurrentMonth(0);
-      setCurrentYear((y) => y + 1);
+      setCurrentYear(y => y + 1);
     } else {
-      setCurrentMonth((m) => m + 1);
+      setCurrentMonth(m => m + 1);
     }
   };
 
   const renderDays = () => {
-    const dayCells = [];
-
-    // Empty slots for days before the 1st
+    const cells = [];
+  
+    // only prefix blanks to line up the 1st…
     for (let i = 0; i < firstDayOfMonth; i++) {
-      dayCells.push(<View key={`empty-${i}`} style={styles.dayCell} />);
+      cells.push(<View key={`empty-${i}`} style={styles.dayCell} />);
     }
-
-    // Actual days in this month
-    for (let day = 1; day <= daysInMonth; day++) {
-      const isToday = isCurrentMonth && day === todayDate;
-      const dateObj = new Date(currentYear, currentMonth, day);
-
-      dayCells.push(
+  
+    // …then your real days
+    for (let d = 1; d <= daysInMonth; d++) {
+      const isToday = isCurrentMonth && d === todayDate;
+      const dateObj = new Date(currentYear, currentMonth, d);
+      cells.push(
         <TouchableOpacity
-          key={day}
+          key={d}
           style={[styles.dayCell, isToday && styles.todayCell]}
           onPress={() => onDateSelect?.(dateObj)}
         >
           <Text style={[styles.dayText, isToday && styles.todayText]}>
-            {day}
+            {d}
           </Text>
         </TouchableOpacity>
       );
     }
-
-    return dayCells;
+  
+    // **NO trailing‑blank loop here**
+  
+    return cells;
   };
+  
 
   return (
-    <View style={styles.calendarContainer}>
-      {/* Header Row */}
+    <View style={styles.container}>
       <View style={styles.headerRow}>
-        <TouchableOpacity onPress={previousMonth}>
-          <Text style={styles.navText}>{'<'}</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.monthText}>
-          {monthsOfYear[currentMonth]} {currentYear}
-        </Text>
-
-        <TouchableOpacity onPress={nextMonth}>
-          <Text style={styles.navText}>{'>'}</Text>
-        </TouchableOpacity>
+        <TouchableOpacity onPress={previousMonth}><Text style={styles.navText}>‹</Text></TouchableOpacity>
+        <Text style={styles.monthText}>{monthsOfYear[currentMonth]} {currentYear}</Text>
+        <TouchableOpacity onPress={nextMonth}><Text style={styles.navText}>›</Text></TouchableOpacity>
       </View>
-
-      {/* Days of Week */}
       <View style={styles.weekRow}>
-        {daysOfWeek.map((day, idx) => (
-          <Text key={idx} style={styles.weekDay}>
-            {day}
-          </Text>
+        {daysOfWeek.map((day, i) => (
+          <View key={i} style={styles.weekCell}>
+            <Text style={styles.weekText}>{day}</Text>
+          </View>
         ))}
       </View>
-
-      {/* Calendar Grid */}
       <View style={styles.daysGrid}>{renderDays()}</View>
     </View>
   );
 }
 
-export default Calendar;
-
 const styles = StyleSheet.create({
-  // This wrapper can fill the parent’s width (assuming the parent container uses flex or full width)
-  calendarContainer: {
-    backgroundColor: '#A7BFE8', // The light bluish color you want
-    borderRadius: 0,            // remove corner rounding if you want it fully extended
-    paddingVertical: 20,
-    paddingHorizontal: 10,
+  container: {
+    width: '90%',
+    maxWidth: 350,
+    alignSelf: 'center',
+    backgroundColor: '#A7BFE8',
+    padding: 10,
     alignItems: 'center',
-
-    // Let the parent container control the width
-    // or use 'width: "100%"' if you want it to fill horizontally
-    width: '100%',    
+    borderWidth: 2,
+    borderColor: '#33363F',
+    borderRadius: 10,
   },
   headerRow: {
     flexDirection: 'row',
+    width: '100%',
     justifyContent: 'space-between',
-    width: '90%',
-    marginBottom: 12,
+    alignItems: 'center',
+    marginBottom: 8,
   },
   navText: {
-    fontSize: 20,
+    fontSize: 22,
+    fontFamily: 'Sniglet',
     color: '#333',
-    paddingHorizontal: 10,
-    fontFamily: 'Sniglet', // Use your custom font here
+    paddingHorizontal: 16,
   },
   monthText: {
     fontSize: 20,
+    fontFamily: 'Sniglet',
     fontWeight: '600',
     color: '#333',
-    fontFamily: 'Sniglet',
   },
   weekRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '90%',
-    marginBottom: 8,
+    width: '100%',
+    marginBottom: 4,
   },
-  weekDay: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    width: 30,
-    textAlign: 'center',
+  weekCell: {
+    width: `${100/7}%`,
+    alignItems: 'center',
+  },
+  weekText: {
+    fontSize: 22,
     fontFamily: 'Sniglet',
+    fontWeight: 'bold',
+    color: '#333',
   },
   daysGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
-    width: '90%',
+    width: '100%',
   },
   dayCell: {
-    width: 30,
-    height: 30,
-    margin: 4,
-    borderRadius: 15, // circle
-    backgroundColor: '#DADFEF',
+    width: `${100/7}%`,
+    aspectRatio: 1,
+    marginVertical: 2,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
   dayText: {
-    fontSize: 14,
-    color: '#333',
+    fontSize: 22,
     fontFamily: 'Sniglet',
+    color: '#333',
   },
   todayCell: {
     backgroundColor: '#fff',
@@ -179,7 +159,8 @@ const styles = StyleSheet.create({
   },
   todayText: {
     color: '#5C6EF8',
-    fontWeight: 'bold',
     fontFamily: 'Sniglet',
-  },
+    fontWeight: 'bold',
+    fontSize: 22,
+  }
 });

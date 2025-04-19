@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Modal, Image } from "react-na
 import { useState } from 'react';
 import WebsiteLink from '../components/WebsiteLink.js';
 import FormLink from '../components/FormLink.js';
-// Import your new SleepSummary component
+
 import SleepSummary from '../components/SleepSummary.js';
 
 function PersonalData(){
