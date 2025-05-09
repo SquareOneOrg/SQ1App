@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import Calendar from './Calendar'; // The same Calendar component you used before
 import { db } from '../firebase-config';
 import {
@@ -94,16 +94,22 @@ export default function ExerciseLog() {
   return (
     <View style={styles.container}>
       {/* Purple Header - match your design */}
-      <View style={styles.headerBar}>
-        <Text style={styles.headerText}>⚡ Exercise Log</Text>
-      </View>
-
+      <Text style={styles.title}>Exercise Log </Text>
       {/* Calendar */}
-      <Calendar onDateSelect={handleDateSelect} />
+      {!selectedDate &&(
+        <Calendar onDateSelect={handleDateSelect} />
+      )
+      }
 
       {/* Fields */}
       {selectedDate && currentEntry && (
         <ScrollView style={styles.formContainer}>
+          <TouchableOpacity 
+              onPress={() => {setSelectedDate(null)}} 
+              style={styles.answerButton}
+          >
+              <Text style={styles.navText}>Go Back To Calendar</Text>
+          </TouchableOpacity>
           <Text style={styles.dateText}>Date: {selectedDate}</Text>
 
           <Text style={styles.label}>Exercise Goal:</Text>
@@ -130,6 +136,12 @@ export default function ExerciseLog() {
             onChangeText={(val) => handleChange('typesOfExercise', val)}
             placeholder="e.g. Running, Yoga"
           />
+           <TouchableOpacity 
+              onPress={() => {setSelectedDate(null)}} 
+              style={styles.answerButton}
+          >
+              <Text style={styles.navButtonText}>Submit Goals</Text>
+          </TouchableOpacity>
         </ScrollView>
       )}
     </View>
@@ -141,18 +153,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#A3C9F7',
-    alignItems: 'center',
-    paddingTop: 70,
-  },
-  headerBar: {
-    backgroundColor: '#D08BFA',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#33363F',
-    marginBottom: 10,
-    flexDirection: 'row',
+    // alignItems: 'center',
+    paddingTop: 40,
   },
   headerText: {
     fontSize: 20,
@@ -160,13 +162,12 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   formContainer: {
-    width: '90%',
-    backgroundColor: '#D08BFA',
+    width: '100%', 
+    maxWidth: 500,
+    paddingHorizontal: 100,
+    // paddingVertical: 20,
+    backgroundColor: '#F0F5FF',
     borderRadius: 10,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: '#33363F',
-    marginTop: 10,
   },
   dateText: {
     fontSize: 16,
@@ -180,14 +181,39 @@ const styles = StyleSheet.create({
     fontFamily: 'Sniglet',
     color: '#000',
   },
-  inputBox: {
-    backgroundColor: '#F0F5FF',
-    borderWidth: 1,
-    borderColor: '#33363F',
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 12,
+  title: {
+    fontSize: 28,
+    marginBottom: 10,
+    // Use your custom font here
     fontFamily: 'Sniglet',
-    color: '#000',
+  },
+  inputBox: {
+    backgroundColor: '#FFF',
+    padding: 8,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#aaa',
+    borderRadius: 6,
+    fontFamily: 'Sniglet',
+  },
+  navText: {
+    fontSize: 16,
+    textAlign: 'left',
+    fontFamily: 'Sniglet',
+    padding: 4,
+  },
+  navButtonText: {
+    fontSize: 16,
+    textAlign: 'left',
+    fontFamily: 'Sniglet',
+    padding: 4,
+  },
+  answerButton: {
+    padding: 4,
+    borderColor: '#000000',
+    borderStyle: 'solid',
+    borderRadius: 10,
+    borderWidth: 2,
+    backgroundColor: '#4AB2F4',
   },
 });
