@@ -74,7 +74,10 @@ function AccountCreate() {
                 grade: selectedGrade,
                 createdAt: new Date().toISOString(),
                 email: email,
-                password: password
+                password: password,
+                fireNumber: 5,
+                gemNumber: 20,
+                heartNumber: 0,
             });
             
             // 3. Navigate to thank you page

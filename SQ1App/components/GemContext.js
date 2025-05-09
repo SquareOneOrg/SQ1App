@@ -10,13 +10,17 @@ export function GemProvider({ children }) {
   const [gems, setGems] = useState([0, 0, 0]);
 
   const refreshGems = async () => {
-    if (!username) return;
+    if (!username) {
+      // console.log('no username found')
+      return;
+    }
     try {
       const usersRef = collection(db, 'users');
       const q = query(usersRef, where('username', '==', username));
       const querySnapshot = await getDocs(q);
       const userDoc = querySnapshot.docs[0];
       const userData = userDoc.data();
+      // console.log('gems being set')
       setGems([
         Number(userData.fireNumber),
         Number(userData.heartNumber),

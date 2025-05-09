@@ -7,6 +7,7 @@ import { useUser } from '../context/UserContext';
 import { db } from '../firebase-config.js';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import {pageNumbers} from './PopupQuestions';
+import { useGems } from './GemContext.js';
 
 
 function LibraryBook() {
@@ -17,6 +18,7 @@ function LibraryBook() {
     const image = `${map_key}${part}`;
     const [firstBook, setFirstBook] = useState(false);
     const result = (part / length).toFixed(2);
+    const { incrVal } = useGems();
     // setFirstBook(map_key === 'step-');
       useEffect(() => {
         setFirstBook(map_key === 'step-');
@@ -85,7 +87,9 @@ function LibraryBook() {
                   });
                 setCurrentView('librarybook');
             }
+            // this means they have read to the end of the book
             else if (part + 1 == length + 1) {
+                incrVal(100, "gem", true)
                 setViewParams({
                     length: length,
                     map_key: map_key,

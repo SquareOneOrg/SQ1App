@@ -11,7 +11,10 @@ import { useGems } from './GemContext.js';
 function TopNavBar(){
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { username } = useUser();
-    const { gems } = useGems(); 
+    const { gems, refreshGems } = useGems(); 
+    useEffect( () => {
+        refreshGems();
+    }, [])
     
     return(
         <View style={styles.navBar}>

@@ -2,19 +2,23 @@ import React, {useState, useContext} from 'react';
 import { popupQuestions} from './PopupQuestions';
 import { AppContext } from '../AppContext';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useGems } from './GemContext.js';
 
 function QuestionPopup() {
     const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
     const { part, length, map_key, part_ind } = viewParams;
     const [questionAns, setQuestionAns] = useState("");
     const [filledOut, setFilledOut] = useState(false);
+    const { incrVal } = useGems();
     const fillAnswer = (ans_index) => {
         console.log(ans_index, part, part_ind)
         if (ans_index == popupQuestions[part][part_ind].ans) {
             setQuestionAns(popupQuestions[part][part_ind].correct);
+
         }
         else {
             setQuestionAns(popupQuestions[part][part_ind].incorrect);
+            incrVal(1, "fire", false)
         }
         setFilledOut(true);
     }
