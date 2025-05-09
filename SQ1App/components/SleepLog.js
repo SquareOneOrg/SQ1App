@@ -1,6 +1,6 @@
 // SleepLog.js
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import Calendar from './Calendar'; 
 import { db } from '../firebase-config';
 import {
@@ -14,6 +14,7 @@ export default function SleepLog() {
   // logs[dateString] = { id, date, sleepGoal, hoursSleep, deviceTime }
   const [logs, setLogs] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
+
 
   // Load all Firestore logs once on mount
   useEffect(() => {
@@ -90,14 +91,24 @@ export default function SleepLog() {
 
   // If user has selected a date, show the form
   const currentEntry = selectedDate ? logs[selectedDate] : null;
+  
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sleep Log </Text>
-      <Calendar onDateSelect={handleDateSelect} />
-
+      {!selectedDate &&(
+        <Calendar onDateSelect={handleDateSelect} />
+      )
+      }
       {selectedDate && currentEntry && (
-        <ScrollView style={styles.formContainer}>
+        <View style={{ flex: 1, width: '100%' }}>
+          <ScrollView contentContainerStyle={styles.formContainer}>
+          <TouchableOpacity 
+              onPress={() => {setSelectedDate(null)}} 
+              style={styles.answerButton}
+          >
+              <Text style={styles.navText}>Go Back To Calendar</Text>
+          </TouchableOpacity>
           <Text style={styles.dateText}>Date: {selectedDate}</Text>
 
           <Text style={styles.label}>Sleep Goal:</Text>
@@ -127,7 +138,14 @@ export default function SleepLog() {
             placeholder="e.g. 1 hour"
             placeholderTextColor="#999"
           />
+           <TouchableOpacity 
+              onPress={() => {setSelectedDate(null)}} 
+              style={styles.answerButton}
+          >
+              <Text style={styles.navButtonText}>Submit Goals</Text>
+          </TouchableOpacity>
         </ScrollView>
+        </View>
       )}
     </View>
   );
@@ -138,8 +156,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#B3D6FC',
-    alignItems: 'center',
-    paddingTop: 60,
+    // alignItems: 'center',
+    paddingTop: 0,
   },
   title: {
     fontSize: 28,
@@ -148,9 +166,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Sniglet',
   },
   formContainer: {
-    width: '90%',
-    marginTop: 15,
-    padding: 10,
+    width: '100%', 
+    maxWidth: 500,
+    paddingHorizontal: 100,
+    // paddingVertical: 20,
     backgroundColor: '#F0F5FF',
     borderRadius: 10,
   },
@@ -163,6 +182,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: '600',
+    fontSize: 16,
     marginVertical: 4,
     color: '#333',
     fontFamily: 'Sniglet',
@@ -176,4 +196,25 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     fontFamily: 'Sniglet',
   },
+  navText: {
+    fontSize: 16,
+    textAlign: 'left',
+    fontFamily: 'Sniglet',
+    padding: 4,
+  },
+  navButtonText: {
+    fontSize: 16,
+    textAlign: 'left',
+    fontFamily: 'Sniglet',
+    padding: 4,
+},
+answerButton: {
+  padding: 4,
+  borderColor: '#000000',
+  borderStyle: 'solid',
+  borderRadius: 10,
+  borderWidth: 2,
+  backgroundColor: '#4AB2F4',
+  
+},
 });
