@@ -1,9 +1,13 @@
 import React, {useContext} from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'; 
 import { StyleSheet, View, TouchableOpacity, Image, Text } from 'react-native';
 import { AppContext } from '../AppContext';
+import TutorialOverlay from './TutorialOverlay'
+import { useTutorial } from './TutorialContext';
 
 function Activity() {
+    const { tutorialStep, setShowTutorial,setTutorialStep } = useTutorial();
+    
     const {setCurrentView} = useContext(AppContext);
     function moveToSleepLog(){
         setCurrentView('sleeplog')
@@ -16,6 +20,7 @@ function Activity() {
     function moveToNutritionLog() {
         setCurrentView('nutritionlog')
     }
+
 
     return (
         <View style={styles.container}>
@@ -36,6 +41,7 @@ function Activity() {
                     <Image source={require('../assets/nutrition_log.png')} style={styles.image} />
                 </TouchableOpacity>
             </View>
+            {tutorialStep === 2 && <TutorialOverlay />}
         </View>
     );
 };

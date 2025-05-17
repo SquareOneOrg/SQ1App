@@ -39,6 +39,7 @@ import { AppProvider, AppContext } from './AppContext';
 import { UserProvider } from './context/UserContext.js';
 import QuestionPopup from './components/QuestionPopup.js';
 import { GemProvider } from './components/GemContext.js';
+import { TutorialProvider } from './components/TutorialContext.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -76,6 +77,7 @@ function MainContent() {
       {currentView === 'sleeplog' && <SleepLog />}
       {currentView === 'questionpopup' && <QuestionPopup />}
       {/* <BotNavBar onNavChange={setCurrentView}/> */}
+ 
       
       <StatusBar style="auto" />
     </View>
@@ -105,7 +107,7 @@ function MainScreen() {
 
 export default function App() {
   const [currentView, setCurrentView] = useState('home');
-  const [fontsLoaded] = useFonts({
+   const [fontsLoaded] = useFonts({
     'Sniglet': require('./assets/fonts/Sniglet-Regular.ttf'),
   });
 
@@ -123,6 +125,7 @@ export default function App() {
     <AppProvider>
       <UserProvider>
       <GemProvider>
+      <TutorialProvider>
       <NavigationContainer>
       <View style={{ flex: 1 }}>
       <TopNavBar /> 
@@ -137,6 +140,7 @@ export default function App() {
       </View>
       <StatusBar style="auto" />
     </NavigationContainer>
+    </TutorialProvider>
     </GemProvider>
     </UserProvider>
     </AppProvider>

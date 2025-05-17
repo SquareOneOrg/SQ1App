@@ -3,8 +3,14 @@ import { useState, useContext } from 'react';
 import WebsiteLink from '../components/WebsiteLink.js';
 import FormLink from '../components/FormLink.js';
 import { AppContext } from "../AppContext.js";
+import TutorialOverlay from './TutorialOverlay'
+import { useTutorial } from './TutorialContext';
+
+
 
 function LinkCenter(){
+    const {  tutorialStep, setShowTutorial, setTutorialStep } = useTutorial();
+
     const {setCurrentView} = useContext(AppContext);
     function moveToExtraResources(){
         setCurrentView('extraresources')
@@ -47,6 +53,8 @@ function LinkCenter(){
                     FAQs
                 </Text>
             </TouchableOpacity>
+
+            {tutorialStep === 3 && <TutorialOverlay />}
         </View>
     );
 };
