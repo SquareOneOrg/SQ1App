@@ -40,6 +40,10 @@ import ChangeUsername from './components/ChangeUsername.js';
 import { ChangePassword } from './components/ChangePassword.js';
 import PasswordConfirm from './components/PasswordConfim.js';
 import UsernameConfirm from './components/UsernameConfim.js';
+import AppFeatures from './components/AppFeatures.js';
+import ContactUs from './components/ContactUs.js';
+import HelpPage from './components/HelpPage.js';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -71,11 +75,17 @@ function MainContent({ currentView, setCurrentView }) {
       {currentView == 'usernameconfirm' && <UsernameConfirm onNavChange = {setCurrentView} />}
       {currentView === 'sleeplog' && <SleepLog />}
       {currentView === 'changeUsername' && <ChangeUsername onNavChange={setCurrentView}/>}
+      {currentView === 'helppage' && <HelpPage onNavChange={setCurrentView}/>}
       {currentView === 'changePassword' && <ChangePassword onNavChange={setCurrentView}/>}
       {currentView === 'exerciselog' && <ExerciseLog />}
       {currentView === 'nutritionlog' && <NutritionLog />}
       {currentView === 'calendar' && <Calendar /> }
       {currentView === 'personalData' && <PersonalData /> }
+      {currentView === 'appfeatures' && <AppFeatures /> }
+      {currentView === 'contactus' && <ContactUs /> }
+
+
+    
       <BotNavBar onNavChange={setCurrentView}/>
       
       <StatusBar style="auto" />

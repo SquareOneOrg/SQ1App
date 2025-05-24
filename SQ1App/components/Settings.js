@@ -23,11 +23,31 @@ function Settings({onNavChange, setIsModalVisible}) {
             onNavChange('changePassword'); 
         }
     }
+
+    function openHelpPage(){
+        if (typeof setIsModalVisible === 'function') {
+            setIsModalVisible(false); 
+        }
+        if (typeof onNavChange === 'function') {
+            onNavChange('helppage'); 
+        }
+    }
+
+    function openHealthFacts(){
+        if (typeof setIsModalVisible == 'function'){
+            setIsModalVisible(false);
+        }
+        if (typeof onNavChange === 'function') {
+            onNavChange('helppage'); 
+        }
+    }
+
     function handleClose() {
         if (typeof setIsModalVisible === 'function') {
             setIsModalVisible(false);
         }
     }
+    
     
     return (
         
@@ -77,7 +97,7 @@ function Settings({onNavChange, setIsModalVisible}) {
                     <TouchableOpacity style={styles.buttons}>
                         <Text style={styles.buttonTitles}>Daily reminder time</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttons}>
+                    <TouchableOpacity style={styles.buttons} onPress={openHealthFacts}>
                         <Text style={styles.buttonTitles}>Health fact of the day</Text>
                     </TouchableOpacity>
                 </View>
@@ -92,7 +112,7 @@ function Settings({onNavChange, setIsModalVisible}) {
                     <TouchableOpacity style={styles.buttons}>
                         <Text style={styles.buttonTitles}>Privacy policy</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttons}>
+                    <TouchableOpacity style={styles.buttons} onPress={openHelpPage}>
                         <Text style={styles.buttonTitles}>Help</Text>
                     </TouchableOpacity>
                 </View>
