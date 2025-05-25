@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { Svg, Path } from "react-native-svg";
-import Settings from '../components/Settings.js'
+import Settings from '../components/Settings.js';
+import { useUser } from '../context/UserContext';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase-config.js';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { useGems } from './GemContext.js';
 
 function TopNavBar({ onNavChange }){
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const { username } = useUser();
+    const { gems, refreshGems } = useGems(); 
+    useEffect( () => {
+        refreshGems();
+    }, [])
     
     return(
         <View style={styles.navBar}>
@@ -25,7 +35,7 @@ function TopNavBar({ onNavChange }){
                 </Svg>
                 <Text style={styles.scores}>
                     {/*placeholder streak amount*/}
-                    6
+                    {gems[0]}
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconButtons}>
@@ -39,7 +49,7 @@ function TopNavBar({ onNavChange }){
                 </Svg>
                 <Text style={styles.scores}>
                     {/*placeholder heart amount*/}
-                    3
+                    {gems[1]}
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconButtons}>
@@ -57,7 +67,7 @@ function TopNavBar({ onNavChange }){
                 </Svg>
                 <Text style={styles.scores}>
                     {/*placeholder gem amount*/}
-                    425
+                    {gems[2]}
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconButtons} onPress={()=>setIsModalVisible(true)}>

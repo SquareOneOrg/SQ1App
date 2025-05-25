@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.png';
+import { AppContext } from '../AppContext';
 
-function AccountLoginForgot({ onNavChange }){
+function AccountLoginForgot(){
+    const {setCurrentView} = useContext(AppContext);
     function moveToAccountForgotUsername(){
-        onNavChange('accountforgotusername')
+        setCurrentView('accountforgotusername')
     };
     function moveToAccountForgotPassword(){
-        onNavChange('accountforgotpassword')
+        setCurrentView('accountforgotpassword')
     };
 
     return(

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
-import puzzle from '../assets/puzzlepiece.png'
+import puzzle from '../assets/puzzlepiece.png';
+import { AppContext } from '../AppContext';
 
-function AccountParent({ onNavChange }){
+function AccountParent(){
+  const {setCurrentView} = useContext(AppContext);
     function moveToAccountParentEmail(){
-        onNavChange('accountparentemail')
+        setCurrentView('accountparentemail')
     };
     return(
         <View style={styles.container}>

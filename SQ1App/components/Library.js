@@ -1,48 +1,90 @@
-import React, {useState} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
+import { AppContext } from '../AppContext';
+import { useUser } from '../context/UserContext';
+import { db } from '../firebase-config.js';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const images = {
-  'Final Stepping Stones Cover': require('../books/stepping-stones/Final Stepping Stones Digital-part-1.jpg'),
-  'Covid Curriculum Cover': require('../books/covid-resources/Covid Curriculum, For Kindle-1.jpg'),
+  'Final Stepping Stones Cover': require('../assets/books/stepping-stones/Final Stepping Stones Digital-part-1.jpg'),
+  'Covid Curriculum Cover': require('../assets/books/covid-resources/Covid Curriculum, For Kindle-1.jpg'),
 };
 
-const Library = () => {
-  const navigation = useNavigation();
+function Library() {
+  const {username} = useUser();
+  const { setCurrentView, setViewParams } = useContext(AppContext);
+  const [bookProgress, setBookProgress] = useState([0, 0]);
+  const updateProgress = async() => {
+    try {
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef, where('username', '==', username));
+        const querySnapshot = await getDocs(q);
+        const userDoc = querySnapshot.docs[0];
+        const userData = userDoc.data();
+        setBookProgress([
+          Number(userData.steppingStonesProgress),
+          Number(userData.covidProgress),
+        ]);
+    } catch(error) {
+        console.error("Firestore update error:", error);
+        Alert.alert("Error", "Something went wrong. Please try again later.");
+    }
+  }
+  useEffect(() => {
+    updateProgress();
+    console.log(bookProgress);
+  }, []);
+
   const items = [
     {
+      ind: 0,
       title: 'Stepping\nStones',
-      jpg_title_path: './books/stepping-stones/Final Stepping Stones Digital-part-',
-      progress: 0.1,
+      map_key: 'step-',
       completed: false,
       part: 1,
       length: 44,
       image: images['Final Stepping Stones Cover'],
     },
     {
-      title: 'Mind\nMatters',
-      progress: 0.3,
-      completed: false,
-      part: 1,
-      image: require('../assets/book2.jpg'),
-    },
-    {
+      ind: 1,
       title: 'Beating\nCOVID-19',
-      jpg_title_path: './books/covid-resources/Covid Curriculum, For Kindle-',
-      progress: 1,
-      completed: true,
+      completed: false,
+      map_key: 'covid-',
       length: 16,
       part: 1,
       image: images['Covid Curriculum Cover'],
     },
   ];
   const [selectedImage, setSelectedImage] = useState(null);
-
+  console.log("bookProgress", bookProgress)
 
   const handlePress = (item) => {
-    navigation.navigate( 'Questionnaire', {questionIndex: 0, title: item.jpg_title_path, part: item.part, length: item.length})
-    // navigation.navigate('LibraryBook', { title: item.jpg_title_path, part: item.part, length: item.length});
+    if (item.title == 'Stepping\nStones') {
+      console.log('passed')
+      setViewParams({
+        questionIndex: 0,
+        part: item.part,
+        length: item.length,
+        map_key: item.map_key,
+        testScore: 0,
+        takePreTest: true,
+      });
+      console.log('params set')
+      setCurrentView('questionnaire');
+      // navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
+    }
+    else {
+      console.log('passed')
+      setViewParams({
+        part: item.part,
+        length: item.length,
+        map_key: item.map_key,
+      });
+      setCurrentView('librarybook');
+    }
+    // navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
   };
 
   return (
@@ -56,9 +98,10 @@ const Library = () => {
         >
           <View style={{flex: 1, justifyContent: 'center'}}>
             <Text style={styles.title}>{item.title}</Text>
-            <Progress.Bar progress={item.progress} width={null} color='#C65FCF' height={20} borderRadius={10} style={styles.progress} />
+            {console.log('', bookProgress[item.ind])}
+            <Progress.Bar progress={bookProgress[item.ind]} width={null} color='#C65FCF' height={20} borderRadius={10} style={styles.progress} />
             <Text style={styles.progressText}>
-              {item.completed ? 'Claimed Reward' : `${Math.round(item.progress * 100)}% complete`}
+              {bookProgress[item.ind] == 1 ? 'Claimed Reward' : `${Math.round(bookProgress[item.ind] * 100)}% complete`}
             </Text>
           </View>
           <Image source={item.image} style={styles.image} />

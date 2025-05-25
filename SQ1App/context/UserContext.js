@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const loadUserData = async () => {
       try {
+        
         const savedUsername = await AsyncStorage.getItem('username');
         if (savedUsername) {
           setUsername(savedUsername);
@@ -22,6 +23,8 @@ export const UserProvider = ({ children }) => {
           const usersRef = collection(db, "users");
           const q = query(usersRef, where("username", "==", savedUsername));
           const querySnapshot = await getDocs(q);
+          console.log("users")
+          console.log(usersRef)
           
           if (!querySnapshot.empty) {
             querySnapshot.forEach((doc) => {
@@ -42,6 +45,8 @@ export const UserProvider = ({ children }) => {
 
   // Function to handle login
   const login = async (userData) => {
+    console.log("ENTERED")
+    console.log(userData);
     try {
       setUsername(userData.username);
       setSelectedAvatar(userData.avatarId || 1);

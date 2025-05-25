@@ -1,90 +1,120 @@
 // PersonalData.js
-import { StyleSheet, View, Text, TouchableOpacity, Modal, Image } from "react-native";
-import { useState } from 'react';
-import WebsiteLink from '../components/WebsiteLink.js';
-import FormLink from '../components/FormLink.js';
-// Import your new SleepSummary component
-import SleepSummary from '../components/SleepSummary.js';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  Image
+} from 'react-native';
 
-function PersonalData(){
-    const [isWebModalVisible, setIsWebModalVisible] = useState(false);
-    const [isFormModalVisible, setIsFormModalVisible] = useState(false);
-    const [isSleepModalVisible, setIsSleepModalVisible] = useState(false);
+import NutritionSummary from '../components/NutritionSummary';
+import ExerciseSummary  from '../components/ExerciseSummary';
+import SleepSummary     from '../components/SleepSummary';
 
-    return(
-        <View style={styles.container}>
-            <View style={styles.titleSection}>
-                <Text style={styles.title}>Personal Data</Text>
-            </View>
-            
-            {/* Nutrition (like existing) */}
-            <TouchableOpacity style={styles.links} onPress={()=>setIsFormModalVisible(true)}>
-                <Image source={require('../assets/nutrition.png')} style={styles.image} />
-                <Text style={styles.linkTitles}>Nutrition</Text>
-            </TouchableOpacity>
-            <Modal visible={isFormModalVisible} animationType="slide" presentationStyle="formSheet">
-                <FormLink setIsFormModalVisible={setIsFormModalVisible}/>
-            </Modal>
+export default function PersonalData() {
+  const [isNutritionVisible, setNutritionVisible] = useState(false);
+  const [isExerciseVisible,  setExerciseVisible]  = useState(false);
+  const [isSleepVisible,     setSleepVisible]     = useState(false);
 
-            {/* Exercise (currently no modal) */}
-            <TouchableOpacity style={styles.links} onPress={() => {/* Navigate or show modal? */}}>
-                <Image source={require('../assets/exercise.png')} style={styles.exercise} />
-                <Text style={styles.linkTitles}>Exercise</Text>
-            </TouchableOpacity>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Personal Data</Text>
 
-            {/* Sleep (replace WebsiteLink with SleepSummary modal) */}
-            <TouchableOpacity style={styles.links} onPress={()=>setIsSleepModalVisible(true)}>
-                <Image source={require('../assets/sleep.png')} style={styles.image} />
-                <Text style={styles.linkTitles}>Sleep</Text>
-            </TouchableOpacity>
-            <Modal visible={isSleepModalVisible} animationType="slide" presentationStyle="formSheet">
-                <SleepSummary onClose={() => setIsSleepModalVisible(false)} />
-            </Modal>
-        </View>
-    );
-};
+      {/* Nutrition */}
+      <TouchableOpacity
+        style={styles.links}
+        onPress={() => setNutritionVisible(true)}
+      >
+        <Image
+          source={require('../assets/nutrition.png')}
+          style={styles.image}
+        />
+        <Text style={styles.linkTitles}>Nutrition</Text>
+      </TouchableOpacity>
+      <Modal
+        visible={isNutritionVisible}
+        animationType="slide"
+        presentationStyle="formSheet"
+      >
+        <NutritionSummary onClose={() => setNutritionVisible(false)} />
+      </Modal>
 
-export default PersonalData
+      {/* Exercise */}
+      <TouchableOpacity
+        style={styles.links}
+        onPress={() => setExerciseVisible(true)}
+      >
+        <Image
+          source={require('../assets/exercise.png')}
+          style={styles.exercise}
+        />
+        <Text style={styles.linkTitles}>Exercise</Text>
+      </TouchableOpacity>
+      <Modal
+        visible={isExerciseVisible}
+        animationType="slide"
+        presentationStyle="formSheet"
+      >
+        <ExerciseSummary onClose={() => setExerciseVisible(false)} />
+      </Modal>
 
-
-
+      {/* Sleep */}
+      <TouchableOpacity
+        style={styles.links}
+        onPress={() => setSleepVisible(true)}
+      >
+        <Image
+          source={require('../assets/sleep.png')}
+          style={styles.image}
+        />
+        <Text style={styles.linkTitles}>Sleep</Text>
+      </TouchableOpacity>
+      <Modal
+        visible={isSleepVisible}
+        animationType="slide"
+        presentationStyle="formSheet"
+      >
+        <SleepSummary onClose={() => setSleepVisible(false)} />
+      </Modal>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    title: {
-        fontSize: 45,
-        textAlign: "center",
-        marginBottom: 40,
-        fontFamily: 'Sniglet',
-    },
-    links: {
-        borderWidth: 2,
-        borderColor: '#33363F',
-        margin: 20,
-        paddingVertical: 25,
-        paddingHorizontal: 40,
-        borderRadius: 30,
-        backgroundColor: '#D9D9D9',
-        alignItems: 'center',
-        flexDirection: 'row', 
-        justifyContent: 'center',
-    },
-    linkTitles: {
-        fontSize: 30,
-        textAlign: "center",
-        fontFamily: 'Sniglet',
-    },
-    image: {
-        marginRight: 20,
-    },
-    exercise: {
-        marginRight: 0,
-        marginLeft: 0,
-        marginTop: -10,
-    },
-    
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 45,
+    textAlign: 'center',
+    marginBottom: 40,
+    fontFamily: 'Sniglet',
+  },
+  links: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20,
+    paddingVertical: 25,
+    paddingHorizontal: 40,
+    backgroundColor: '#D9D9D9',
+    borderWidth: 2,
+    borderColor: '#33363F',
+    borderRadius: 30,
+  },
+  linkTitles: {
+    fontSize: 30,
+    fontFamily: 'Sniglet',
+  },
+  image: {
+    marginRight: 20,
+  },
+  exercise: {
+    marginRight: 0,
+    marginLeft: 0,
+    marginTop: -10,
+  },
 });
-

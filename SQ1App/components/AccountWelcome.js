@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
 import { useUser } from '../context/UserContext'; 
 import { doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../firebase-config.js';
+import { AppContext } from '../AppContext';
 
-function AccountWelcome({ onNavChange }){
+function AccountWelcome(){
+    const {setCurrentView} = useContext(AppContext);
     const { username, selectedAvatar, logout, updateAvatar } = useUser();
     const [currentAvatar, setCurrentAvatar] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -43,12 +45,12 @@ function AccountWelcome({ onNavChange }){
     }, []);
     
     function moveToAccountAvatarChange(){
-        onNavChange('accountavatarchange')
+        setCurrentView('accountavatarchange')
     };
     
     async function handleLogout() {
         await logout();
-        onNavChange('account');
+        setCurrentView('account');
     }
     
     const avatars = [

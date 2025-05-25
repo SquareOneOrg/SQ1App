@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../firebase-config.js'; // Make sure this path is correct
 import { useNavigation } from '@react-navigation/native';
+import { AppContext } from '../AppContext';
 
-function AccountAvatarChange({ onNavChange }) {
+function AccountAvatarChange() {
+  const {setCurrentView} = useContext(AppContext);
     function moveToAccountWelcome(){
-      onNavChange('accountwelcome')
+      setCurrentView('accountwelcome')
     };
     const [username, onChangeUsername] = React.useState('');
     const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);

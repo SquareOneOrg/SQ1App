@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Modal, ScrollView, Alert } from 'react-native';
 import { useUser } from '../context/UserContext'; // Import the context we created earlier
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase-config.js'; // Assuming you have a firebase config file
+import { AppContext } from '../AppContext';
 
-function AccountCreate({ onNavChange }) {
+function AccountCreate() {
+    const {setCurrentView} = useContext(AppContext);
     // Get the username and avatar from context
     const { username, selectedAvatar } = useUser();
     
@@ -72,11 +74,14 @@ function AccountCreate({ onNavChange }) {
                 grade: selectedGrade,
                 createdAt: new Date().toISOString(),
                 email: email,
-                password: password
+                password: password,
+                fireNumber: 5,
+                gemNumber: 20,
+                heartNumber: 0,
             });
             
             // 3. Navigate to thank you page
-            onNavChange('accountthanks');
+            setCurrentView('accountthanks');
         } catch (error) {
             let errorMessage = "Failed to create account";
             

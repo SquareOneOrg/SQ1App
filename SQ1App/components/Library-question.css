@@ -1,0 +1,79 @@
+.container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    background-color: lightblue;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  .header {
+    margin-top: 20px;
+    font-size: 40px;
+    margin-bottom: 20px;
+    background-color: darkblue;
+    font-family: 'Sniglet', cursive;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 200px;
+    justify-content: space-between;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .navButton {
+    font-size: 16px;
+    gap: 200px;
+    color: #000;
+    font-family: 'Sniglet', cursive;
+    background: none;
+    border: solid, black;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+
+  .navButton:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .answerSpace {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .answersContainer {
+    width: 60%;
+    margin-bottom: 20px;
+  }
+
+  .questionContainer {
+    font-size: 60px;
+    font-weight: bold;
+    font-family: 'Sniglet', cursive;
+    margin-bottom: 10px;
+  }
+
+  .textArea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }

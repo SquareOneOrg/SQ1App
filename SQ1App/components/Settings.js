@@ -42,6 +42,24 @@ function Settings({onNavChange, setIsModalVisible}) {
         }
     }
 
+    function openReminders() {
+        if (typeof setIsModalVisible === 'function') {
+            setIsModalVisible(false);
+        }
+        if (typeof onNavChange === 'function') {
+            onNavChange('reminders');
+        }
+    }
+
+    function openHealthFactSettings() {
+        if (typeof setIsModalVisible === 'function') {
+            setIsModalVisible(false);
+        }
+        if (typeof onNavChange === 'function') {
+            onNavChange('healthfactsettings');
+        }
+    }
+
     function handleClose() {
         if (typeof setIsModalVisible === 'function') {
             setIsModalVisible(false);
@@ -91,14 +109,14 @@ function Settings({onNavChange, setIsModalVisible}) {
                     <View style={styles.subtitlesContainer}>
                         <Text style={styles.subtitles}>Notifications</Text>
                     </View>
-                    <TouchableOpacity style={styles.buttons}>
+                    <TouchableOpacity style={styles.buttons} onPress={openReminders}>
                         <Text style={styles.buttonTitles}>Reminders</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttons}>
                         <Text style={styles.buttonTitles}>Daily reminder time</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttons} onPress={openHealthFacts}>
-                        <Text style={styles.buttonTitles}>Health fact of the day</Text>
+                    <TouchableOpacity style={styles.buttons} onPress={openHealthFactSettings}>
+                        <Text style={styles.buttonTitles}>Health Fact of the Week</Text>
                     </TouchableOpacity>
                 </View>
 
