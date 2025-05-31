@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import { useTutorial } from './TutorialContext';
 import { AppContext } from '../AppContext';
 import { useContext } from 'react';
+
 
 
 export default function TutorialOverlay(){
@@ -44,6 +45,7 @@ export default function TutorialOverlay(){
 
     const handleNext = () => {
         if (isLastStep) {
+          setTutorialStep(0);//done
           setShowTutorial(false);
         } else {
           const next = tutorialStep + 1;
@@ -52,13 +54,16 @@ export default function TutorialOverlay(){
         }
     };
 
+    const dismissTutorial = () => {
+        setTutorialStep(0);
+        setShowTutorial(false);
+    }
+
     return (
-        <View style = {styles.overlay}>
-            <View style = {[
-                styles.parentcontainer,
-                tutorialStep >= 6 && { justifyContent : 'flex-start'},
-                ]}>
-                <View style = {styles.tutorialcontainer} >
+        <Pressable style = {styles.overlay} onPress={dismissTutorial}>
+            <View 
+                style = {[ styles.parentcontainer, tutorialStep >= 6 && { justifyContent : 'flex-start'},]}>
+                <Pressable onPress={() => {}} style = {styles.tutorialcontainer} >
                 <Text style = {styles.text}>{current.title}</Text>
                 <Text style = {styles.subtext}>{current.description}</Text>
 
@@ -76,9 +81,37 @@ export default function TutorialOverlay(){
 
                 </View>
 
-                </View>
+                </Pressable>
             </View>
-        </View>
+        </Pressable>
+
+
+// <View style = {styles.overlay}>
+// <View style = {[
+//     styles.parentcontainer,
+//     tutorialStep >= 6 && { justifyContent : 'flex-start'},
+//     ]}>
+//     <View style = {styles.tutorialcontainer} >
+//     <Text style = {styles.text}>{current.title}</Text>
+//     <Text style = {styles.subtext}>{current.description}</Text>
+
+//     <View style={styles.buttonRow}>
+
+//     {!isFirstStep && (<TouchableOpacity onPress={handlePrev} style = {styles.button}>
+//         <Text style = {styles.buttontext}>Back</Text>
+//     </TouchableOpacity>)}
+
+//     <TouchableOpacity onPress={handleNext} style = {styles.button}>
+//         <Text style = {styles.buttontext}>
+//             {isLastStep ? 'Done!' : 'Next'}
+//         </Text>
+//     </TouchableOpacity>
+
+//     </View>
+
+//     </View>
+// </View>
+// </View>
     );
 };
 
@@ -92,7 +125,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.6)', 
+        backgroundColor: 'rgba(0,0,0,0.4)', 
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 1000,
