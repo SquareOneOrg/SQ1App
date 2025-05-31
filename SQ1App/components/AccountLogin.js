@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
-import { auth, db } from '../firebase-config.js'; // Ensure you import your Firebase setup
+import { auth, db } from '../firebase-config.js';
 import logo from '../assets/logo.png';
-import { useUser } from '../context/UserContext'; // Import the useUser hook
+import { useUser } from '../context/UserContext';
 import { AppContext } from '../AppContext.js';
 
 function AccountLogin() {
@@ -11,7 +11,7 @@ function AccountLogin() {
     const [username, setUsername] = useState('');
     const [pswd, setPswd] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { login } = useUser(); // Get login function from context
+    const { login } = useUser();
 
     async function handleLogin() {
         if (!username || !pswd) {
