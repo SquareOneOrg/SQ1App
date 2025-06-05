@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useCallback, useState, useContext} from 'react';
+import React, { useCallback, useState, useContext } from 'react';
 
 import Homepage from './components/Homepage.js'
 import PersonalData from './components/PersonalData.js'
@@ -40,74 +40,23 @@ import { UserProvider } from './context/UserContext.js';
 import QuestionPopup from './components/QuestionPopup.js';
 import { GemProvider } from './components/GemContext.js';
 import { TutorialProvider } from './components/TutorialContext.js';
+import Settings from './components/Settings.js';
+import ChangeUsername from './components/ChangeUsername.js';
+import { ChangePassword } from './components/ChangePassword.js';
+import PasswordConfirm from './components/PasswordConfim.js';
+import UsernameConfirm from './components/UsernameConfim.js';
+import AppFeatures from './components/AppFeatures.js';
+import ContactUs from './components/ContactUs.js';
+import HelpPage from './components/HelpPage.js';
+import Reminders from './components/Reminders.js';
+import HealthFactSettings from './components/HealthFactSettings.js';
+
 
 const Stack = createNativeStackNavigator();
 
 function MainContent() {
-  const { currentView } = useContext(AppContext);
-  return (
-    <View style={styles.container}>
-      {/* <TopNavBar /> */}
-      {currentView === 'account' && <Account />}
-      {currentView === 'accountavatar' && <AccountAvatar />}
-      {currentView === 'accountavatarchange' && <AccountAvatarChange />}
-      {currentView === 'accountcreate' && <AccountCreate />}
-      {currentView === 'accountforgotpassword' && <AccountForgotPassword />}
-      {currentView === 'accountforgotusername' && <AccountForgotUsername />}
-      {currentView === 'accountlogin' && <AccountLogin />}
-      {currentView === 'accountloginforgot' && <AccountLoginForgot />}
-      {currentView === 'accountparent' && <AccountParent />}
-      {currentView === 'accountparentemail' && <AccountParentEmail />}
-      {currentView === 'accountthanks' && <AccountThanks />}
-      {currentView === 'accountverification' && <AccountVerification />}
-      {currentView === 'accountwelcome' && <AccountWelcome />}
-      {currentView === 'activity' && <Activity />}
-      {currentView === 'calendar' && <Calendar />}
-      {currentView === 'endpage' && <EndPage />}
-      {currentView === 'exerciselog' && <ExerciseLog />}
-      {currentView === 'extraresources' && <ExtraResources />}
-      {currentView === 'home' && <Homepage />}
-      {currentView === 'library' && <Library />}
-      {currentView === 'librarybook' && <LibraryBook />}
-      {currentView === 'linkCenter' && <LinkCenter />}
-      {currentView === 'nutritionlog' && <NutritionLog />}
-      {currentView === 'personalData' && <PersonalData />}
-      {currentView === 'questionnaire' && <Questionnaire />}
-      {currentView === 'resourcetransition' && <ResourceTransition />}
-      {currentView === 'sleeplog' && <SleepLog />}
-      {currentView === 'questionpopup' && <QuestionPopup />}
-      {/* <BotNavBar onNavChange={setCurrentView}/> */}
- 
-      
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-function MainScreen() {
+  const { currentView, setCurrentView } = useContext(AppContext);
   const [fontsLoaded] = useFonts({
-    Sniglet: require('./assets/fonts/Sniglet-Regular.ttf'),
-  });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) return null;
-
-  return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <MainContent />
-    </View>
-  );
-}
-
-
-export default function App() {
-  const [currentView, setCurrentView] = useState('home');
-   const [fontsLoaded] = useFonts({
     'Sniglet': require('./assets/fonts/Sniglet-Regular.ttf'),
   });
 
@@ -122,27 +71,62 @@ export default function App() {
   }
 
   return (
+    <View style={styles.container} onLayout={onLayoutRootView}>
+      <TopNavBar onNavChange={setCurrentView} />
+      <View style={styles.content}>
+        {currentView === 'home' && <Homepage />}
+        {currentView === 'library' && <Library />}
+        {currentView === 'activity' && <Activity onNavChange={setCurrentView} />}
+        {currentView === 'linkCenter' && <LinkCenter onNavChange={setCurrentView} />}
+        {currentView === 'extraresources' && <ExtraResources onNavChange={setCurrentView} />}
+        {currentView === 'account' && <Account onNavChange={setCurrentView} />}
+        {currentView === 'accountlogin' && <AccountLogin onNavChange={setCurrentView} />}
+        {currentView === 'accountloginforgot' && <AccountLoginForgot onNavChange={setCurrentView} />}
+        {currentView === 'accountforgotusername' && <AccountForgotUsername onNavChange={setCurrentView} />}
+        {currentView === 'accountforgotpassword' && <AccountForgotPassword onNavChange={setCurrentView} />}
+        {currentView === 'accountavatar' && <AccountAvatar onNavChange={setCurrentView} />}
+        {currentView === 'accountparent' && <AccountParent onNavChange={setCurrentView} />}
+        {currentView === 'accountparentemail' && <AccountParentEmail onNavChange={setCurrentView} />}
+        {currentView === 'accountverification' && <AccountVerification onNavChange={setCurrentView} />}
+        {currentView === 'accountcreate' && <AccountCreate onNavChange={setCurrentView} />}
+        {currentView === 'accountthanks' && <AccountThanks onNavChange={setCurrentView} />}
+        {currentView === 'accountwelcome' && <AccountWelcome onNavChange={setCurrentView} />}
+        {currentView === 'accountavatarchange' && <AccountAvatarChange onNavChange={setCurrentView} />}
+        {currentView === 'settings' && <Settings onNavChange={setCurrentView} />}
+        {currentView === 'passwordconfirm' && <PasswordConfirm onNavChange={setCurrentView} />}
+        {currentView === 'usernameconfirm' && <UsernameConfirm onNavChange={setCurrentView} />}
+        {currentView === 'sleeplog' && <SleepLog />}
+        {currentView === 'changeUsername' && <ChangeUsername onNavChange={setCurrentView} />}
+        {currentView === 'helppage' && <HelpPage onNavChange={setCurrentView} />}
+        {currentView === 'changePassword' && <ChangePassword onNavChange={setCurrentView} />}
+        {currentView === 'exerciselog' && <ExerciseLog />}
+        {currentView === 'nutritionlog' && <NutritionLog />}
+        {currentView === 'calendar' && <Calendar />}
+        {currentView === 'personalData' && <PersonalData />}
+        {currentView === 'appfeatures' && <AppFeatures />}
+        {currentView === 'contactus' && <ContactUs />}
+        {currentView === 'questionpopup' && <QuestionPopup />}
+        {currentView === 'reminders' && <Reminders onNavChange={setCurrentView} />}
+        {currentView === 'healthfactsettings' && <HealthFactSettings onNavChange={setCurrentView} />}
+      </View>
+      <BotNavBar onNavChange={setCurrentView} />
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+
+export default function App() {
+  return (
     <AppProvider>
       <UserProvider>
-      <GemProvider>
-      <TutorialProvider>
-      <NavigationContainer>
-      <View style={{ flex: 1 }}>
-      <TopNavBar /> 
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        name="Main"
-        component={MainScreen}
-        options={{ headerShown: false }}
-      />
-      </Stack.Navigator>
-      <BotNavBar/>
-      </View>
-      <StatusBar style="auto" />
-    </NavigationContainer>
-    </TutorialProvider>
-    </GemProvider>
-    </UserProvider>
+        <GemProvider>
+        <TutorialProvider>
+          <NavigationContainer>
+            <MainContent />
+          </NavigationContainer>
+          </TutorialProvider>
+        </GemProvider>
+      </UserProvider>
     </AppProvider>
   );
 }
@@ -151,6 +135,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'lightblue',
+  },
+  content: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

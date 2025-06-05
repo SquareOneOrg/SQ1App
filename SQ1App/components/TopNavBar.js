@@ -9,7 +9,8 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useGems } from './GemContext.js';
 import { useTutorial } from './TutorialContext.js';
 
-function TopNavBar(){
+function TopNavBar({ onNavChange }){
+
     const { tutorialStep } = useTutorial();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { username } = useUser();
@@ -18,9 +19,11 @@ function TopNavBar(){
         refreshGems();
     }, [])
     
+    
     return(
         <View style={styles.navBar}>
-            <TouchableOpacity style={[styles.iconButtons, tutorialStep == 6 && styles.highlightIcon]}>
+
+            <TouchableOpacity style={[styles.iconButtons, tutorialStep == 6 && styles.highlightIcon]} onPress={() => onNavChange('settings')}>
                 <Svg style={styles.icons} width="35" height="35" viewBox="8 9 37 37" fill="none">
                     <Path 
                         d="M30.2084 20.8339C30.2084 19.1849 32.4016 18.7478 32.9835 20.2908C34.3911 24.0231 35.4167 27.362 35.4167 29.1671C35.4167 34.9201 30.753 39.5838 25 39.5838C19.2471 39.5838 14.5834 34.9201 14.5834 29.1671C14.5834 27.2277 15.7671 23.518 17.3366 19.452C19.3697 14.185 20.3862 11.5514 21.641 11.4096C22.0425 11.3642 22.4806 11.4458 22.8388 11.6327C23.9584 12.2169 23.9584 15.0893 23.9584 20.8339C23.9584 22.5598 25.3575 23.9589 27.0834 23.9589C28.8092 23.9589 30.2084 22.5598 30.2084 20.8339Z" 
@@ -81,7 +84,7 @@ function TopNavBar(){
                 </Svg>
             </TouchableOpacity>
             <Modal visible={isModalVisible} onRequestClose={()=>setIsModalVisible(false)} animationType='slide' presentationStyle='formSheet'>
-                <Settings setIsModalVisible={setIsModalVisible}/>
+                <Settings setIsModalVisible={setIsModalVisible}  onNavChange={onNavChange}/>
             </Modal>
         </View>
 
