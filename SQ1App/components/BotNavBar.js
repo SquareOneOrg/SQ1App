@@ -4,13 +4,42 @@ import { useRef,useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '../context/UserContext';
 import { AppContext } from '../AppContext';
+import React, { useEffect } from 'react';
+
 
 
 function BotNavBar({onNavChange}){
-    const { setCurrentView } = useContext(AppContext);
+    const { currentView, setCurrentView } = useContext(AppContext);
     const position = useRef(new Animated.ValueXY({x:-12, y:0})).current;
     // const { username } = useUser();
 
+    useEffect(() => {
+        switch (currentView) {
+          case 'home':
+            moveToHome();
+            break;
+          case 'library':
+            moveToLibrary();
+            break;
+          case 'activity':
+            moveToActivity();
+            break;
+          case 'linkCenter':
+            moveToLink();
+            break;
+          case 'account':
+            moveToAccount();
+            break;
+          case 'personalData':
+            moveToPersonalData();
+            break;
+          default:
+            break;
+        }
+      }, [currentView]);
+      
+
+    
     function moveToHome(){
         Animated.timing(position, {
             toValue:{x:-12.5, y:0}, 

@@ -1,4 +1,6 @@
 // PersonalData.js
+import TutorialOverlay from './TutorialOverlay'
+import { useTutorial } from './TutorialContext';
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -17,6 +19,9 @@ export default function PersonalData() {
   const [isNutritionVisible, setNutritionVisible] = useState(false);
   const [isExerciseVisible,  setExerciseVisible]  = useState(false);
   const [isSleepVisible,     setSleepVisible]     = useState(false);
+
+  const {  tutorialStep, setShowTutorial, setTutorialStep } = useTutorial();
+
 
   return (
     <View style={styles.container}>
@@ -78,6 +83,7 @@ export default function PersonalData() {
       >
         <SleepSummary onClose={() => setSleepVisible(false)} />
       </Modal>
+      {tutorialStep === 5 && <TutorialOverlay />}
     </View>
   );
 }

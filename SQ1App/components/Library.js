@@ -6,6 +6,9 @@ import { AppContext } from '../AppContext';
 import { useUser } from '../context/UserContext';
 import { db } from '../firebase-config.js';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import TutorialOverlay from './TutorialOverlay'
+import { useTutorial } from './TutorialContext';
+
 
 const images = {
   'Final Stepping Stones Cover': require('../assets/books/stepping-stones/Final Stepping Stones Digital-part-1.jpg'),
@@ -16,6 +19,8 @@ function Library() {
   const {username} = useUser();
   const { setCurrentView, setViewParams } = useContext(AppContext);
   const [bookProgress, setBookProgress] = useState([0, 0]);
+  const {  tutorialStep, setShowTutorial, setTutorialStep } = useTutorial();
+
   const updateProgress = async() => {
     try {
         const usersRef = collection(db, 'users');
@@ -110,6 +115,7 @@ function Library() {
       {selectedImage && (
         <Image source={selectedImage} style={styles.fullImage} />
       )}
+      {tutorialStep === 1 && <TutorialOverlay />}
     </View>
   );
 };

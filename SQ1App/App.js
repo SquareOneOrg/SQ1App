@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useState, useContext } from 'react';
 
 import Homepage from './components/Homepage.js'
 import PersonalData from './components/PersonalData.js'
@@ -39,6 +39,7 @@ import { AppProvider, AppContext } from './AppContext';
 import { UserProvider } from './context/UserContext.js';
 import QuestionPopup from './components/QuestionPopup.js';
 import { GemProvider } from './components/GemContext.js';
+import { TutorialProvider } from './components/TutorialContext.js';
 import Settings from './components/Settings.js';
 import ChangeUsername from './components/ChangeUsername.js';
 import { ChangePassword } from './components/ChangePassword.js';
@@ -49,6 +50,7 @@ import ContactUs from './components/ContactUs.js';
 import HelpPage from './components/HelpPage.js';
 import Reminders from './components/Reminders.js';
 import HealthFactSettings from './components/HealthFactSettings.js';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -118,9 +120,11 @@ export default function App() {
     <AppProvider>
       <UserProvider>
         <GemProvider>
+        <TutorialProvider>
           <NavigationContainer>
             <MainContent />
           </NavigationContainer>
+          </TutorialProvider>
         </GemProvider>
       </UserProvider>
     </AppProvider>
