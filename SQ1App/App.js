@@ -50,6 +50,7 @@ import ContactUs from './components/ContactUs.js';
 import HelpPage from './components/HelpPage.js';
 import Reminders from './components/Reminders.js';
 import HealthFactSettings from './components/HealthFactSettings.js';
+import WeeklyReminderSettings from './components/WeeklyReminderSettings.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -108,6 +109,7 @@ function MainContent() {
         {currentView === 'questionpopup' && <QuestionPopup />}
         {currentView === 'reminders' && <Reminders onNavChange={setCurrentView} />}
         {currentView === 'healthfactsettings' && <HealthFactSettings onNavChange={setCurrentView} />}
+        {currentView === 'weeklyremindersettings' && <WeeklyReminderSettings onNavChange={setCurrentView} />}
       </View>
       <BotNavBar onNavChange={setCurrentView} />
       <StatusBar style="auto" />

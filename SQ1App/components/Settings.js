@@ -1,10 +1,15 @@
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { Svg, Path } from "react-native-svg";
 import { useState } from 'react';
-
+import { useUser } from '../context/UserContext';
+import { AppContext } from '../AppContext';
+import { useContext } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Settings({onNavChange, setIsModalVisible}) {
-
+    const { logout, username } = useUser();
+    const { setCurrentView } = useContext(AppContext);
+    const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
 
     function openChangeUsername() {
        if (typeof setIsModalVisible === 'function') {
@@ -33,15 +38,6 @@ function Settings({onNavChange, setIsModalVisible}) {
         }
     }
 
-    function openHealthFacts(){
-        if (typeof setIsModalVisible == 'function'){
-            setIsModalVisible(false);
-        }
-        if (typeof onNavChange === 'function') {
-            onNavChange('helppage'); 
-        }
-    }
-
     function openReminders() {
         if (typeof setIsModalVisible === 'function') {
             setIsModalVisible(false);
@@ -60,13 +56,32 @@ function Settings({onNavChange, setIsModalVisible}) {
         }
     }
 
+    function openWeeklyReminderSettings() {
+        if (typeof setIsModalVisible === 'function') {
+            setIsModalVisible(false);
+        }
+        if (typeof onNavChange === 'function') {
+            onNavChange('weeklyremindersettings');
+        }
+    }
+
     function handleClose() {
         if (typeof setIsModalVisible === 'function') {
             setIsModalVisible(false);
         }
     }
     
-    
+    async function handleLogout() {
+        
+        try {
+            await logout();
+            
+            
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    }
+
     return (
         
         <View style={styles.container}>
@@ -112,8 +127,8 @@ function Settings({onNavChange, setIsModalVisible}) {
                     <TouchableOpacity style={styles.buttons} onPress={openReminders}>
                         <Text style={styles.buttonTitles}>Reminders</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttons}>
-                        <Text style={styles.buttonTitles}>Daily reminder time</Text>
+                    <TouchableOpacity style={styles.buttons} onPress={openWeeklyReminderSettings}>
+                        <Text style={styles.buttonTitles}>Weekly Reminders</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttons} onPress={openHealthFactSettings}>
                         <Text style={styles.buttonTitles}>Health Fact of the Week</Text>
@@ -136,11 +151,44 @@ function Settings({onNavChange, setIsModalVisible}) {
                 </View>
 
                 <View style={styles.logoutContainer}>
-                    <TouchableOpacity style={styles.logoutButton}>
+                    <TouchableOpacity 
+                        style={[styles.logoutButton, { backgroundColor: '#FF9999' }]} 
+                        onPress={() => setShowLogoutConfirmation(true)}
+                    >
                         <Text style={styles.logout}>Log Out</Text>
                     </TouchableOpacity>
                 </View>
             </View>
+
+            <Modal
+                visible={showLogoutConfirmation}
+                transparent={true}
+                animationType="fade"
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Log Out</Text>
+                        <Text style={styles.modalText}>Are you sure you want to log out?</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity 
+                                style={[styles.modalButton, styles.cancelButton]} 
+                                onPress={() => setShowLogoutConfirmation(false)}
+                            >
+                                <Text style={styles.modalButtonText}>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={[styles.modalButton, styles.confirmButton]} 
+                                onPress={() => {
+                                    setShowLogoutConfirmation(false);
+                                    handleLogout();
+                                }}
+                            >
+                                <Text style={styles.modalButtonText}>Log Out</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
@@ -202,7 +250,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 30,
         borderColor: "#33363F",
-        backgroundColor: "#99B7DE",
         paddingVertical: 20,
         paddingHorizontal: 100,
 
@@ -210,7 +257,7 @@ const styles = StyleSheet.create({
     logout: {
         fontSize: 20,
         fontFamily: 'Sniglet',
-
+        color: '#33363F',
     },
     closeButton: {
         paddingVertical: 10,
@@ -221,7 +268,60 @@ const styles = StyleSheet.create({
     closeText: {
         fontSize: 18,
         fontFamily: 'Sniglet',
-    }
+    },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+        backgroundColor: '#99B7DE',
+        borderRadius: 20,
+        padding: 20,
+        width: '80%',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#33363F',
+    },
+    modalTitle: {
+        fontSize: 24,
+        fontFamily: 'Sniglet',
+        marginBottom: 10,
+        color: '#33363F',
+    },
+    modalText: {
+        fontSize: 18,
+        fontFamily: 'Sniglet',
+        marginBottom: 20,
+        textAlign: 'center',
+        color: '#33363F',
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    modalButton: {
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 30,
+        minWidth: 100,
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#33363F',
+    },
+    cancelButton: {
+        backgroundColor: '#D9D9D9',
+    },
+    confirmButton: {
+        backgroundColor: '#FF9999',
+    },
+    modalButtonText: {
+        fontSize: 18,
+        fontFamily: 'Sniglet',
+        color: '#33363F',
+    },
 });
 
 export default Settings;
