@@ -2,8 +2,11 @@ import { StyleSheet, View, Text, TouchableOpacity, Modal } from "react-native";
 import { useState } from 'react';
 import WebsiteLink from './WebsiteLink.js';
 import FormLink from './FormLink.js';
+import { useTutorial } from './TutorialContext';
 
 function HelpPage({ onNavChange }){
+    const { setShowTutorial, setTutorialStep } = useTutorial();
+
     function movetoAppFeatures(){
         onNavChange('appfeatures')
     };
@@ -11,6 +14,12 @@ function HelpPage({ onNavChange }){
     function movetoContactUs(){
         onNavChange('contactus')
     };
+
+    function replayTutorial() {
+        setTutorialStep(0);
+        setShowTutorial(true);
+        onNavChange('home'); 
+    }
 
     return(
         <View style={styles.container}>
@@ -24,7 +33,7 @@ function HelpPage({ onNavChange }){
                 </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.links}>
+            <TouchableOpacity onPress={replayTutorial} style={styles.links}>
                 <Text style={styles.linkTitles}>
                     Replay Tutorial
                 </Text>

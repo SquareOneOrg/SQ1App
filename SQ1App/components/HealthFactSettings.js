@@ -1,43 +1,39 @@
 import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
 import { Svg, Path } from "react-native-svg";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function HealthFactSettings({ onNavChange, setIsModalVisible }) {
     const [allowNotifications, setAllowNotifications] = useState(true);
 
-    function handleClose() {
-        if (typeof setIsModalVisible === 'function') {
-            setIsModalVisible(false);
-        }
-    }
+    useEffect(() => {
+        const loadNotificationPreference = async () => {
+            try {
+                const savedPreference = await AsyncStorage.getItem('healthFactNotifications');
+                if (savedPreference !== null) {
+                    setAllowNotifications(JSON.parse(savedPreference));
+                }
+            } catch (error) {
+                console.error('Error loading notification preference:', error);
+            }
+        };
+        loadNotificationPreference();
+    }, []);
 
-    function handleSave() {
-        // Save logic here (e.g., context, async storage, API)
-        if (typeof onNavChange === 'function') {
-            onNavChange('settings');
+
+
+    async function handleSave() {
+        try {
+            await AsyncStorage.setItem('healthFactNotifications', JSON.stringify(allowNotifications));
+           
+        } catch (error) {
+            console.error('Error saving notification preference');
         }
     }
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.closeIcon} onPress={handleClose}>
-                <Svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-                    <Path
-                        d="M22.5 7.5L7.5 22.5"
-                        stroke="#33363F"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    />
-                    <Path
-                        d="M7.5 7.5L22.5 22.5"
-                        stroke="#33363F"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    />
-                </Svg>
-            </TouchableOpacity>
+           
             <Text style={styles.title}>Health Fact of{"\n"}the Week</Text>
             <Text style={styles.subtitle}>
                 Our Health Fact of the Week helps students stay engaged with the app and continue to learn beyond our resources.
@@ -67,6 +63,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#7B9EEB',
         alignItems: 'center',
         paddingTop: 40,
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
     closeIcon: {
         position: 'absolute',

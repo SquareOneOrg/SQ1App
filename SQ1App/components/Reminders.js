@@ -10,11 +10,7 @@ function Reminders({ onNavChange, setIsModalVisible }) {
         streak: true
     });
     
-    function handleClose() {
-        if (typeof setIsModalVisible === 'function') {
-            setIsModalVisible(false);
-        }
-    }
+
 
     const toggleReminder = (type) => {
         setReminders(prev => ({
@@ -28,24 +24,7 @@ function Reminders({ onNavChange, setIsModalVisible }) {
     return (
         <View style={styles.container}>
             <View style={styles.titleSection}>
-                <TouchableOpacity style={styles.closeIcon} onPress={handleClose}>
-                    <Svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-                        <Path
-                            d="M22.5 7.5L7.5 22.5"
-                            stroke="#33363F"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                        <Path
-                            d="M7.5 7.5L22.5 22.5"
-                            stroke="#33363F"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </Svg>
-                </TouchableOpacity>
+      
                 <Text style={styles.title}>Reminders</Text>
                 <Text style={styles.subtitle}>Change your notification{"\n"}settings here</Text>
             </View>
@@ -78,7 +57,7 @@ function Reminders({ onNavChange, setIsModalVisible }) {
                         thumbColor={reminders.streak ? "#fff" : "#f4f3f4"}
                     />
                 </View>
-                <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                <TouchableOpacity style={styles.saveButton}>
                     <Text style={styles.saveText}>SAVE</Text>
                 </TouchableOpacity>
             </View>
@@ -89,15 +68,26 @@ function Reminders({ onNavChange, setIsModalVisible }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#7B9EEB',
+        backgroundColor: '#7D97D1',
+        alignItems: 'center',
+        padding: 20,
+        paddingTop: 40,
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
     titleSection: {
         alignItems: 'center',
-        paddingTop: 40,
+        paddingTop: 10,
         paddingBottom: 10,
+        width: '100%',
     },
     title: {
-        fontSize: 45,
+        fontSize: 42,
         fontFamily: 'Sniglet',
         color: '#222',
         marginBottom: 5,
@@ -107,7 +97,8 @@ const styles = StyleSheet.create({
         color: '#222',
         fontFamily: 'Sniglet',
         textAlign: 'center',
-        marginBottom: 30,
+        marginBottom: 20,
+        lineHeight: 28,
     },
     closeIcon: {
         position: 'absolute',
@@ -116,9 +107,9 @@ const styles = StyleSheet.create({
         zIndex: 2,
     },
     contentSection: {
-        flex: 1,
+        width: '100%',
         alignItems: 'center',
-        justifyContent: 'center',
+        paddingTop: 10,
     },
     pillRow: {
         flexDirection: 'row',
@@ -126,15 +117,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: '#D9D9D9',
         borderRadius: 40,
-        paddingVertical: 18,
+        paddingVertical: 15,
         paddingHorizontal: 30,
-        width: '90%',
-        marginBottom: 25,
+        width: '95%',
+        marginBottom: 20,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.15,
         shadowRadius: 4,
-        elevation: 2,
+        elevation: 3,
     },
     pillText: {
         fontSize: 26,
@@ -142,14 +133,19 @@ const styles = StyleSheet.create({
         fontFamily: 'Sniglet',
     },
     saveButton: {
-        marginTop: 40,
+        marginTop: 20,
         backgroundColor: '#B6D0F7',
         borderRadius: 40,
-        width: '90%',
+        width: '95%',
         alignItems: 'center',
         paddingVertical: 18,
         borderWidth: 3,
         borderColor: '#222',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.15,
+        shadowRadius: 4,
+        elevation: 3,
     },
     saveText: {
         fontSize: 32,
