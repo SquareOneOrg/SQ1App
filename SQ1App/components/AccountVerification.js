@@ -7,26 +7,42 @@ function AccountVerification(){
     function moveToAccountCreate(){
         setCurrentView('accountcreate')
     };
-
+    
     const VerificationCodeInput = ({ onCodeComplete }) => {
-        const [code, setCode] = useState('');
-        const inputRef = useRef(null);
+        const [code, setCode] = useState(['', '', '', '']);
+        const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
-        const handleCodeChange = (text) => {
-            const cleanText = text.replace(/[^0-9]/g, '').slice(0, 4);
-            setCode(cleanText);
+        const handleCodeChange = (text, index) => {
+            const cleanText = text.replace(/[^0-9]/g, '');
             
-            if (cleanText.length === 4) {
-            onCodeComplete?.(cleanText);
-            Keyboard.dismiss();
+            // Update the code array
+            const newCode = [...code];
+            newCode[index] = cleanText.slice(-1); // Only take the last digit
+            setCode(newCode);
+            
+            // Auto-focus next input if current input has a digit
+            if (cleanText.length === 1 && index < 3) {
+                inputRefs[index + 1].current?.focus();
+            }
+            
+            // Check if all 4 digits are entered
+            const fullCode = newCode.join('');
+            if (fullCode.length === 4) {
+                onCodeComplete?.(fullCode);
+                Keyboard.dismiss();
+            }
+        };
+
+        const handleKeyPress = (e, index) => {
+            // Handle backspace to go to previous input
+            if (e.nativeEvent.key === 'Backspace' && code[index] === '' && index > 0) {
+                inputRefs[index - 1].current?.focus();
             }
         };
 
         const handleSubmitEditing = () => {
             Keyboard.dismiss();
         };
-
-        const codeArray = code.split('').concat(Array(4 - code.length).fill(''));
 
         return (
             <View style={styles.container}>
@@ -35,42 +51,36 @@ function AccountVerification(){
                 <Text style={styles.smalltext}>Enter the four digit code sent</Text>
                 <Text style={styles.smalltext}>to your parent!</Text>
                 <View style={{ height: 30 }} />
-            <TextInput
-            ref={inputRef}
-            value={code}
-            onChangeText={handleCodeChange}
-            keyboardType="number-pad"
-            maxLength={4}
-            style={[styles.hiddenInput]}
-            returnKeyType="done"
-            onSubmitEditing={handleSubmitEditing}
-            blurOnSubmit={true}
-            />
             
-            <View style={styles.boxesContainer}>
-                {codeArray.map((digit, index) => (
-                <View
-                    key={index}
-                    style={[styles.box]}
-                    onTouchEnd={() => inputRef.current?.focus()}
-                >
-                    <TextInput
-                    value={digit}
-                    editable={false}
-                    style={styles.digit}
-                    />
+                <View style={styles.boxesContainer}>
+                    {code.map((digit, index) => (
+                        <View key={index} style={styles.box}>
+                            <TextInput
+                                ref={inputRefs[index]}
+                                value={digit}
+                                onChangeText={(text) => handleCodeChange(text, index)}
+                                onKeyPress={(e) => handleKeyPress(e, index)}
+                                keyboardType="number-pad"
+                                maxLength={1}
+                                style={styles.digit}
+                                returnKeyType={index === 3 ? "done" : "next"}
+                                onSubmitEditing={index === 3 ? handleSubmitEditing : () => inputRefs[index + 1].current?.focus()}
+                                blurOnSubmit={index === 3}
+                                selectTextOnFocus={true}
+                            />
+                        </View>
+                    ))}
                 </View>
-                ))}
+                
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.accountButton} onPress={moveToAccountCreate}>
+                        <Text style={styles.accountButtonText}>SUBMIT</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.accountButton} onPress = {moveToAccountCreate}>
-                    <Text style={styles.accountButtonText}>SUBMIT</Text>
-                </TouchableOpacity>
-            </View>
-            </View>
-    );
+        );
     };
+
     return <VerificationCodeInput onCodeComplete={(code) => {
         console.log('Code entered:', code);
     }} />;
@@ -82,12 +92,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#708BDC',
         width: 390,
-      },
-    hiddenInput: {
-        position: 'absolute',
-        opacity: 0,
-        height: 0,
-        width: 0,
     },
     boxesContainer: {
         flexDirection: 'row',
@@ -95,21 +99,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     box: {
-        alignSelf: 'center',
         height: 53,
-        width: 80, // Adjusted from 340 to be suitable for individual boxes
-        margin: 5,
-        borderWidth: 0,
+        width: 53,
+        margin: 8,
         borderRadius: 27,
-        padding: 10,
         backgroundColor: '#D9D9D9',
         justifyContent: 'center',
         alignItems: 'center',
+        overflow: 'hidden',
     },
     digit: {
         fontSize: 20,
-        color: '#A9A9A9',
+        color: '#323746',
         textAlign: 'center',
+        textAlignVertical: 'center',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'transparent',
     },
     text: {
         fontSize: 35,

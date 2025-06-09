@@ -54,24 +54,24 @@ function AccountWelcome(){
     }
     
     const avatars = [
-        { id: 1, source: require('../assets/avatar 1.png') },
-        { id: 2, source: require('../assets/avatar 2.png') },
-        { id: 3, source: require('../assets/avatar 3.png') },
-        { id: 4, source: require('../assets/avatar 4.png') },
-        { id: 5, source: require('../assets/avatar 5.png') },
-        { id: 6, source: require('../assets/avatar 6.png') },
-        { id: 7, source: require('../assets/avatar 7.png') },
-        { id: 8, source: require('../assets/avatar 8.png') },
-        { id: 9, source: require('../assets/avatar 9.png') },
-        { id: 10, source: require('../assets/avatar 10.png') },
-        { id: 11, source: require('../assets/avatar 11.png') },
-        { id: 12, source: require('../assets/avatar 12.png') },
-        { id: 13, source: require('../assets/avatar 13.png') },
-        { id: 14, source: require('../assets/avatar 14.png') },
-        { id: 15, source: require('../assets/avatar 15.png') },
-        { id: 16, source: require('../assets/avatar 16.png') },
-        { id: 17, source: require('../assets/avatar 17.png') },
-        { id: 18, source: require('../assets/avatar 18.png') }
+        { id: 1, source: require('../assets/avatar1.png') },
+        { id: 2, source: require('../assets/avatar2.png') },
+        { id: 3, source: require('../assets/avatar3.png') },
+        { id: 4, source: require('../assets/avatar4.png') },
+        // { id: 5, source: require('../assets/avatar 5.png') },
+        // { id: 6, source: require('../assets/avatar 6.png') },
+        // { id: 7, source: require('../assets/avatar 7.png') },
+        // { id: 8, source: require('../assets/avatar 8.png') },
+        // { id: 9, source: require('../assets/avatar 9.png') },
+        // { id: 10, source: require('../assets/avatar 10.png') },
+        // { id: 11, source: require('../assets/avatar 11.png') },
+        // { id: 12, source: require('../assets/avatar 12.png') },
+        // { id: 13, source: require('../assets/avatar 13.png') },
+        // { id: 14, source: require('../assets/avatar 14.png') },
+        // { id: 15, source: require('../assets/avatar 15.png') },
+        // { id: 16, source: require('../assets/avatar 16.png') },
+        // { id: 17, source: require('../assets/avatar 17.png') },
+        // { id: 18, source: require('../assets/avatar 18.png') }
     ];
 
     // Use the currentAvatar from state instead of selectedAvatar from context

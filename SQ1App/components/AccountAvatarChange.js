@@ -17,10 +17,10 @@ function AccountAvatarChange() {
     const navigation = useNavigation();
     
     const avatars = [
-        { id: 1, source: require('../assets/avatar 1.png') },
-        { id: 2, source: require('../assets/avatar 2.png') },
-        { id: 3, source: require('../assets/avatar 3.png') },
-        { id: 4, source: require('../assets/avatar 4.png') },
+        { id: 1, source: require('../assets/avatar1.png') },
+        { id: 2, source: require('../assets/avatar2.png') },
+        { id: 3, source: require('../assets/avatar3.png') },
+        { id: 4, source: require('../assets/avatar4.png') },
         { id: 5, source: require('../assets/avatar 5.png') },
         { id: 6, source: require('../assets/avatar 6.png') },
         { id: 7, source: require('../assets/avatar 7.png') },

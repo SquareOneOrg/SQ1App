@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { Svg, Path } from "react-native-svg";
 import Settings from '../components/Settings.js';
+import AvatarAccessoriesShop from '../components/AvatarAccessoriesShop.js';
 import { useUser } from '../context/UserContext';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase-config.js';
@@ -10,8 +11,19 @@ import { useGems } from './GemContext.js';
 
 function TopNavBar(){
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isShopModalVisible, setIsShopModalVisible] = useState(false);
     const { username } = useUser();
     const { gems } = useGems(); 
+    
+    const moveToShop = () => {
+        console.log("Moving to shop...");
+        setIsShopModalVisible(true);
+    };
+    
+    const moveToSettings = () => {
+        console.log("Moving to settings...");
+        setIsModalVisible(true);
+    };
     
     return(
         <View style={styles.navBar}>
@@ -49,7 +61,7 @@ function TopNavBar(){
                     {gems[1]}
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButtons}>
+            <TouchableOpacity style={styles.iconButtons} onPress={()=>setIsShopModalVisible(true)}>
                 <Svg style={styles.icons} width="37" height="35" viewBox="0 -1 35 35" fill="none">
                     <Path
                         d="M17.5 29.1667L6.51304 15.433C6.18053 15.0173 6.01427 14.8095 5.9696 14.559C5.92493 14.3086 6.00909 14.0561 6.17742 13.5511L7.83831 8.56842C8.27833 7.24838 8.49833 6.58836 9.02211 6.21084C9.54588 5.83333 10.2416 5.83333 11.633 5.83333H23.367C24.7584 5.83333 25.4541 5.83333 25.9779 6.21084C26.5017 6.58836 26.7217 7.24838 27.1617 8.56842L28.8226 13.5511L28.8226 13.5511C28.9909 14.0561 29.0751 14.3086 29.0304 14.559C28.9858 14.8095 28.8195 15.0173 28.487 15.433L17.5 29.1667Z" 
@@ -77,6 +89,9 @@ function TopNavBar(){
             </TouchableOpacity>
             <Modal visible={isModalVisible} onRequestClose={()=>setIsModalVisible(false)} animationType='slide' presentationStyle='formSheet'>
                 <Settings setIsModalVisible={setIsModalVisible}/>
+            </Modal>
+            <Modal visible={isShopModalVisible} onRequestClose={()=>setIsShopModalVisible(false)} animationType='slide' presentationStyle='formSheet'>
+                <AvatarAccessoriesShop setIsModalVisible={setIsShopModalVisible}/>
             </Modal>
         </View>
 

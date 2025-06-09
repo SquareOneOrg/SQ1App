@@ -35,6 +35,7 @@ import AccountCreate from './components/AccountCreate.js';
 import AccountThanks from './components/AccountThanks.js';
 import AccountWelcome from './components/AccountWelcome.js';
 import AccountAvatarChange from './components/AccountAvatarChange.js'
+import AvatarAccessoriesShop from './components/AvatarAccessoriesShop.js';
 import { AppProvider, AppContext } from './AppContext';
 import { UserProvider } from './context/UserContext.js';
 import QuestionPopup from './components/QuestionPopup.js';

@@ -9,18 +9,18 @@ function Avatars(){
             <View style={{flexDirection:"row"}}>
             <View style={styles.avatarContainerLeft}>
                 <TouchableOpacity>
-                    <Image source={require('../assets/avatar 1.png')} style={styles.avatar}></Image>
+                    <Image source={require('../assets/avatar1.png')} style={styles.avatar}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Image source={require('../assets/avatar 2.png')} style={styles.avatar}></Image>
+                    <Image source={require('../assets/avatar2.png')} style={styles.avatar}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Image source={require('../assets/avatar 3.png')} style={styles.avatar}></Image>
+                    <Image source={require('../assets/avatar3.png')} style={styles.avatar}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Image source={require('../assets/avatar 4.png')} style={styles.avatar}></Image>
+                    <Image source={require('../assets/avatar4.png')} style={styles.avatar}></Image>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                     <Image source={require('../assets/avatar 5.png')} style={styles.avatar}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity>
@@ -45,7 +45,7 @@ function Avatars(){
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <Image source={require('../assets/avatar 12.png')} style={styles.avatar}></Image>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             <View style={styles.avatarContainerRight}>
             <TouchableOpacity>
