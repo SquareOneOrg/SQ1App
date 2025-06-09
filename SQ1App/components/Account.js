@@ -2,9 +2,16 @@ import React, {useContext} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
 import logo from '../assets/logo.png'
 import { AppContext } from '../AppContext';
+import TutorialOverlay from './TutorialOverlay'
+import { useTutorial } from './TutorialContext';
+
+
+
 
 function Account(){
     const {setCurrentView} = useContext(AppContext);
+    const {  tutorialStep, setShowTutorial, setTutorialStep } = useTutorial();
+
     function moveToAccountLogin(){
         setCurrentView('accountlogin')
     };
@@ -34,7 +41,7 @@ function Account(){
                     <Text style={styles.accountButtonText}>LOGIN</Text>
                 </TouchableOpacity>
             </View>
-
+             {tutorialStep === 4 && <TutorialOverlay />}
         </View>
     );
 };

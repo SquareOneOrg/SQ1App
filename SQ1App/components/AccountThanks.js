@@ -1,9 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
 import { AppContext } from '../AppContext';
+import { useGems } from './GemContext.js';
 
 function AccountThanks(){
     const {setCurrentView} = useContext(AppContext);
+    const { incrVal } = useGems();
     function moveToAccountWelcome(){
         setCurrentView('accountwelcome')
     };

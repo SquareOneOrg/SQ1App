@@ -2,9 +2,16 @@ import { StyleSheet, View, Text, TouchableOpacity, Modal } from "react-native";
 import { useState, useContext } from 'react';
 import WebsiteLink from '../components/WebsiteLink.js';
 import FormLink from '../components/FormLink.js';
+import FAQLink from "./FAQLink.js";
 import { AppContext } from "../AppContext.js";
+import TutorialOverlay from './TutorialOverlay'
+import { useTutorial } from './TutorialContext';
+
+
 
 function LinkCenter(){
+    const {  tutorialStep, setShowTutorial, setTutorialStep } = useTutorial();
+
     const {setCurrentView} = useContext(AppContext);
     function moveToExtraResources(){
         setCurrentView('extraresources')
@@ -12,6 +19,7 @@ function LinkCenter(){
 
     const [isWebModalVisible, setIsWebModalVisible] = useState(false);
     const [isFormModalVisible, setIsFormModalVisible] = useState(false);
+    const [isFAQModalVisible, setIsFAQModalVisible] = useState(false);
     return(
         <View style={styles.container}>
             <View style={styles.titleSection}>
@@ -42,11 +50,16 @@ function LinkCenter(){
                 <WebsiteLink setIsWebModalVisible={setIsWebModalVisible}/>
             </Modal>
 
-            <TouchableOpacity style={styles.links}>
+            <TouchableOpacity style={styles.links} onPress={()=>setIsFAQModalVisible(true)}>
                 <Text style={styles.linkTitles}>
                     FAQs
                 </Text>
             </TouchableOpacity>
+            <Modal visible={isFAQModalVisible} animationType="slide" presentationStyle="formSheet">
+                <FAQLink setIsFAQModalVisible={setIsFAQModalVisible}/>
+            </Modal>
+
+            {tutorialStep === 3 && <TutorialOverlay />}
         </View>
     );
 };

@@ -1,9 +1,10 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { AppContext } from '../AppContext';
 import { useUser } from '../context/UserContext';
 import { db } from '../firebase-config.js';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { useGems } from './GemContext.js';
 
 function EndPage() {
     const { username } = useUser();
@@ -12,6 +13,12 @@ function EndPage() {
     const [viewTests, setViewTests] = useState(false);
     const [preTest, setPreTest] = useState(0);
     const [postTest, setPostTest] = useState(0);
+    const { incrVal } = useGems();
+
+    useEffect(() => {
+        incrVal(50, 'gem', true);
+      }, []);
+
     const goToMenu = () => {
         setCurrentView('library')
     }

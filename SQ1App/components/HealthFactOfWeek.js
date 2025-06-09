@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { db } from '../firebase-config';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
+import { auth } from '../firebase-config';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -37,6 +38,7 @@ const HealthFactOfWeek = ({ textStyle }) => {
         content: {
           title: "New Health Fact! 🎉",
           body: fact,
+          sound: true, 
         },
         trigger: null, 
       });
@@ -68,7 +70,14 @@ const HealthFactOfWeek = ({ textStyle }) => {
       await AsyncStorage.setItem('currentFact', newFactData.fact);
       await AsyncStorage.setItem('currentSource', newFactData.source || "Source not available");
       await AsyncStorage.setItem('lastUpdated', today.toISOString());
-      await sendNotification(newFactData.fact);
+      const savedPreference = await AsyncStorage.getItem('healthFactNotifications');
+      let allowNotifications = true;
+      if (savedPreference !== null) {
+        allowNotifications = JSON.parse(savedPreference);
+      }
+      if (allowNotifications) {
+        await sendNotification(newFactData.fact);
+      }
     } else if (isMonday && lastUpdated.getDay() !== 1) {
       const randomIndex = Math.floor(Math.random() * factsData.length);
       const newFactData = factsData[randomIndex];
@@ -78,7 +87,14 @@ const HealthFactOfWeek = ({ textStyle }) => {
       await AsyncStorage.setItem('currentFact', newFactData.fact);
       await AsyncStorage.setItem('currentSource', newFactData.source || "Source not available");
       await AsyncStorage.setItem('lastUpdated', today.toISOString());
-      await sendNotification(newFactData.fact);
+      const savedPreference2 = await AsyncStorage.getItem('healthFactNotifications');
+      let allowNotifications2 = true;
+      if (savedPreference2 !== null) {
+        allowNotifications2 = JSON.parse(savedPreference2);
+      }
+      if (allowNotifications2) {
+        await sendNotification(newFactData.fact);
+      }
     }
   };
 

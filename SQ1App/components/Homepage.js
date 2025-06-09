@@ -1,8 +1,16 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import logo from '../assets/logo.png'
 import HealthFactOfWeek from './HealthFactOfWeek'
+import TutorialOverlay from './TutorialOverlay'
+import { useTutorial } from './TutorialContext';
+
+
+
 
 function Homepage(){
+    const { setShowTutorial, setTutorialStep, tutorialStep } = useTutorial();
+ 
+    
     return(
         <View style={styles.container}>
             <View style={styles.welcome}>
@@ -15,10 +23,11 @@ function Homepage(){
                 <HealthFactOfWeek textStyle={styles.fact} />
             </View>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.instructionButton}>
+                <TouchableOpacity style={styles.instructionButton} onPress={() => {   setTutorialStep(0); setShowTutorial(true);    }}>
                     <Text style={styles.instructionButtonText}>How to use the app</Text>
                 </TouchableOpacity>
             </View>
+            {[0, 6, 7, 8, 9].includes(tutorialStep) && <TutorialOverlay />}
         </View>
     );
 };

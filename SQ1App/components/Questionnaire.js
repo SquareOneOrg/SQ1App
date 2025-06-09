@@ -32,7 +32,7 @@ function Questionnaire() {
     }
     const fillAnswer = (questionIndex, index) => {
         if (questionIndex + 1 < questionLength) {
-            // incrVal(1, 'fire', true);
+            incrVal(5, 'gem', true);
             setViewParams({
                 questionIndex: questionIndex + 1,
                 part: part,

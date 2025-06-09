@@ -30,10 +30,17 @@
     },
     "plugins": [
       [
-      "expo-font",
-      {"fonts": ["../assets/fonts/Sniglet-Regular.ttf"]}
+        "expo-font",
+        {
+          "fonts": [
+            "../assets/fonts/Sniglet-Regular.ttf"
+          ]
+        }
+      ],
+      "expo-web-browser"
+    ],
+    "assets": [
+      "./assets/fonts/"
     ]
-  ],
-    "assets": ["./assets/fonts/"]
   }
 }
