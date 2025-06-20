@@ -8,10 +8,12 @@ import {
   getDocs,
   setDoc,
 } from 'firebase/firestore';
+import { useGems } from './GemContext.js';
 
 export default function NutritionLog() {
   const [logs, setLogs] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
+  const { incrVal } = useGems();
 
   // Load existing docs from Firestore => "nutritionLogs" collection
   useEffect(() => {
@@ -69,6 +71,8 @@ export default function NutritionLog() {
   };
 
   const saveToFirestore = async (dateKey) => {
+    incrVal(1, "fire", true);
+    incrVal(1, "gem", true);
     const entry = logs[dateKey];
     if (!entry) return;
 

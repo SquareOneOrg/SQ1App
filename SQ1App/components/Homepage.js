@@ -1,14 +1,24 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import logo from '../assets/logo.png'
-import HealthFactOfWeek from './HealthFactOfWeek'
-import TutorialOverlay from './TutorialOverlay'
+import logo from '../assets/logo.png';
+import HealthFactOfWeek from './HealthFactOfWeek';
+import TutorialOverlay from './TutorialOverlay';
 import { useTutorial } from './TutorialContext';
+import { useGems } from './GemContext.js';
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
+import { useUser } from '../context/UserContext';
+import React, { useEffect } from 'react';
 
 
 
 
 function Homepage(){
     const { setShowTutorial, setTutorialStep, tutorialStep } = useTutorial();
+    const { incrVal } = useGems();
+    const {username} = useUser();
+
+    if (tutorialStep == 9) {
+        incrVal(10, 'gem', true);
+    }
  
     
     return(

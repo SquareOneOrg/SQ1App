@@ -18,7 +18,7 @@ function QuestionPopup() {
         }
         else {
             setQuestionAns(popupQuestions[part][part_ind].incorrect);
-            incrVal(1, "fire", false)
+            incrVal(1, "heart", false)
         }
         setFilledOut(true);
     }

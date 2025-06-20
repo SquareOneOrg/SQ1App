@@ -8,11 +8,13 @@ import {
   getDocs,
   setDoc,
 } from 'firebase/firestore';
+import { useGems } from './GemContext.js';
 
 export default function ExerciseLog() {
   // Logs keyed by date => logs[dateString] = { date, exerciseGoal, minutesExercise, typesOfExercise }
   const [logs, setLogs] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
+  const { incrVal } = useGems();
 
   // Load existing documents from Firestore ("exerciseLogs" collection)
   useEffect(() => {
@@ -72,6 +74,8 @@ export default function ExerciseLog() {
 
   // Save (or update) the doc in Firestore
   const saveToFirestore = async (dateKey) => {
+    incrVal(1, "fire", true);
+    incrVal(1, "gem", true);
     const entry = logs[dateKey];
     if (!entry) return;
 

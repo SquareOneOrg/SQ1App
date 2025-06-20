@@ -1,9 +1,15 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { db } from '../firebase-config';
-import { collection, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, setDoc, Timestamp } from 'firebase/firestore';
 import { useUser
  } from '../context/UserContext';
 const GemContext = createContext();
+
+const toUTCDateOnly = (ts) => {
+  const d = ts.toDate();
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+};
+
 
 export function GemProvider({ children }) {
   const { username } = useUser();
@@ -40,13 +46,38 @@ export function GemProvider({ children }) {
       const userDoc = querySnapshot.docs[0];
       const userData = userDoc.data();
 
+      const lastStreakDate = userData.lastStreakDate
+      ? toUTCDateOnly(userData.lastStreakDate)
+      : null;
+      const today = toUTCDateOnly(Timestamp.now());
+      const msPerDay = 1000 * 60 * 60 * 24;
+      let newStreak = 1;
+
+
       let updatedField;
       if (incr) {
-        updatedField = incrType === "fire"
-          ? { fireNumber: userData.fireNumber + amount }
-          : incrType === "heart"
-          ? { heartNumber: userData.heartNumber + amount }
-          : { gemNumber: userData.gemNumber + amount };
+        if (incrType === "fire") {
+          const daysDiff = Math.floor((today - lastStreakDate) / msPerDay);
+          if (daysDiff === 0) {
+            return;
+          } else if (daysDiff === 1) {
+            newStreak = userData.fireNumber + 1;
+          } else {
+            newStreak = 1;
+          }
+          updatedField = {
+            fireNumber: newStreak,
+            lastStreakDate: Timestamp.now()
+          };
+        } else if (incrType === "heart") {
+          updatedField = {
+            heartNumber: userData.heartNumber + amount
+          };
+        } else {
+          updatedField = {
+            gemNumber: userData.gemNumber + amount
+          };
+        }
       } else {
         updatedField = incrType === "fire"
           ? { fireNumber: Math.max(userData.fireNumber - amount, 0) }
@@ -56,7 +87,6 @@ export function GemProvider({ children }) {
       }
 
       await setDoc(doc(db, "users", userDoc.id), updatedField, { merge: true });
-
       // Refresh gems after update
       await refreshGems();
 

@@ -1,6 +1,6 @@
 // scripts/updateUsers.js
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, getDocs, doc, updateDoc } = require('firebase/firestore');
+const { getFirestore, collection, getDocs, doc, updateDoc, Timestamp } = require('firebase/firestore');
 
 // 🔑 Your Firebase config goes here
 const firebaseConfig = {
@@ -22,11 +22,12 @@ const addFieldToAllUsers = async () => {
 
   for (const userDoc of snapshot.docs) {
     const userRef = doc(db, 'users', userDoc.id);
-    await updateDoc(userRef, { fireNumber: 0, heartNumber: 5,gemNumber: 0});
-    console.log(`✅ Updated ${userDoc.id}`);
+    await updateDoc(userRef, { streakAdded: false,
+        lastStreakDate: Timestamp.now() });
+    console.log(`Updated ${userDoc.id}`);
   }
 
-  console.log('🎉 All users updated!');
+  console.log('All users updated!');
 };
 
 addFieldToAllUsers();

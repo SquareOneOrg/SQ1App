@@ -86,6 +86,9 @@ function LibraryBook() {
             setCurrentView('questionpopup');
         }
         else {
+            if (part >= 5) {
+                incrVal(1, "fire", true);
+            }
             if (part + 1 <= length) {
                 setViewParams({
                     book: book,
