@@ -52,6 +52,7 @@ import HelpPage from './components/HelpPage.js';
 import Reminders from './components/Reminders.js';
 import HealthFactSettings from './components/HealthFactSettings.js';
 import WeeklyReminderSettings from './components/WeeklyReminderSettings.js';
+import PreTestExplanation from './components/PreTestExplanation.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -82,6 +83,7 @@ function MainContent() {
         {currentView === 'questionnaire' && <Questionnaire />}
         {currentView === 'resourcetransition' && <ResourceTransition />}
         {currentView === 'endpage' && <EndPage />}
+        {currentView === 'pretestexplanation' && <PreTestExplanation />}
         {currentView === 'activity' && <Activity onNavChange={setCurrentView} />}
         {currentView === 'linkCenter' && <LinkCenter onNavChange={setCurrentView} />}
         {currentView === 'extraresources' && <ExtraResources onNavChange={setCurrentView} />}

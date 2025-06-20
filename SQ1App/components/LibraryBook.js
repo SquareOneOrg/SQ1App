@@ -14,14 +14,20 @@ function LibraryBook() {
     const {username} = useUser();
     const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);
     const [popupQuestion, setPopupQuestion] = useState(false);
-    const { part, length, map_key } = viewParams;
+    const { book, part, length, map_key } = viewParams;
     const image = `${map_key}${part}`;
     const [firstBook, setFirstBook] = useState(false);
     const result = (part / length).toFixed(2);
     const { incrVal } = useGems();
     // setFirstBook(map_key === 'step-');
       useEffect(() => {
-        setFirstBook(map_key === 'step-');
+        if (book == 'steppingstones') {
+            setFirstBook(map_key === 'step-');
+            setFirstBook(true);
+        }
+        else {
+            setFirstBook(map_key === 'covid-');
+        }
       }, [map_key]); // runs when map_key changes
       
       useEffect(() => {
@@ -35,7 +41,7 @@ function LibraryBook() {
         }
     }
 
-    console.log('popUpQuestion', popupQuestion)
+    // console.log('popUpQuestion', popupQuestion)
 
     const updateProgress = async(progress) => {
         // console.log("progress", progress);
@@ -61,6 +67,7 @@ function LibraryBook() {
     const goPrevious = () => {
         if (part - 1 > 0){
             setViewParams({
+                book: book,
                 part: part - 1,
                 length: length,
                 map_key: map_key,
@@ -81,6 +88,7 @@ function LibraryBook() {
         else {
             if (part + 1 <= length) {
                 setViewParams({
+                    book: book,
                     part: part + 1,
                     length: length,
                     map_key: map_key,

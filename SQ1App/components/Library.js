@@ -73,16 +73,15 @@ function Library() {
         part: item.part,
         length: item.length,
         map_key: item.map_key,
-        testScore: 0,
-        takePreTest: true,
       });
-      console.log('params set')
-      setCurrentView('questionnaire');
+      // console.log('params set')
+      setCurrentView('pretestexplanation');
       // navigation.navigate( 'Questionnaire', {questionIndex: 0, part: item.part, length: item.length, map_key: item.map_key})
     }
     else {
-      console.log('passed')
+      // console.log('passed')
       setViewParams({
+        book: 'covid',
         part: item.part,
         length: item.length,
         map_key: item.map_key,

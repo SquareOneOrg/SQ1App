@@ -28,7 +28,7 @@ function ResourceTransition() {
         <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.text}>
-                    Great job on reading the book! Now let's take a comprehension quiz
+                Good job finishing Stepping Stones! We hope you liked it and learned a lot. To see how much you’ve learned we have a few questions to ask you. 
                 </Text>
             </View>
             <View style={styles.buttonContainer}>
