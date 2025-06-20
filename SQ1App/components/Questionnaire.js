@@ -10,6 +10,7 @@ import { useGems } from './GemContext.js';
 
 
 function Questionnaire() {
+    console.log('questionnaire entered')
     const { username } = useUser();
     const { incrVal } = useGems();
     const { setCurrentView, setViewParams, viewParams } = useContext(AppContext);

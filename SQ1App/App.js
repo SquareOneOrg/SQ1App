@@ -78,6 +78,10 @@ function MainContent() {
       <View style={styles.content}>
         {currentView === 'home' && <Homepage />}
         {currentView === 'library' && <Library />}
+        {currentView === 'librarybook' && <LibraryBook />}
+        {currentView === 'questionnaire' && <Questionnaire />}
+        {currentView === 'resourcetransition' && <ResourceTransition />}
+        {currentView === 'endpage' && <EndPage />}
         {currentView === 'activity' && <Activity onNavChange={setCurrentView} />}
         {currentView === 'linkCenter' && <LinkCenter onNavChange={setCurrentView} />}
         {currentView === 'extraresources' && <ExtraResources onNavChange={setCurrentView} />}
